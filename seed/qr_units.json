@@ -1,0 +1,5623 @@
+{
+  "lastUpdated": "2026-02-20T23:44:48.116Z",
+  "version": "v2_persistent_ids",
+  "units": {
+    "2": [
+      {
+        "qrCode": "000004",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:08:29.598Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:08:30.304Z"
+      },
+      {
+        "qrCode": "000005",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:08:32.020Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:08:33.486Z"
+      },
+      {
+        "qrCode": "000003",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:08:59.730Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:09:02.763Z"
+      },
+      {
+        "qrCode": "000006",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:09:21.964Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:09:26.371Z"
+      },
+      {
+        "qrCode": "000922",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:41:13.743Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "4": [
+      {
+        "qrCode": "000024",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:44:12.397Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:44:12.775Z"
+      }
+    ],
+    "5": [
+      {
+        "qrCode": "000503",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:41.984Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:42.212Z"
+      },
+      {
+        "qrCode": "000505",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:43.200Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:43.712Z"
+      }
+    ],
+    "6": [
+      {
+        "qrCode": "000018",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T17:56:07.578Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T17:56:07.661Z"
+      },
+      {
+        "qrCode": "000019",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T17:56:17.028Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T17:56:17.193Z"
+      }
+    ],
+    "8": [
+      {
+        "qrCode": "000930",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:34:11.290Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000931",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:34:14.885Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000932",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:34:16.254Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000918",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:34:17.982Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "9": [
+      {
+        "qrCode": "000569",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T17:54:19.149Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T17:54:19.168Z"
+      },
+      {
+        "qrCode": "000568",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T17:54:22.283Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T17:54:22.334Z"
+      }
+    ],
+    "10": [],
+    "12": [
+      {
+        "qrCode": "000475",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:48:14.988Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "13": [
+      {
+        "qrCode": "000907",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:46:31.672Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000904",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:46:32.581Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "14": [
+      {
+        "qrCode": "000148",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:24:18.300Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:24:20.629Z"
+      },
+      {
+        "qrCode": "000508",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:25:06.004Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:25:10.223Z"
+      }
+    ],
+    "15": [
+      {
+        "qrCode": "000516",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:18.886Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:18.889Z"
+      },
+      {
+        "qrCode": "000532",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:21.997Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:22.006Z"
+      },
+      {
+        "qrCode": "000142",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:27.237Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:27.260Z"
+      },
+      {
+        "qrCode": "000035",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:30.219Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:30.283Z"
+      },
+      {
+        "qrCode": "000034",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:32.046Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:32.145Z"
+      }
+    ],
+    "16": [
+      {
+        "qrCode": "000007",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:07:56.862Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:07:56.907Z"
+      },
+      {
+        "qrCode": "000008",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:08:00.622Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:08:00.714Z"
+      },
+      {
+        "qrCode": "000009",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:08:03.634Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:08:03.806Z"
+      },
+      {
+        "qrCode": "000010",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:08:06.892Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:08:07.220Z"
+      }
+    ],
+    "17": [
+      {
+        "qrCode": "000013",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T17:53:07.417Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "18": [
+      {
+        "qrCode": "000553",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:07:41.997Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:07:42.044Z"
+      },
+      {
+        "qrCode": "000556",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:07:44.441Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:07:44.529Z"
+      },
+      {
+        "qrCode": "000518",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:07:46.459Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:07:46.647Z"
+      },
+      {
+        "qrCode": "000552",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:07:48.414Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:07:48.837Z"
+      },
+      {
+        "qrCode": "000555",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:07:50.819Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:07:51.599Z"
+      },
+      {
+        "qrCode": "000557",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:07:53.502Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:07:55.359Z"
+      },
+      {
+        "qrCode": "000554",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:07:57.736Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:08:01.311Z"
+      },
+      {
+        "qrCode": "000558",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:08:07.786Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:08:11.987Z"
+      }
+    ],
+    "19": [
+      {
+        "qrCode": "000015",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T17:53:15.579Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T17:53:15.582Z"
+      },
+      {
+        "qrCode": "000014",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T17:53:35.599Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T17:53:35.609Z"
+      }
+    ],
+    "20": [
+      {
+        "qrCode": "000001",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:02.461Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000002",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:21.863Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:50:21.873Z"
+      }
+    ],
+    "21": [
+      {
+        "qrCode": "000149",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:07:26.453Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:07:28.064Z"
+      }
+    ],
+    "22": [
+      {
+        "qrCode": "000039",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T22:02:35.935Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T22:02:38.562Z"
+      }
+    ],
+    "23": [
+      {
+        "qrCode": "000906",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T20:01:27.459Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "25": [
+      {
+        "qrCode": "000110",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:56:02.723Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:56:02.773Z"
+      },
+      {
+        "qrCode": "000048",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:56:09.752Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:56:09.845Z"
+      }
+    ],
+    "26": [
+      {
+        "qrCode": "000143",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:58:17.152Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:58:17.568Z"
+      },
+      {
+        "qrCode": "000141",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:58:30.357Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:58:30.813Z"
+      }
+    ],
+    "27": [
+      {
+        "qrCode": "1006",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:48:10.862Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1005",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:48:12.726Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1004",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:48:24.238Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1003",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:48:29.604Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "28": [
+      {
+        "qrCode": "000030",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:54.063Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:54.286Z"
+      },
+      {
+        "qrCode": "000032",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:55.467Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:55.882Z"
+      },
+      {
+        "qrCode": "000031",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:22:58.511Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:22:59.490Z"
+      },
+      {
+        "qrCode": "000031000033",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:23:00.223Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:23:00.985Z"
+      }
+    ],
+    "29": [
+      {
+        "qrCode": "000194",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:17.802Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000198",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:21.533Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:21.537Z"
+      },
+      {
+        "qrCode": "000523",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:25.210Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:25.218Z"
+      },
+      {
+        "qrCode": "000193",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:29.428Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:29.466Z"
+      },
+      {
+        "qrCode": "000187",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:31.442Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:31.483Z"
+      },
+      {
+        "qrCode": "000199",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:33.961Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:34.049Z"
+      },
+      {
+        "qrCode": "000522",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:36.680Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:36.863Z"
+      },
+      {
+        "qrCode": "000183",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:39.068Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:39.480Z"
+      },
+      {
+        "qrCode": "000189",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:42.420Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:43.182Z"
+      },
+      {
+        "qrCode": "000184",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:45.633Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:47.426Z"
+      },
+      {
+        "qrCode": "000115",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:50.157Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:01:53.888Z"
+      },
+      {
+        "qrCode": "000186",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:01:56.882Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:02:00.171Z"
+      },
+      {
+        "qrCode": "000185",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:02:08.541Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:02:13.777Z"
+      },
+      {
+        "qrCode": "000190",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:02:30.803Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:02:35.903Z"
+      },
+      {
+        "qrCode": "000105",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:02:41.808Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:02:43.644Z"
+      },
+      {
+        "qrCode": "000114",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:03:01.872Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:03:28.401Z"
+      },
+      {
+        "qrCode": "000521",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:04:57.199Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000196",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:05:01.678Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:05:01.681Z"
+      },
+      {
+        "qrCode": "000191",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:05:06.719Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:05:06.733Z"
+      },
+      {
+        "qrCode": "000192",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:05:10.843Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:05:10.863Z"
+      }
+    ],
+    "30": [
+      {
+        "qrCode": "1009",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T16:35:42.944Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1010",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T16:35:44.642Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "31": [
+      {
+        "qrCode": "000950",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T16:15:46.627Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "32": [
+      {
+        "qrCode": "000990",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:52:04.915Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000991",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:52:05.848Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000988",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:52:06.712Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000987",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:52:07.674Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000986",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:52:08.638Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000989",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:52:09.566Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "33": [
+      {
+        "qrCode": "000561",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:11:48.576Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:11:52.764Z"
+      },
+      {
+        "qrCode": "000562",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:11:52.766Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:11:53.122Z"
+      },
+      {
+        "qrCode": "000560",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:11:53.125Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:11:53.491Z"
+      },
+      {
+        "qrCode": "000559",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:12:03.835Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:12:08.835Z"
+      }
+    ],
+    "34": [
+      {
+        "qrCode": "000025",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:11:10.645Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "35": [
+      {
+        "qrCode": "000042",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:32:35.708Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000041",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:32:39.973Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:32:39.978Z"
+      },
+      {
+        "qrCode": "000533",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:15:50.674Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "36": [
+      {
+        "qrCode": "1001",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:22:02.871Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1054",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:22:06.647Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1066",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:22:10.992Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1065",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:22:15.905Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1042",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:22:19.880Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "38": [
+      {
+        "qrCode": "1008",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:08:51.056Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "39": [
+      {
+        "qrCode": "000865",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:02:12.686Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "40": [
+      {
+        "qrCode": "000866",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:02:22.264Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000870",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:02:23.100Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000869",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:02:24.073Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000868",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:02:25.541Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000867",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:02:26.404Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "42": [
+      {
+        "qrCode": "000984",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:53:36.804Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000985",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:53:37.483Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000983",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:53:38.407Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "45": [
+      {
+        "qrCode": "000977",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:08:19.718Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000976",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:08:20.315Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "47": [
+      {
+        "qrCode": "1045",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:40:05.707Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "64": [
+      {
+        "qrCode": "000483",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:31:35.811Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000179",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:31:40.070Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "68": [
+      {
+        "qrCode": "000696",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:23:13.873Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000695",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:23:16.229Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000694",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:23:17.840Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000699",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:23:20.648Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000577",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:23:24.011Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000589",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:23:28.615Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "69": [
+      {
+        "qrCode": "000468",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:33:22.477Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "70": [
+      {
+        "qrCode": "000467",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:24:11.198Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000466",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:24:13.130Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "71": [
+      {
+        "qrCode": "000634",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:19:51.919Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000636",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:19:54.650Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000637",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:19:56.059Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000635",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:19:58.331Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "72": [
+      {
+        "qrCode": "000482",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:55:56.041Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "73": [
+      {
+        "qrCode": "000886",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:14:54.987Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "77": [
+      {
+        "qrCode": "000479",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:42:21.200Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "79": [
+      {
+        "qrCode": "000878",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:32:52.596Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000877",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:32:53.416Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "81": [
+      {
+        "qrCode": "000335",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:43:26.648Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000332",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:43:32.576Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000334",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:43:39.315Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000330",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:43:48.991Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000333",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:44:07.421Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "83": [
+      {
+        "qrCode": "000563",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:29:31.037Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000598",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:29:34.400Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000567",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:29:41.689Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000593",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:29:43.773Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000566",
+        "status": "manutencao",
+        "timestamp": "2026-01-29T15:30:35.734Z",
+        "maintenanceLogs": [
+          {
+            "date": "2026-01-29T15:39:11.676Z",
+            "text": "Sem Diagnostico"
+          }
+        ],
+        "lastUpdated": "2026-01-29T15:39:11.676Z"
+      },
+      {
+        "qrCode": "000587",
+        "status": "manutencao",
+        "timestamp": "2026-01-29T15:30:38.398Z",
+        "maintenanceLogs": [
+          {
+            "date": "2026-01-29T15:39:59.877Z",
+            "text": "lampada"
+          }
+        ],
+        "lastUpdated": "2026-01-29T15:39:59.877Z"
+      }
+    ],
+    "85": [
+      {
+        "qrCode": "000265",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:12.548Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000267",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:15.037Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000269",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:17.088Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000266",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:19.741Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000268",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:23.904Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000262",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:27.398Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000264",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:31.888Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000263",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:41:37.564Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "87": [
+      {
+        "qrCode": "000698",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:24.166Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000700",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:26.945Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000565",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:29.049Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000697",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:30.631Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000591",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:34.603Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000576",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:37.647Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000564",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:39.885Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000592",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:41.580Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000588",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:47.681Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000590",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:50.459Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000579",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:52.031Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000594",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:44:54.038Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "88": [
+      {
+        "qrCode": "000958",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:41:53.721Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "89": [
+      {
+        "qrCode": "000959",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:41:00.215Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "90": [
+      {
+        "qrCode": "000972",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:10:39.306Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "91": [
+      {
+        "qrCode": "000876",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:17:53.769Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "92": [
+      {
+        "qrCode": "000885",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:57:08.388Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000882",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:57:10.065Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000881",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:57:10.794Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "99": [
+      {
+        "qrCode": "000055",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:25:07.918Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000226",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:25:13.616Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000213",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:27:43.016Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000051",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:28:25.205Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000058",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:31:46.704Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000052",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:31:49.663Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000214",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:32:00.744Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000221",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:32:04.742Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000215",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:32:08.133Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000217",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:32:41.430Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000232",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:32:44.482Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000228",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:32:47.825Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000211",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:01.367Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000218",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:05.331Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000229",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:07.694Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000204",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:15.806Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000209",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:25.868Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000223",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:29.081Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000220",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:39.958Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000206",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:44.934Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000219",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:47.883Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000208",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:51.890Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000216",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:55.778Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000231",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:33:57.820Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000222",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:15.954Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000225",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:20.571Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000224",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:23.194Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000233",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:26.335Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000230",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:29.660Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000201",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:32.040Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000066",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:49.209Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000057",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:50.178Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000059",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:34:52.127Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "100": [
+      {
+        "qrCode": "000250",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:29.883Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000255",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:33.211Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000253",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:36.233Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000244",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:38.808Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000234",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:42.640Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000240",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:45.560Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000258",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:50.405Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000238",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:52.920Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000236",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:14:56.583Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000239",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:00.984Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000597",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:11.974Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000245",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:21.554Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000252",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:37.790Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000247",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:42.432Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000243",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:44.779Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000242",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:53.866Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000237",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:56.037Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000254",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:15:58.057Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000246",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:12.675Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000260",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:15.478Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000256",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:21.390Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000251",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:32.265Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000259",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:34.249Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000241",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:36.369Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000257",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:39.736Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000261",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:41.683Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000249",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:16:46.998Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "102": [
+      {
+        "qrCode": "000040",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T22:03:43.438Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T22:03:48.583Z"
+      },
+      {
+        "qrCode": "000040000537",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T22:03:48.590Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T22:03:53.680Z"
+      }
+    ],
+    "104": [
+      {
+        "qrCode": "000272",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:35:49.685Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000270",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:35:59.387Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000271",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:36:14.415Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000273",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:36:16.332Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000275",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:36:17.448Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000274",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:36:21.951Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "106": [
+      {
+        "qrCode": "000074",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:40.804Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000321",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:42.126Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000318",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:43.345Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000075",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:45.465Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000322",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:46.692Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000325",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:48.124Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000315",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:52.580Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000314",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:55.621Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000306",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:51:58.624Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000307",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:00.408Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000310",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:03.199Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000317",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:05.539Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000071",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:14.098Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000328",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:16.332Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000312",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:17.389Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000326",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:22.708Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000319",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:24.041Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000305",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:25.811Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000308",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:28.284Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000316",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:29.762Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000329",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:32.530Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000091",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:46.167Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000070",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:49.397Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000323",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:52:55.308Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000324",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:02.067Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000072",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:02.829Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000309",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:03.832Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000311",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:05.453Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000073",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:07.102Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000313",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:16.044Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000089",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:18.744Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000090",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:20.917Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000320",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T13:53:22.440Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "107": [
+      {
+        "qrCode": "000871",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:37:07.395Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000874",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:37:11.263Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000873",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:37:15.909Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000875",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:37:18.802Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "108": [
+      {
+        "qrCode": "000422",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:01:38.882Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000337",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:01:42.186Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000421",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:01:50.146Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000354",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:01:56.350Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000419",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:01.711Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000338",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:06.594Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000349",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:22.040Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000355",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:28.417Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000351",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:34.312Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000425",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:38.105Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000304",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:42.278Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000426",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:02:47.365Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000301",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:03:54.771Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000417",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:03:56.686Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000350",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:00.347Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000423",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:03.357Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000427",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:11.177Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000418",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:13.901Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000420",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:23.088Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000352",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:28.308Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000424",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:31.405Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000303",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:34.375Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000428",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:37.471Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000353",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:04:40.451Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000962",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:03:43.773Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000961",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:03:55.879Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000960",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:03:56.940Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000952",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:03:57.805Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000969",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:03:58.671Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000900",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:03:59.571Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000895",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:06:49.612Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000896",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:06:50.002Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000898",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:06:50.640Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000894",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:06:51.281Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000897",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:06:51.923Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000899",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:06:52.509Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "109": [
+      {
+        "qrCode": "000069",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:42:30.310Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000062",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:42:35.754Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000064",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:42:40.407Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000061",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:42:46.185Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "111": [
+      {
+        "qrCode": "000957",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:35:38.573Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "112": [
+      {
+        "qrCode": "000578",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:31:50.156Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000484",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:31:54.526Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "113": [
+      {
+        "qrCode": "000995",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:40.602Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000994",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:42.147Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000992",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:42.917Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000993",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:43.623Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "119": [
+      {
+        "qrCode": "000362",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:04.390Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000126",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:13.248Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000570",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:14.714Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000366",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:15.938Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000361",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:17.075Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000360",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:18.249Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000359",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:19.376Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000370",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:20.469Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000358",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:21.621Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000356",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:22.799Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000368",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:23.880Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000573",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:55:24.914Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000119",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:24:40.367Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000127",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:24:41.471Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "121": [
+      {
+        "qrCode": "000612",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:02.782Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000630",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:04.710Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000629",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:05.685Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000081",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:10.635Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000615",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:12.373Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000613",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:13.838Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000082",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:20.508Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000623",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:21.349Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000622",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:24.048Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000627",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:28.579Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000626",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:29.948Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000610",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:32.629Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000624",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:36.571Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000620",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:38.431Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000614",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:45.950Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000086",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:50.336Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000085",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:37:53.437Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000079",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:01.786Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000078",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:07.605Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000087",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:10.473Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000084",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:11.646Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000083",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:17.232Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000631",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:20.036Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000621",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:22.596Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000077",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:51.020Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000065",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:52.152Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000080",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:38:55.276Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "122": [
+      {
+        "qrCode": "000416",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:17.745Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000377",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:18.888Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000409",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:19.756Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000376",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:24.366Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000388",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:25.133Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000384",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:25.936Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000386",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:50.384Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000406",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:51.475Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000404",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:53.233Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000413",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:56.173Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000398",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:17:57.533Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000068",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:00.954Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000400",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:19.173Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000375",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:19.918Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000402",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:20.975Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000374",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:29.903Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000407",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:31.041Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000380",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:33.704Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000393",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:47.040Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000392",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:48.757Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000385",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:50.653Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000372",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:55.031Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000389",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:56.443Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000379",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:18:57.627Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000088",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:12.295Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000410",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:13.171Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000371",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:14.174Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000415",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:18.546Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000381",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:19.533Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000394",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:20.526Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000403",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:38.081Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000382",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:19:39.066Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "123": [],
+    "124": [
+      {
+        "qrCode": "000281",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:02:43.769Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000287",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:02:47.584Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000289",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:02:50.097Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000282",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:02:53.897Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000292",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:02:57.312Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000291",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:02:59.975Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000286",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:03:03.292Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000047",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:03:19.899Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000448",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:03:32.106Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000299",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:03:39.660Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000283",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:03:42.848Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000288",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:03:45.657Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000586",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:03:58.977Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000046",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:04:04.704Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000293",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:04:11.341Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000295",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:04:15.214Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000284",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:04:21.136Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000294",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:04:25.605Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000290",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:04:29.437Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000300",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:04:32.696Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "126": [
+      {
+        "qrCode": "000162",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:12.787Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000060",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:14.303Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000155",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:17.193Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000169",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:20.592Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000175",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:22.901Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000178",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:28.999Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000157",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:31.615Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000170",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:54.677Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000154",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:56.922Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000174",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:51:59.990Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000164",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:52:05.962Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000171",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:52:12.472Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000160",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:52:14.533Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000163",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:52:17.215Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000158",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:52:18.584Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000161",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:03.123Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000156",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:07.721Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000152",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:09.302Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000159",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:13.102Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000153",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:14.924Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000172",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:16.936Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000168",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:23.536Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000177",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:53:27.120Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000173",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:55:31.008Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000862",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:00.464Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000855",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:01.666Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000861",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:02.540Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000892",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:06.194Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000893",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:07.637Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000856",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:12.736Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000860",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:13.860Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000859",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:15.560Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000858",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:23.873Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000857",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:24.771Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000864",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:25.989Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000863",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T20:54:27.754Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "137": [
+      {
+        "qrCode": "000432",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:43:59.532Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000431",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:44:01.506Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000436",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:44:05.225Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000433",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:44:06.804Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000434",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:44:08.731Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000435",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:44:09.734Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "138": [
+      {
+        "qrCode": "000056",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:35:09.695Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000067",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:35:14.307Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000302",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:35:16.755Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000297",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:35:17.884Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "140": [
+      {
+        "qrCode": "000572",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:45:38.805Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000596",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T15:45:40.793Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "142": [
+      {
+        "qrCode": "000514",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:23.009Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000506",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:31.128Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:31.138Z"
+      },
+      {
+        "qrCode": "000531",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:32.933Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:32.958Z"
+      },
+      {
+        "qrCode": "000530",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:34.498Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:34.562Z"
+      },
+      {
+        "qrCode": "000550",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:36.012Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:36.148Z"
+      }
+    ],
+    "143": [
+      {
+        "qrCode": "000511",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:30:08.774Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000501",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:30:10.299Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T20:30:10.302Z"
+      }
+    ],
+    "144": [
+      {
+        "qrCode": "000027",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:05:32.467Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:05:33.393Z"
+      }
+    ],
+    "151": [],
+    "152": [],
+    "153": [],
+    "201": [
+      {
+        "qrCode": "000527",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:50.241Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:51.382Z"
+      },
+      {
+        "qrCode": "28",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:52.550Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:54.745Z"
+      },
+      {
+        "qrCode": "9",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:37:56.091Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:37:59.081Z"
+      },
+      {
+        "qrCode": "0",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:38:00.054Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:38:04.162Z"
+      },
+      {
+        "qrCode": "000549",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:38:12.298Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:38:20.406Z"
+      }
+    ],
+    "209": [
+      {
+        "qrCode": "000704",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:53.870Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000709",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:54.395Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000705",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:55.172Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000890",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:55.837Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000706",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:56.542Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000707",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:57.256Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000708",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:57.889Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000710",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:58.470Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000889",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:59.144Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000711",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:47:59.815Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000726",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:02.137Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000712",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:03.539Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000713",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:05.528Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000714",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:07.677Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000715",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:09.956Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000703",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:11.849Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000716",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:13.463Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000702",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:48:15.346Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000748",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:50:19.228Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000744",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:50:20.563Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000746",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:00:59.706Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000745",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:00.486Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000738",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:00.911Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000733",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:01.329Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000735",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:02.136Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000725",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:02.513Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000727",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:03.542Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000724",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:03.925Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000739",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:05.432Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000747",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:06.147Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000749",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:06.621Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000740",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:07.389Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000729",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:07.871Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000732",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:08.899Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000730",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:09.220Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000737",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:01:09.765Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "210": [
+      {
+        "qrCode": "000098",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:42:23.414Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000053",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:42:25.657Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000099",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:42:28.432Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "212": [
+      {
+        "qrCode": "000599",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:35:32.660Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "213": [
+      {
+        "qrCode": "000600",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:37:02.701Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "222": [
+      {
+        "qrCode": "000167",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:44:40.435Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000200",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:44:52.951Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "242": [
+      {
+        "qrCode": "000654",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:44.805Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000657",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:46.101Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000658",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:47.212Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000689",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:49.837Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000688",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:51.276Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000653",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:52.592Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000690",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:53.633Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000651",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:54.651Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000655",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:57.197Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000656",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:35:58.666Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000659",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:00.709Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000660",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:01.631Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000661",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:03.121Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000662",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:04.272Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000663",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:05.403Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000664",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:07.942Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000665",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:17.330Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000666",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:18.469Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000667",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:19.829Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000668",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:36:20.876Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000669",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:37:59.208Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000673",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:38:00.159Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000674",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:38:01.226Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000670",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:38:03.048Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000672",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:38:04.152Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000671",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:38:05.240Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000677",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:38:06.469Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000676",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:38:07.802Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000675",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:16.603Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000682",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:17.859Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000681",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:19.070Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000680",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:20.487Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000693",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:21.815Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000692",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:23.176Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000679",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:24.414Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000678",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:26.547Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000687",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:51.485Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000691",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:53.470Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000684",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:46:58.237Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000685",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:47:11.383Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000686",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:47:12.975Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000927",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:02.109Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000928",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:02.670Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000926",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:03.535Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000925",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:04.371Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000913",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:05.197Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000915",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:05.967Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000916",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:07.230Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000917",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:07.988Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000919",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:08.760Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000923",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:09.659Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000920",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:10.363Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000911",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:11.069Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000912",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:11.809Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000949",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:12.515Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000940",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:13.188Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000935",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:13.861Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000910",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:15.051Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000909",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:15.690Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000902",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:16.427Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000945",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:18.546Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000944",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:19.993Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000903",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:20.826Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000921",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:21.662Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000929",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:25.808Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000924",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:26.474Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000941",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:27.183Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000939",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:28.337Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000937",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:29.072Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "001001",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:29.905Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000934",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:23:30.709Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000951",
+        "status": "manutencao",
+        "timestamp": "2026-02-20T18:28:28.222Z",
+        "maintenanceLogs": [
+          {
+            "date": "2026-02-20T18:28:28.222Z",
+            "text": "PLACA COM TELA QUEBRADA"
+          }
+        ]
+      },
+      {
+        "qrCode": "000996",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:08.678Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000997",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:11.667Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000998",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:12.557Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000999",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:13.295Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "001000",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:14.034Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000953",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:14.616Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000954",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:15.220Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000955",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:29:15.830Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "268": [
+      {
+        "qrCode": "000982",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:56:59.786Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000980",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:57:59.024Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000981",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:58:00.889Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000979",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:58:02.459Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "276": [
+      {
+        "qrCode": "000498",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:13:48.692Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000500",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:13:51.959Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000496",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:13:56.152Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000492",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:13:58.875Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000493",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:14:02.351Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000486",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:14:24.382Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000491",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:17:04.910Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000490",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:17:08.078Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000485",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:17:13.082Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000683",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:17:15.366Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000652",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:18:18.402Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000488",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:18:46.651Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000495",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:20:21.930Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000494",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:20:25.080Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000487",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:20:35.212Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000489",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:20:37.670Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000499",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:20:42.648Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000497",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:20:46.341Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "284": [],
+    "288": [],
+    "291": [
+      {
+        "qrCode": "000583",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:39:27.223Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000036",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:39:29.670Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000582",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:39:36.706Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000581",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:39:48.840Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000580",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:39:50.690Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000584",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:40:00.694Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000585",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:40:14.176Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "298": [
+      {
+        "qrCode": "000905",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:49:13.460Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "300": [
+      {
+        "qrCode": "000936",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:58:54.644Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "301": [
+      {
+        "qrCode": "000480",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:32:22.012Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "323": [],
+    "327": [],
+    "372": [
+      {
+        "qrCode": "000279",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:17:11.246Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000280",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:17:12.911Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000278",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:17:13.962Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000276",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:17:15.426Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000277",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:17:18.340Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "373": [
+      {
+        "qrCode": "1057",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:40:30.436Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "375": [
+      {
+        "qrCode": "000044",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:17.226Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000151",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:18.509Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000049",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:20.830Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000043",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:22.047Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000341",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:25.556Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000340",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:27.705Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000342",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:30.051Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000339",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:10:31.157Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "377": [
+      {
+        "qrCode": "000022",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:55:32.742Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000045",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:55:35.886Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:55:35.889Z"
+      },
+      {
+        "qrCode": "000021",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:55:38.308Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:55:38.317Z"
+      },
+      {
+        "qrCode": "000050",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:55:45.339Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:55:45.362Z"
+      }
+    ],
+    "394": [
+      {
+        "qrCode": "1028",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:35:39.183Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1029",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:35:49.106Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "399": [
+      {
+        "qrCode": "1014",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:34:15.272Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1015",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:34:24.101Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1016",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:34:27.159Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1017",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:34:31.993Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "400": [
+      {
+        "qrCode": "000118",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:57:16.909Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000182",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:57:17.932Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T20:57:17.935Z"
+      }
+    ],
+    "401": [],
+    "402": [
+      {
+        "qrCode": "1034",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:02.727Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1035",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:03.644Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1046",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:06.017Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1047",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:07.235Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1036",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:10.097Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1058",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:11.665Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1059",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:13.075Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1064",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:15.747Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1061",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:16.861Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1062",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:18.245Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1060",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:19.879Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1053",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:21.001Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1049",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:23.313Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1037",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:25.045Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1063",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:25.976Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1040",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:28.002Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1038",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:30.632Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1041",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:32.615Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1039",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:33.450Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1051",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:36.697Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1050",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:37.974Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1048",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:39.545Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1100",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:49.494Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1052",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:25:58.409Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1104",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:01.278Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1128",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:02.620Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1140",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:04.062Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1116",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:05.667Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1080",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:09.363Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1092",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:11.481Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1079",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:12.568Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1139",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:15.205Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1091",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:16.322Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1127",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:17.317Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1115",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:18.248Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1103",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:19.695Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1078",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:21.458Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1090",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:22.803Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1138",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:24.474Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1126",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:26:26.046Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "411": [
+      {
+        "qrCode": "000028",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:45:13.907Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:45:14.859Z"
+      }
+    ],
+    "418": [
+      {
+        "qrCode": "000901",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T16:16:34.389Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "419": [
+      {
+        "qrCode": "1026",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:39:29.596Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1025",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:39:32.603Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1027",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:39:38.484Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1024",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:39:43.878Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "442": [
+      {
+        "qrCode": "1012",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:36:13.201Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1011",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:36:18.886Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1013",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:36:22.133Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "444": [
+      {
+        "qrCode": "1018",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:43:57.663Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1030",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:43:58.927Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "445": [
+      {
+        "qrCode": "000534",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:40:22.503Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:40:22.535Z"
+      },
+      {
+        "qrCode": "000546",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:40:58.950Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:40:59.000Z"
+      }
+    ],
+    "455": [
+      {
+        "qrCode": "000026",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T19:43:57.820Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T19:43:58.075Z"
+      }
+    ],
+    "470": [],
+    "472": [
+      {
+        "qrCode": "1002",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:41:19.790Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "476": [
+      {
+        "qrCode": "000942",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:26:38.977Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000943",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:26:39.576Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "480": [
+      {
+        "qrCode": "000965",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:12:11.597Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000964",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:12:32.533Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "481": [
+      {
+        "qrCode": "000947",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:55:19.403Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000948",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:55:20.200Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "483": [
+      {
+        "qrCode": "000547",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T22:07:00.710Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "484": [
+      {
+        "qrCode": "000538",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T22:04:49.461Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T22:05:04.516Z"
+      }
+    ],
+    "490": [
+      {
+        "qrCode": "000093",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:34:50.817Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000094",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:34:58.806Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000150",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:35:00.049Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000146",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:35:01.686Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "491": [
+      {
+        "qrCode": "000095",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:35:09.507Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000144",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:35:11.023Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000147",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:35:15.422Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000092",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:35:17.956Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "492": [
+      {
+        "qrCode": "000116",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:00:33.314Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000117",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:00:37.017Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:00:37.020Z"
+      }
+    ],
+    "493": [
+      {
+        "qrCode": "000145",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:01:01.619Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:01:01.630Z"
+      },
+      {
+        "qrCode": "000112",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T18:01:58.615Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T18:01:58.636Z"
+      }
+    ],
+    "494": [],
+    "495": [
+      {
+        "qrCode": "000543",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:23:29.900Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000536",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:23:32.098Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "496": [
+      {
+        "qrCode": "000517",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:36:29.450Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000541",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:36:32.709Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "497": [
+      {
+        "qrCode": "000542",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:23:44.167Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000510",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:23:46.377Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "498": [
+      {
+        "qrCode": "000520",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:36:40.863Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000519",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:36:45.124Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "499": [
+      {
+        "qrCode": "000515",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:36:57.338Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000548",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:37:00.179Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "500": [],
+    "501": [
+      {
+        "qrCode": "000512",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:30:16.454Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T20:30:16.463Z"
+      },
+      {
+        "qrCode": "000513",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:30:18.598Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T20:30:18.621Z"
+      }
+    ],
+    "502": [
+      {
+        "qrCode": "000502",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:30:38.186Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T20:30:38.241Z"
+      },
+      {
+        "qrCode": "000507",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T20:30:41.651Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T20:30:41.754Z"
+      }
+    ],
+    "503": [
+      {
+        "qrCode": "000539",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:33.231Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:50:33.271Z"
+      },
+      {
+        "qrCode": "000504",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:35.069Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:50:35.133Z"
+      },
+      {
+        "qrCode": "000545",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:36.144Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:50:36.273Z"
+      },
+      {
+        "qrCode": "000526",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:37.348Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:50:37.622Z"
+      }
+    ],
+    "504": [
+      {
+        "qrCode": "000525",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:43.429Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:50:44.132Z"
+      },
+      {
+        "qrCode": "000524",
+        "status": "disponivel",
+        "timestamp": "2026-01-28T21:50:45.129Z",
+        "maintenanceLogs": [],
+        "lastUpdated": "2026-01-28T21:50:46.377Z"
+      }
+    ],
+    "505": [
+      {
+        "qrCode": "000449",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:10:09.498Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000447",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:10:13.816Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "506": [
+      {
+        "qrCode": "000609",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:40:23.667Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000618",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:40:33.281Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000601",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:40:34.432Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000616",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:40:36.380Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000605",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:40:56.737Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000602",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:40:57.711Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000617",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T14:41:01.615Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "508": [
+      {
+        "qrCode": "000181",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T16:43:43.554Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "510": [
+      {
+        "qrCode": "000472",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:40:40.631Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000471",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:40:42.937Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000470",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:40:45.482Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000469",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:40:49.410Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "511": [
+      {
+        "qrCode": "000474",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:42:30.835Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000473",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T17:42:34.176Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "512": [
+      {
+        "qrCode": "000122",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:58:03.512Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000121",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:58:04.636Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000134",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:01:42.652Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000129",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:01:43.916Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000102",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:01:45.618Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000123",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:01:47.497Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000106",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:01:52.065Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000104",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:01:56.874Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000132",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:01.492Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000647",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:04.443Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000646",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:07.335Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000648",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:09.547Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000136",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:22.959Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000109",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:27.347Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000649",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:28.419Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000107",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:30.002Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000131",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:02:31.067Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000396",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:06:21.436Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000227",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:06:25.649Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000405",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T19:06:32.927Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "513": [
+      {
+        "qrCode": "000103",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:55:48.923Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000130",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:55:50.175Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000454",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:08.581Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000113",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:10.705Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000108",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:12.492Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000450",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:14.722Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000124",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:26.628Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000137",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:30.856Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000111",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:33.037Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000128",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:35.444Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000029",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:41.501Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000452",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:57.967Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000120",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:56:59.536Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000125",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:00.975Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000455",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:07.071Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000135",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:08.325Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000453",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:11.172Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000138",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:13.050Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000451",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:14.507Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000133",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:19.504Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000140",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:22.880Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000101",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:25.125Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000139",
+        "status": "disponivel",
+        "timestamp": "2026-01-29T18:57:26.985Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "518": [
+      {
+        "qrCode": "1031",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T16:39:40.778Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1019",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T16:39:41.913Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1007",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T16:39:43.004Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "519": [
+      {
+        "qrCode": "000946",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:39:34.467Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000908",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T17:39:36.023Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "521": [
+      {
+        "qrCode": "1067",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:30:15.724Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1055",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:30:19.998Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1068",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:30:24.357Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "522": [
+      {
+        "qrCode": "1043",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:29:57.592Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1044",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:30:01.100Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "523": [
+      {
+        "qrCode": "1032",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:29:46.363Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "524": [
+      {
+        "qrCode": "1056",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:29:34.588Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "525": [
+      {
+        "qrCode": "000535",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:25:34.175Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "526": [
+      {
+        "qrCode": "1023",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:49:16.732Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1022",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:49:18.476Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1021",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T18:49:19.375Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "1033",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:42:40.897Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "527": [
+      {
+        "qrCode": "000938",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:00:55.207Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "529": [
+      {
+        "qrCode": "000914",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:26:34.028Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "530": [
+      {
+        "qrCode": "000933",
+        "status": "disponivel",
+        "timestamp": "2026-02-13T19:26:44.368Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "531": [
+      {
+        "qrCode": "000956",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T18:35:34.062Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "532": [
+      {
+        "qrCode": "000978",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:00:01.211Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "533": [
+      {
+        "qrCode": "000974",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:07:29.510Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "534": [
+      {
+        "qrCode": "000971",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:07:41.718Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "535": [
+      {
+        "qrCode": "000975",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:07:52.964Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "536": [
+      {
+        "qrCode": "000973",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:51:00.211Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000968",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:51:01.031Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000970",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:51:02.375Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000967",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:51:03.529Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000966",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:51:04.555Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000963",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T19:51:06.352Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "537": [
+      {
+        "qrCode": "000883",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:56:36.440Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "538": [
+      {
+        "qrCode": "000884",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:56:46.278Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000872",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:56:47.214Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "539": [
+      {
+        "qrCode": "000879",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T21:56:56.723Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "540": [
+      {
+        "qrCode": "000459",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:30:40.652Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000458",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:30:43.220Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000461",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:30:45.903Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000460",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:30:47.297Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000457",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:31:17.897Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "541": [
+      {
+        "qrCode": "000853",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:39:56.848Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000888",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:39:57.410Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000854",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:39:58.273Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000880",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:39:59.752Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000852",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:40:01.130Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000851",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:40:02.161Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000887",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:40:06.745Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000891",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T22:40:07.904Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "542": [
+      {
+        "qrCode": "000544",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:40:42.729Z",
+        "maintenanceLogs": []
+      },
+      {
+        "qrCode": "000509",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:40:45.744Z",
+        "maintenanceLogs": []
+      }
+    ],
+    "543": [
+      {
+        "qrCode": "000734",
+        "status": "disponivel",
+        "timestamp": "2026-02-20T23:44:48.116Z",
+        "maintenanceLogs": []
+      }
+    ]
+  }
+}

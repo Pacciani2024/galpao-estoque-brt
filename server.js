@@ -26,6 +26,22 @@ const PORT = process.env.PORT || 3000;
     try { fs.mkdirSync(dir, { recursive: true }); } catch (e) { /* já existe */ }
 });
 
+// Seed: se o Volume estiver vazio (primeiro boot), copia os dados iniciais do seed/.
+// Isso garante que inventory_complete.json e qr_units.json existam mesmo num container novo.
+const SEED_FILES = ['inventory_complete.json', 'qr_units.json'];
+SEED_FILES.forEach(file => {
+    const dest = path.join('logs', file);
+    const src  = path.join('seed', file);
+    if (!fs.existsSync(dest) && fs.existsSync(src)) {
+        try {
+            fs.copyFileSync(src, dest);
+            console.log(`🌱 Seed: copiado ${file} → logs/`);
+        } catch (e) {
+            console.warn(`⚠️  Seed: falha ao copiar ${file}:`, e.message);
+        }
+    }
+});
+
 // Middlewares
 app.use(cors());
 app.use(express.json());

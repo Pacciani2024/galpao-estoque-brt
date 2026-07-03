@@ -17,6 +17,10 @@ RUN npm install --omit=dev
 # Copia o restante do código
 COPY . .
 
+# Seed data — copiado para dentro da imagem.
+# O boot do server.js copia para /app/logs/ se o volume estiver vazio.
+COPY seed/ ./seed/
+
 # Railway injeta a porta via variável PORT
 EXPOSE 3000
 
