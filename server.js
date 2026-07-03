@@ -19,6 +19,13 @@ const app = express();
 // Localmente cai no 3000 (comportamento original).
 const PORT = process.env.PORT || 3000;
 
+// Bootstrap: garante que as pastas de dados/logs existam.
+// Containers (Railway) começam SEM essas pastas (logs/ é gitignored), e vários
+// pontos do código gravam nelas no boot — sem isto o processo quebra com ENOENT.
+['logs', 'logs/backups', 'logs/cache_equipamentos', 'logs/tick_progress', 'logs/screenshots', 'data', 'public/charts'].forEach(dir => {
+    try { fs.mkdirSync(dir, { recursive: true }); } catch (e) { /* já existe */ }
+});
+
 // Middlewares
 app.use(cors());
 app.use(express.json());
