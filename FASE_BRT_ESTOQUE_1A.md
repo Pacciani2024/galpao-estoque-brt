@@ -81,10 +81,15 @@ Regra: o app NÃO pode quebrar se as variáveis não existirem. Com off:
    (base: integration_stubs_brt/estoque_client.py)
 
 2) app/estoque_reconciliation.py
-   - EquipmentAlias EXISTE — usar o modelo real (normalized_alias, is_active, equipment_stock_id)
-   - funções: normalize(name), get_real_availability(db, equipment_name, target_date),
-     name_diff_report(db, target_date)
-   - get_real_availability -> float se match confiável; None se off/falha/sem match
+   - MATCHING POR ID (primário): galpão item['id'] == BRT equipment_id_meeventos.
+     Nome direto e alias (equipment_aliases) só como rede. EquipmentStock e
+     EquipmentReservation têm equipment_id_meeventos; EquipmentStock tem também o nome.
+   - DISPONIBILIDADE FÍSICA (não real_stock_available): físico = real + commitments_on_date.
+     O BRT reaplica as próprias reservas → usar o físico evita dupla contagem.
+   - funções: normalize(name),
+     get_physical_availability(db, equipment_id_meeventos, equipment_name, target_date),
+     reconciliation_report(db, target_date)  [id-diff + name-diff]
+   - retorna float se match confiável; None se off/falha/sem match
    (base: integration_stubs_brt/estoque_reconciliation.py)
 
 3) app/api/integrations_estoque.py

@@ -7,7 +7,7 @@ disponibilidade REAL do galpão para a `target_date`, com **fallback** para
 ## Import (topo do arquivo)
 
 ```python
-from app.estoque_reconciliation import get_real_availability
+from app.estoque_reconciliation import get_physical_availability
 ```
 
 ## Trecho a mudar
@@ -21,16 +21,19 @@ Hoje:
         available_qty = float(stock_item.total_quantity or 0)
 ```
 
-Depois:
+Depois (casa por ID do MeEventos, usa disponibilidade FÍSICA, com fallback):
 
 ```python
         if not stock_item:
             continue
 
-        # Fluxo 1: disponibilidade real por data (com fallback seguro).
-        real = get_real_availability(db, eq_name, target_date)
-        if real is not None:
-            available_qty = real                      # número real do galpão
+        # Fluxo 1: disponibilidade FÍSICA do galpão para a data, casada por ID.
+        # `stock_item.equipment_id_meeventos` é a chave primária de match (nome é rede).
+        fisico = get_physical_availability(
+            db, stock_item.equipment_id_meeventos, eq_name, target_date
+        )
+        if fisico is not None:
+            available_qty = fisico                    # físico do galpão (o BRT reaplica reservas)
         else:
             available_qty = float(stock_item.total_quantity or 0)  # fallback
             # TODO: logger.warning("fallback estoque p/ %s em %s", eq_name, target_date)
@@ -38,9 +41,14 @@ Depois:
 
 ## Observações
 
-- `get_real_availability` já devolve `None` quando a integração está off
-  (`ESTOQUE_INTEGRATION_ENABLED=false`), quando o galpão não responde ou quando
-  não há match confiável de nome → nesses casos o comportamento é **idêntico ao atual**.
-- Isso torna a ativação segura: subir com `ESTOQUE_INTEGRATION_ENABLED=false`,
-  validar as rotas de diagnóstico e o `name-diff`, e só então ligar para `true`.
-- Gate: só considerar a decisão automática confiável depois do `name-diff` limpo.
+- **Por que FÍSICO e não `real_stock_available`:** o BRT já desconta as próprias
+  reservas (`equipment_reservations`). Se usasse o `real_stock_available` (já
+  descontado pelo galpão), haveria **dupla contagem**. Por isso a função devolve o
+  físico (`real + commitments_on_date`), e o BRT aplica as reservas dele por cima.
+- **Match por ID:** casa `galpão.id == BRT.equipment_id_meeventos`; nome/alias só como
+  rede. Muito mais robusto que casar por nome.
+- `get_physical_availability` devolve `None` quando a integração está off, quando o
+  galpão não responde ou quando não há match → nesses casos o comportamento é
+  **idêntico ao atual** (usa `total_quantity`).
+- Gate: só ligar a decisão automática depois do relatório de reconciliação limpo
+  (`/name-diff` → id/nome/alias sem "sem match" relevante).
