@@ -1757,7 +1757,7 @@ app.delete('/api/dashboard/messages/:id', (req, res) => {
 
 const API_CONFIG = {
     // A chave DEVE vir das variáveis de ambiente (Railway). Sem fallback inseguro.
-    key: process.env.API_KEY || null,
+    key: (process.env.API_KEY || '').trim() || null,
     header: 'x-api-key'
 };
 
