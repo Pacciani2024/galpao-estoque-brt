@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - BRT Audiovisual</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script>
+        // CRITICAL: Prevent FOUC by setting state before body renders
+        if (localStorage.getItem('markSidebarState') === 'collapsed') {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- MARK AI SIDEBAR -->
+        <aside class="mark-sidebar" id="markSidebar">
+            <div class="mark-toggle" onclick="toggleMark()">
+                <span id="markToggleIcon">◀</span>
+            </div>
+
+            <div class="mark-header">
+                <h2 class="mark-title">🤖 Kira AI</h2>
+                <button class="mark-clear-btn" onclick="clearChatHistory()" title="Limpar histórico">🗑️</button>
+            </div>
+
+            <div class="mark-chat-container">
+                <div class="mark-messages" id="markMessages">
+                    <div class="mark-message assistant">
+                        Olá! Sou a Kira, sua assistente. Como posso ajudar?
+                    </div>
+                </div>
+
+                <div class="mark-input-container">
+                    <input type="text" class="mark-input" id="markInput" placeholder="Digite sua pergunta..."
+                        onkeypress="if(event.key==='Enter') sendToMark()" />
+                    <button class="mark-voice-btn" id="voiceBtn" onclick="toggleVoice()">
+                        🔊
+                    </button>
+                    <button class="mark-send-btn" onclick="sendToMark()">
+                        ➤
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- NAVIGATION SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1 class="logo">BRT</h1>
+            </div>
+
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="/" class="nav-link active">
+                            <span class="nav-icon">📊</span>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/eventos" class="nav-link">
+                            <span class="nav-icon">📅</span>
+                            <span>Eventos</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/inventario" class="nav-link">
+                            <span class="nav-icon">📦</span>
+                            <span>Inventário</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/cadastro-qr" class="nav-link">
+                            <span class="nav-icon">🏷️</span>
+                            <span>Cadastro QR</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/separacao" class="nav-link">
+                            <span class="nav-icon">🔖</span>
+                            <span>Separação QR</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/pendencias" class="nav-link">
+                            <span class="nav-icon">⚠️</span>
+                            <span>Pendências</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/etiquetas" class="nav-link">
+                            <span class="nav-icon">🖨️</span>
+                            <span>Etiquetas</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/monitor" class="nav-link">
+                            <span class="nav-icon">⚡</span>
+                            <span>Monitoramento</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <header class="page-header fade-in-up">
+                <h1 class="page-title">Dashboard</h1>
+                <p class="page-subtitle">Visão geral do sistema de controle</p>
+            </header>
+
+            <!-- ROW 1: Stats Cards (Squeezable) -->
+            <div class="cards-grid fade-in-up">
+                <div class="stat-card">
+                    <div class="stat-icon blue">📦</div>
+                    <div class="stat-value" id="totalItens">-</div>
+                    <div class="stat-label">Total Itens</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">📤</div>
+                    <div class="stat-value" id="emUso">-</div>
+                    <div class="stat-label">Em Uso</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">✅</div>
+                    <div class="stat-value" id="estoqueDisponivel">-</div>
+                    <div class="stat-label">Disponível</div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon red">🔧</div>
+                    <div class="stat-value" id="manutencao">-</div>
+                    <div class="stat-label">Manutenção</div>
+                </div>
+            </div>
+
+            <!-- ROW 2: Agent Console (Unified Ticker) -->
+            <section class="section fade-in-up" style="animation-delay: 0.1s;">
+                <div class="agent-console">
+                    <div class="console-header">
+                        <span class="ticker-pulse"></span>
+                        <h3>🔊 Central de Avisos & Alertas</h3>
+                    </div>
+                    <!-- Ticker Content -->
+                    <div class="console-content" id="tickerContent">
+                        <div class="ticker-item loading">Carregando avisos do sistema...</div>
+                    </div>
+                    <div class="console-footer">
+                        <small>Gerenciado por Kira AI • Clique para interagir</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ROW 3: Events Table -->
+            <section class="section fade-in-up" style="animation-delay: 0.2s;">
+                <h2 class="section-title">📅 Eventos Próximos</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Evento</th>
+                                <th>Data</th>
+                                <th>Local</th>
+                                <th>Equipamentos</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="eventosTable">
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 3rem;">
+                                    <span style="color: var(--text-muted);">Carregando eventos...</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <style>
+        /* LAYOUT GLOBAL */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            /* 4 colunas iguais que se espremem */
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+
+        /* AGENT CONSOLE STYLES */
+        .agent-console {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid var(--neon-blue);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .agent-console:hover {
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.8);
+            cursor: pointer;
+        }
+
+        .console-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+
+        .console-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .console-content {
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .console-footer {
+            margin-top: 1rem;
+            text-align: right;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        /* Ticker Items Style */
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .ticker-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+        }
+
+        .ticker-text {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+
+        .ticker-text strong {
+            color: var(--neon-blue);
+        }
+
+        .ticker-pulse {
+            width: 10px;
+            height: 10px;
+            background: var(--success);
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 10px var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* RESPONSIVIDADE FORÇADA PARA ESPREMER */
+        @media (max-width: 1024px) {
+            .cards-grid {
+                gap: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .stat-label {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            /* Em telas muito small, aceitamos wrap, mas usuario pediu squeeze até onde der.
+               Vamos manter squeeze ate celular */
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(0, 212, 255, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(0, 212, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(0, 212, 255, 0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* STINGER IN-DASHBOARD (CONTAINED) */
+        .stinger-overlay {
+            position: absolute;
+            /* Relative to agent-console */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            /* Mais escuro para contraste */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+            border-radius: 16px;
+            /* Match parent */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .stinger-overlay.active {
+            opacity: 1;
+        }
+
+        .stinger-img {
+            max-width: 80%;
+            max-height: 80%;
+            transform: scale(0);
+        }
+
+        .stinger-overlay.active .stinger-img {
+            animation: stingerBounce 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes stingerBounce {
+            0% {
+                transform: scale(0) rotate(-15deg);
+                opacity: 0;
+            }
+
+            20% {
+                transform: scale(1.1) rotate(0deg);
+                opacity: 1;
+            }
+
+            30% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            80% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/mark-integration.js"></script>
+</body>
+
+</html>

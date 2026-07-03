@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoramento - BRT Audiovisual</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script>
+        // CRITICAL: Prevent FOUC by setting state before body renders
+        if (localStorage.getItem('markSidebarState') === 'collapsed') {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- MARK AI SIDEBAR -->
+        <aside class="mark-sidebar" id="markSidebar">
+            <div class="mark-toggle" onclick="toggleMark()"><span id="markToggleIcon">◀</span></div>
+            <div class="mark-header">
+                <h2 class="mark-title">🤖 Mark AI</h2>
+            </div>
+            <div class="mark-chat-container">
+                <div class="mark-messages" id="markMessages">
+                    <div class="mark-message assistant">Olá! Status do sistema disponível!</div>
+                </div>
+                <div class="mark-input-container">
+                    <input type="text" class="mark-input" id="markInput" placeholder="Digite sua pergunta..."
+                        onkeypress="if(event.key==='Enter') sendToMark()" />
+                    <button class="mark-voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊</button>
+                    <button class="mark-send-btn" onclick="sendToMark()">➤</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- NAVIGATION SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1 class="logo">BRT</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/" class="nav-link"><span
+                                class="nav-icon">📊</span><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a href="/eventos" class="nav-link"><span
+                                class="nav-icon">📅</span><span>Eventos</span></a></li>
+                    <li class="nav-item"><a href="/inventario" class="nav-link"><span
+                                class="nav-icon">📦</span><span>Inventário</span></a></li>
+                    <li class="nav-item"><a href="/cadastro-qr" class="nav-link"><span
+                                class="nav-icon">🏷️</span><span>Cadastro QR</span></a></li>
+                    <li class="nav-item"><a href="/separacao" class="nav-link"><span
+                                class="nav-icon">🔖</span><span>Separação QR</span></a></li>
+                    <li class="nav-item"><a href="/pendencias" class="nav-link"><span
+                                class="nav-icon">⚠️</span><span>Pendências</span></a></li>
+                    <li class="nav-item"><a href="/etiquetas" class="nav-link"><span
+                                class="nav-icon">🖨️</span><span>Etiquetas</span></a></li>
+                    <li class="nav-item"><a href="/monitor" class="nav-link active"><span
+                                class="nav-icon">⚡</span><span>Monitoramento</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="page-header fade-in-up">
+                <h1 class="page-title">⚡ Monitor de Avisos</h1>
+                <p class="page-subtitle">Alertas de Estoque e Comunicados</p>
+                <div class="clock" id="monitorClock">00:00</div>
+            </header>
+
+            <div class="dashboard-grid fade-in-up" id="dashboardGrid">
+                <!-- Cards serão injetados aqui -->
+                <div class="loading-state">
+                    <div class="spinner"></div> Carregando monitoramento...
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/mark-integration.js"></script>
+    <script>
+        // --- LOGIC ---
+        const thresholds = {
+            'Fita isolante': { critical: 6, warn: 10, unit: 'rolos' }, // Nome exato do JSON
+            'Fita crepe preta 48mm x 50m': { critical: 12, unit: 'rolos' }, // Nome exato
+            'Liquido de Fumaça': { critical: 3, unit: 'galões' }, // Verificar nome exato
+            'Pilhas AA': { critical: 20, unit: 'un' } // Verificar nome exato
+        };
+
+        async function updateMonitor() {
+            try {
+                // 1. Fetch Messages & Inventory
+                const [msgRes, invRes] = await Promise.all([
+                    fetch('/api/dashboard/messages'),
+                    fetch('/api/inventario')
+                ]);
+
+                const messages = await msgRes.json();
+                const inventory = await invRes.json();
+
+                // CHECK FOR COMMANDS (Stinger)
+                const cmd = messages.find(m => m.type === 'stinger_cmd');
+                if (cmd) {
+                    triggerStinger();
+                    // Consumir comando (deletar para não rodar de novo)
+                    await fetch('/api/dashboard/messages/' + cmd.id, { method: 'DELETE' });
+                    // Remover da lista de display local
+                    const index = messages.indexOf(cmd);
+                    if (index > -1) messages.splice(index, 1);
+                }
+
+                // 2. Generate Inventory Alerts
+                const alerts = generateAlerts(inventory.items);
+
+                // 3. Render Combined Feed
+                renderGrid(messages, alerts);
+
+                // Update Clock
+                const now = new Date();
+                document.getElementById('monitorClock').textContent = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+            } catch (error) {
+                console.error('Erro updateMonitor:', error);
+            }
+        }
+
+        function generateAlerts(items) {
+            const alerts = [];
+
+            // Mapeamento de nomes parciais para chaves de threshold
+            // Usamos 'includes' para flexibilidade
+            const checks = [
+                { match: 'Fita isolante', key: 'Fita isolante', full: true },
+                { match: 'Fita crepe', key: 'Fita crepe preta 48mm x 50m' },
+                { match: 'Fumaça', key: 'Liquido de Fumaça' },
+                { match: 'Pilhas AA', key: 'Pilhas AA' }
+            ];
+
+            // Agrupar estoques se houver múltiplos itens com mesmo nome (ex: marcas diferentes)
+            // Mas aqui vamos simplificar buscando itens específicos
+
+            checks.forEach(check => {
+                // Encontrar itens que correspondem
+                const foundItems = items.filter(i => i.nome.toLowerCase().includes(check.match.toLowerCase()));
+
+                if (foundItems.length > 0) {
+                    // Somar estoque total desses itens
+                    let totalStock = 0;
+                    foundItems.forEach(i => totalStock += (parseInt(i.estoque) || 0));
+
+                    const rule = thresholds[check.key];
+                    if (rule) {
+                        if (totalStock <= rule.critical) {
+                            alerts.push({
+                                type: 'critical',
+                                title: check.key,
+                                text: `Estoque Critico: ${totalStock} ${rule.unit} (Mín: ${rule.critical})`,
+                                icon: '⚠️'
+                            });
+                        } else if (rule.warn && totalStock <= rule.warn) {
+                            alerts.push({
+                                type: 'warning',
+                                title: check.key,
+                                text: `Estoque Baixo: ${totalStock} ${rule.unit} (Ideal: >${rule.warn})`,
+                                icon: '📉'
+                            });
+                        } else {
+                            // Opcional: Mostrar status OK se quiser feedback positivo
+                            alerts.push({
+                                type: 'success',
+                                title: check.key,
+                                text: `Estoque Saudável: ${totalStock} ${rule.unit}`,
+                                icon: '✅'
+                            });
+                        }
+                    }
+                }
+            });
+
+            return alerts;
+        }
+
+        function renderGrid(messages, alerts) {
+            const grid = document.getElementById('dashboardGrid');
+            grid.innerHTML = '';
+
+            // Combine arrays (Messages first, then Alerts)
+            // Or interleave based on priority
+
+            // 1. Urgent Messages
+            // 2. Critical Alerts
+            // 3. Warning Alerts
+            // 4. Info Messages
+            // 5. Success Alerts
+
+            const allCards = [
+                ...messages.map(m => ({ ...m, category: 'message' })),
+                ...alerts.map(a => ({ ...a, category: 'alert' }))
+            ];
+
+            // Render
+            allCards.forEach(card => {
+                const el = document.createElement('div');
+                el.className = `notice-card ${card.type || 'info'}`;
+
+                let icon = card.icon || (card.type === 'critical' || card.type === 'urgent' ? '🚨' : '💬');
+                if (card.type === 'success') icon = '✅';
+                if (card.type === 'warning') icon = '⚠️';
+
+                el.innerHTML = `
+                    <div class="card-icon">${icon}</div>
+                    <div class="card-content">
+                        ${card.title ? `<h3 class="card-title">${card.title}</h3>` : ''}
+                        <p class="card-text">${card.text}</p>
+                        ${card.timestamp ? `<small class="card-time">${new Date(card.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</small>` : ''}
+                    </div>
+                `;
+                grid.appendChild(el);
+            });
+
+            if (allCards.length === 0) {
+                grid.innerHTML = '<div class="empty-state">Tudo tranquilo por aqui... 🦗</div>';
+            }
+        }
+
+        // Initialize
+        updateMonitor();
+        setInterval(updateMonitor, 30000); // 30s polling
+
+        // Clock Style
+        const clockStyle = document.createElement('style');
+        clockStyle.textContent = `
+            .dashboard-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1.5rem;
+                padding: 1rem 0;
+            }
+            .notice-card {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px;
+                padding: 1.5rem;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                transition: transform 0.2s;
+                position: relative;
+                overflow: hidden;
+            }
+            .notice-card:hover { transform: translateY(-5px); }
+            
+            .notice-card.critical, .notice-card.urgent {
+                border-left: 5px solid var(--danger);
+                background: rgba(255, 76, 76, 0.1);
+            }
+            .notice-card.warning {
+                border-left: 5px solid var(--warning);
+                background: rgba(255, 193, 7, 0.1);
+            }
+            .notice-card.success {
+                border-left: 5px solid var(--success);
+                background: rgba(0, 255, 136, 0.05);
+            }
+            .notice-card.info {
+                border-left: 5px solid var(--neon-blue);
+            }
+
+            .card-icon { font-size: 2.5rem; }
+            .card-content { flex: 1; }
+            .card-title { font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--text-primary); }
+            .card-text { font-size: 1.2rem; font-weight: 500; color: var(--text-primary); line-height: 1.4; }
+            .card-time { display: block; margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.8rem; }
+            
+            .clock { font-size: 2rem; font-weight: bold; color: var(--neon-blue); position: absolute; right: 0; top: 0; }
+            .page-header { position: relative; }
+
+            /* --- STINGER (LOGO FX) --- */
+            #stingerOverlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                background: rgba(0,0,0,0.7); /* Fundo escuro leve */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                pointer-events: none; /* Não bloqueia cliques */
+                opacity: 0;
+                transition: opacity 0.5s;
+            }
+            #stingerOverlay.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+            #stingerLogo {
+                max-width: 80vw;
+                max-height: 80vh;
+                transform: scale(0);
+                opacity: 0;
+            }
+            #stingerOverlay.active #stingerLogo {
+                animation: stingerPop 3.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            }
+
+            @keyframes stingerPop {
+                0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+                20% { transform: scale(1.1) rotate(0deg); opacity: 1; }
+                25% { transform: scale(1) rotate(0deg); opacity: 1; }
+                80% { transform: scale(1) rotate(0deg); opacity: 1; }
+                100% { transform: scale(1.5); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(clockStyle);
+
+        // --- STINGER LOGIC ---
+        function triggerStinger() {
+            const overlay = document.getElementById('stingerOverlay');
+            if (!overlay) return;
+
+            // Ativa
+            overlay.classList.add('active');
+
+            // Remove classe após animação terminar para resetar
+            setTimeout(() => {
+                overlay.classList.remove('active');
+            }, 3600); // 3.5s animation + buffer
+        }
+
+        // Criar elemento HTML do Stinger
+        const stingerDiv = document.createElement('div');
+        stingerDiv.id = 'stingerOverlay';
+        stingerDiv.innerHTML = '<img id="stingerLogo" src="/img/logo-full.png" alt="Stinger Logo">';
+        document.body.appendChild(stingerDiv);
+
+        // Intervalo Automático (Ex: a cada 5 minutos - 300000ms)
+        // O usuário pediu "igual os pips mas demorando mais", 5 min é um bom balance
+        setInterval(triggerStinger, 300000);
+
+        // Expor para o console/Kira
+        window.triggerStinger = triggerStinger;
+
+        // Rodar uma vez no inicio pra testar (opcional, removido pra não incomodar no load)
+        // setTimeout(triggerStinger, 2000);
+
+    </script>
+</body>
+
+</html>

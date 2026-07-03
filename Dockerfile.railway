@@ -1,0 +1,26 @@
+# Dockerfile enxuto para deploy do BACKEND no Railway.
+# Roda apenas o servidor da API (server.js) — sem PM2, sem voz Python, sem WhatsApp.
+FROM node:18-bullseye-slim
+
+# Bibliotecas de sistema necessárias para o Chromium do Puppeteer (usado pelo scraper).
+RUN apt-get update && apt-get install -y \
+    libnss3 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 \
+    libpango-1.0-0 libasound2 libgbm1 ca-certificates fonts-liberation \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# Instala dependências primeiro (melhor cache de build)
+COPY package*.json ./
+RUN npm install --omit=dev
+
+# Copia o restante do código
+COPY . .
+
+# Railway injeta a porta via variável PORT
+EXPOSE 3000
+
+# WhatsApp desligado por padrão em cloud (pode ser sobrescrito nas variáveis do Railway)
+ENV ENABLE_WHATSAPP=false
+
+CMD ["node", "server.js"]

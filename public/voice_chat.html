@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark - Assistente de Voz | BRT Audiovisual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .chat-container {
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            background: #667eea;
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.mark {
+            background: white;
+            border: 2px solid #667eea;
+            color: #333;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            padding: 20px;
+            background: white;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        #userInput {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        #userInput:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        #sendBtn {
+            background: #667eea;
+            color: white;
+        }
+
+        #sendBtn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        #voiceBtn {
+            background: #28a745;
+            color: white;
+            min-width: 120px;
+        }
+
+        #voiceBtn:hover {
+            background: #218838;
+        }
+
+        #voiceBtn.speaking {
+            background: #dc3545;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            background: #fff3cd;
+            color: #856404;
+            font-size: 14px;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Mark</h1>
+            <p>Assistente de Voz - BRT Audiovisual</p>
+        </div>
+
+        <div class="status" id="status"></div>
+
+        <div class="chat-container" id="chatContainer">
+            <div class="message mark">
+                Olá! Sou o Mark, assistente da BRT Audiovisual.
+                Digite sua pergunta e eu responderei em voz! 🎙️
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Mark está pensando...</p>
+        </div>
+
+        <div class="input-container">
+            <input type="text" id="userInput" placeholder="Digite sua pergunta..." autocomplete="off" />
+            <button id="sendBtn">Enviar</button>
+            <button id="voiceBtn">🔊 Voz: ON</button>
+        </div>
+    </div>
+
+    <script>
+        const chatContainer = document.getElementById('chatContainer');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const voiceBtn = document.getElementById('voiceBtn');
+        const status = document.getElementById('status');
+        const loading = document.getElementById('loading');
+
+        let voiceEnabled = true;
+        let isSpeaking = false;
+        let selectedVoice = null;
+
+        // Carregar vozes disponíveis
+        function loadVoices() {
+            const voices = speechSynthesis.getVoices();
+
+            // Priorizar vozes PT-BR de melhor qualidade
+            const preferredVoices = [
+                'Google português do Brasil',
+                'Microsoft Maria Online (Natural) - Portuguese (Brazil)',
+                'Microsoft Daniel - Portuguese (Brazil)',
+                'Google PT-BR',
+                'pt-BR'
+            ];
+
+            // Tentar encontrar a melhor voz
+            for (let preferred of preferredVoices) {
+                selectedVoice = voices.find(v =>
+                    v.name.includes(preferred) ||
+                    (v.lang === 'pt-BR' && v.name.includes('Google')) ||
+                    (v.lang === 'pt-BR' && v.name.includes('Microsoft'))
+                );
+                if (selectedVoice) break;
+            }
+
+            // Fallback para qualquer voz PT-BR
+            if (!selectedVoice) {
+                selectedVoice = voices.find(v => v.lang === 'pt-BR') || voices[0];
+            }
+
+            console.log('Voz selecionada:', selectedVoice?.name || 'Padrão');
+        }
+
+        // Carregar vozes quando disponíveis
+        speechSynthesis.onvoiceschanged = loadVoices;
+        loadVoices();
+
+        // Text-to-Speech com Google Cloud (fallback para navegador)
+        async function speak(text) {
+            if (!voiceEnabled || isSpeaking) return;
+
+            isSpeaking = true;
+            voiceBtn.classList.add('speaking');
+            voiceBtn.textContent = '🔊 Falando...';
+
+            try {
+                // Tentar usar Google Cloud TTS
+                const response = await fetch('/api/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+
+                if (response.ok) {
+                    // Google Cloud TTS funcionou!
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+
+                    audio.onended = () => {
+                        isSpeaking = false;
+                        voiceBtn.classList.remove('speaking');
+                        voiceBtn.textContent = '🔊 Voz: ON';
+                        URL.revokeObjectURL(audioUrl);
+                    };
+
+                    audio.onerror = () => {
+                        isSpeaking = false;
+                        voiceBtn.classList.remove('speaking');
+                        voiceBtn.textContent = '🔊 Voz: ON';
+                    };
+
+                    await audio.play();
+                } else {
+                    // Fallback para TTS do navegador
+                    throw new Error('Cloud TTS indisponível');
+                }
+            } catch (error) {
+                // Usar TTS do navegador como fallback
+                console.log('Usando TTS do navegador (fallback)');
+
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+                utterance.lang = 'pt-BR';
+                utterance.rate = 1.1;
+                utterance.pitch = 1.0;
+                utterance.volume = 1.0;
+
+                utterance.onend = () => {
+                    isSpeaking = false;
+                    voiceBtn.classList.remove('speaking');
+                    voiceBtn.textContent = '🔊 Voz: ON';
+                };
+
+                utterance.onerror = () => {
+                    isSpeaking = false;
+                    voiceBtn.classList.remove('speaking');
+                    voiceBtn.textContent = '🔊 Voz: ON';
+                };
+
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Toggle voice
+        voiceBtn.addEventListener('click', () => {
+            if (isSpeaking) {
+                speechSynthesis.cancel();
+                isSpeaking = false;
+                voiceBtn.classList.remove('speaking');
+            }
+
+            voiceEnabled = !voiceEnabled;
+            voiceBtn.textContent = voiceEnabled ? '🔊 Voz: ON' : '🔇 Voz: OFF';
+            voiceBtn.style.background = voiceEnabled ? '#28a745' : '#6c757d';
+        });
+
+        // Add message to chat
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'mark'}`;
+            messageDiv.textContent = text;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // Send message
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, true);
+            userInput.value = '';
+
+            // Show loading
+            loading.classList.add('show');
+            sendBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+
+                // Add Mark's response
+                addMessage(data.response);
+
+                // Speak response
+                speak(data.response);
+
+            } catch (error) {
+                addMessage('❌ Erro: ' + error.message);
+                status.textContent = 'Erro ao comunicar com Mark. Verifique se o servidor está rodando.';
+                status.classList.add('show');
+                setTimeout(() => status.classList.remove('show'), 3000);
+            } finally {
+                loading.classList.remove('show');
+                sendBtn.disabled = false;
+                userInput.focus();
+            }
+        }
+
+        // Event listeners
+        sendBtn.addEventListener('click', sendMessage);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Focus input on load
+        userInput.focus();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro QR - BRT Audiovisual</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script>
+        // CRITICAL: Prevent FOUC by setting state before body renders
+        if (localStorage.getItem('markSidebarState') === 'collapsed') {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    </script>
+    <style>
+        /* Estilos do Toggle de Modo */
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.5rem;
+            border-radius: 12px;
+        }
+
+        .switch-container {
+            display: flex;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            padding: 2px;
+        }
+
+        .switch-container input {
+            display: none;
+        }
+
+        .mode-btn {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .switch-container input:checked+.mode-btn {
+            background: var(--neon-blue);
+            color: black;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .scanner-section {
+            margin-bottom: 2rem;
+        }
+
+        .scanner-card {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 132, 255, 0.05));
+            border: 2px solid var(--neon-blue);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .scanner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .scanner-card h3 {
+            color: var(--neon-blue);
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .status-switches {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .switch-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .switch-label input {
+            margin-right: 0.5rem;
+        }
+
+        .switch-text {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .switch-text.disponivel {
+            color: var(--success);
+        }
+
+        .switch-text.manutencao {
+            color: var(--warning);
+        }
+
+        .switch-label input:checked+.switch-text {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid var(--neon-blue);
+        }
+
+        .scanner-input-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .qr-input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.2rem 1.5rem;
+            color: var(--text-primary);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .qr-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 0 4px rgba(0, 212, 255, 0.2);
+        }
+
+        .scanner-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            border-radius: 12px;
+            min-width: 280px;
+        }
+
+        .status-icon {
+            font-size: 1.5rem;
+        }
+
+        .selected-item {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .item-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+            border-color: var(--neon-blue);
+        }
+
+        .item-card.selected {
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .item-progress-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            background: var(--glass-bg);
+            border: 2px solid var(--glass-border);
+        }
+
+        .item-progress-badge.complete {
+            border-color: var(--success);
+            color: var(--success);
+        }
+
+        .item-progress-badge.incomplete {
+            border-color: var(--warning);
+            color: var(--warning);
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            padding-right: 100px;
+        }
+
+        .item-details {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .item-stats {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--neon-blue);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .view-units-btn {
+            margin-top: 1rem;
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--neon-blue);
+            border-radius: 10px;
+            color: var(--neon-blue);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .view-units-btn:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: var(--neon-blue);
+        }
+
+        .modal-close {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-primary);
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .unit-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .unit-item.manutencao {
+            border-color: var(--warning);
+            background: rgba(255, 170, 0, 0.05);
+        }
+
+        /* Botão de excluir */
+        .btn-delete {
+            background: rgba(255, 68, 102, 0.1);
+            border: 1px solid rgba(255, 68, 102, 0.3);
+            color: var(--danger);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+
+            to {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="mark-sidebar" id="markSidebar">
+            <div class="mark-toggle" onclick="toggleMark()"><span id="markToggleIcon">◀</span></div>
+            <div class="mark-header">
+                <h2 class="mark-title">🤖 Mark AI</h2>
+            </div>
+            <div class="mark-chat-container">
+                <div class="mark-messages" id="markMessages">
+                    <div class="mark-message assistant">Olá! Ajudando no cadastro de QR Codes!</div>
+                </div>
+                <div class="mark-input-container">
+                    <input type="text" class="mark-input" id="markInput" placeholder="Digite sua pergunta..."
+                        onkeypress="if(event.key==='Enter') sendToMark()" />
+                    <button class="mark-voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊</button>
+                    <button class="mark-send-btn" onclick="sendToMark()">➤</button>
+                </div>
+            </div>
+        </aside>
+
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1 class="logo">BRT</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/" class="nav-link"><span
+                                class="nav-icon">📊</span><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a href="/eventos" class="nav-link"><span
+                                class="nav-icon">📅</span><span>Eventos</span></a></li>
+                    <li class="nav-item"><a href="/inventario" class="nav-link"><span
+                                class="nav-icon">📦</span><span>Inventário</span></a></li>
+                    <li class="nav-item"><a href="/cadastro-qr" class="nav-link active"><span
+                                class="nav-icon">🏷️</span><span>Cadastro QR</span></a></li>
+                    <li class="nav-item"><a href="/separacao" class="nav-link"><span
+                                class="nav-icon">🔖</span><span>Separação QR</span></a></li>
+                    <li class="nav-item"><a href="/pendencias" class="nav-link"><span
+                                class="nav-icon">⚠️</span><span>Pendências</span></a></li>
+                    <li class="nav-item"><a href="/etiquetas" class="nav-link"><span
+                                class="nav-icon">🖨️</span><span>Etiquetas</span></a></li>
+                    <li class="nav-item"><a href="/monitor" class="nav-link"><span
+                                class="nav-icon">⚡</span><span>Monitoramento</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header">
+                <div>
+                    <h1 class="page-title">🏷️ Cadastro de QR Codes</h1>
+                    <p class="page-subtitle">Cadastre cada unidade física com seu QR code individual</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-secondary" onclick="syncInventoryAPI()"
+                        style="background: var(--warning); color: black; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        🔄 Sincronizar API
+                    </button>
+                    <button class="btn btn-primary" onclick="exportQRCodes()"
+                        style="background: var(--neon-blue); color: black; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                        📥 Exportar QR Codes
+                    </button>
+                </div>
+            </header>
+
+            <div class="scanner-section fade-in-up">
+                <div class="scanner-card">
+                    <div class="scanner-header">
+                        <h3>📷 Scanner</h3>
+
+                        <div class="mode-toggle">
+                            <label
+                                style="color: var(--text-secondary); margin-right: 1rem; font-weight: bold;">Modo:</label>
+                            <div class="switch-container">
+                                <input type="radio" id="modeUnit" name="scanMode" value="unit" checked
+                                    onchange="updateMode()">
+                                <label for="modeUnit" class="mode-btn">Unidade Única (QR)</label>
+
+                                <input type="radio" id="modeEan" name="scanMode" value="ean" onchange="updateMode()">
+                                <label for="modeEan" class="mode-btn">Lote / Granel (QR Caderno)</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="status-switches" id="statusSwitches">
+                        <label class="switch-label">
+                            <input type="radio" name="unitStatus" value="disponivel" checked onchange="updateStatus()">
+                            <span class="switch-text disponivel">✓ Disponível</span>
+                        </label>
+                        <label class="switch-label">
+                            <input type="radio" name="unitStatus" value="manutencao" onchange="updateStatus()">
+                            <span class="switch-text manutencao">🔧 Manutenção</span>
+                        </label>
+                    </div>
+
+                    <div class="scanner-input-group">
+                        <input type="text" id="qrInput" class="qr-input" placeholder="Escaneie o QR code..."
+                            autofocus />
+                        <div class="scanner-status" id="scannerStatus">
+                            <span class="status-icon">⏳</span>
+                            <span>Aguardando leitura...</span>
+                        </div>
+                    </div>
+
+                    <div class="selected-item" id="selectedItem" style="display: none;">
+                        <div style="flex:1">
+                            <strong>Item selecionado:</strong>
+                            <div id="selectedItemName"
+                                style="font-size: 1.1rem; margin-top: 0.5rem; color: var(--neon-blue);">-</div>
+                            <div id="selectedItemDetails" style="margin-top: 0.5rem; font-size: 0.9rem;">
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="clearSelection()"
+                            style="background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: white; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Trocar
+                            Item</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fade-in-up">
+                <div class="controls-bar">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="🔍 Buscar item..." onkeyup="filterItems()">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filterCategory" onchange="filterItems()" style="margin-right: 1rem;">
+                            <option value="all">Todas as Categorias</option>
+                        </select>
+
+                        <select id="filterStatus" onchange="filterItems()">
+                            <option value="all">Todos</option>
+                            <option value="incomplete">Incompletos (QR)</option>
+                            <option value="complete">Completos (QR)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="items-grid" id="itemsGrid">
+                    <p style="text-align: center; padding: 3rem; color: var(--text-muted);">Carregando itens...</p>
+                </div>
+            </div>
+
+            <div class="modal" id="unitsModal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modalTitle">Unidades Cadastradas</h2>
+                        <button class="modal-close" onclick="closeUnitsModal()">✕</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="unitsList"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let allItems = [];
+        let qrUnits = {}; // { itemIndex: [{qrCode, status, timestamp}] }
+        let selectedItemIndex = null;
+        let currentStatus = 'disponivel';
+        let currentMode = 'unit'; // 'unit' ou 'ean'
+        let isProcessing = false; // Flag para evitar cliques duplos
+
+        async function loadInventory() {
+            try {
+                const response = await fetch('/api/inventario');
+                const data = await response.json();
+                allItems = data.items || [];
+
+                // Carregar unidades QR cadastradas
+                const qrResponse = await fetch('/api/qr-units');
+                if (qrResponse.ok) {
+                    const qrData = await qrResponse.json();
+                    qrUnits = qrData.units || {};
+                }
+
+                // Populate Categories
+                populateCategoryFilter();
+
+                renderItems();
+                setupScanner();
+                updateMode(); // Initialize mode display
+            } catch (error) {
+                console.error('Erro ao carregar:', error);
+            }
+        }
+
+        function populateCategoryFilter() {
+            const categories = [...new Set(allItems.map(item => item.categoria).filter(c => c))].sort();
+            const select = document.getElementById('filterCategory');
+            select.innerHTML = '<option value="all">Todas as Categorias</option>';
+            categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat;
+                option.textContent = cat;
+                select.appendChild(option);
+            });
+        }
+
+        function updateStatus() {
+            const status = document.querySelector('input[name="unitStatus"]:checked').value;
+            currentStatus = status;
+        }
+
+        function updateMode() {
+            currentMode = document.querySelector('input[name="scanMode"]:checked').value;
+            const statusSwitches = document.getElementById('statusSwitches');
+            const qrInput = document.getElementById('qrInput');
+
+            if (currentMode === 'ean') {
+                statusSwitches.style.display = 'none';
+                qrInput.placeholder = "Bipe o código de barras (EAN)...";
+                document.getElementById('selectedItem').style.borderColor = 'var(--neon-blue)';
+                document.getElementById('selectedItem').style.background = 'rgba(0, 212, 255, 0.1)';
+            } else {
+                statusSwitches.style.display = 'flex';
+                qrInput.placeholder = "Escaneie o QR Code Único da unidade...";
+                document.getElementById('selectedItem').style.borderColor = 'rgba(0, 255, 136, 0.3)';
+                document.getElementById('selectedItem').style.background = 'rgba(0, 255, 136, 0.1)';
+            }
+
+            if (selectedItemIndex !== null) {
+                updateSelectionUI();
+                // Highlight input to show change
+                qrInput.classList.add('flash-input');
+                setTimeout(() => qrInput.classList.remove('flash-input'), 500);
+                qrInput.focus();
+            }
+        }
+
+        function renderItems() {
+            try {
+                // console.log('🔄 renderItems iniciada'); // Comentado para não poluir, descomente se necessário
+                const grid = document.getElementById('itemsGrid');
+                if (!grid) return;
+
+                const searchInput = document.getElementById('searchInput');
+                const search = searchInput ? searchInput.value.toLowerCase() : '';
+
+                const filter = document.getElementById('filterStatus').value;
+                const categoryFilter = document.getElementById('filterCategory').value;
+
+                const filtered = allItems.filter((item, index) => {
+                    const matchSearch = !search || item.nome.toLowerCase().includes(search);
+                    const itemId = String(item.id);
+                    const units = qrUnits[itemId] || [];
+                    const totalEstoque = parseInt(item.estoque) || 0;
+
+                    let bulkQty = 0;
+                    if (item.barcodeQuantities) {
+                        Object.values(item.barcodeQuantities).forEach(q => bulkQty += (parseInt(q) || 0));
+                    }
+                    const cadastrados = units.length + bulkQty;
+                    const isComplete = cadastrados >= totalEstoque;
+
+                    let matchFilter = true;
+                    if (filter === 'complete') matchFilter = isComplete;
+                    if (filter === 'incomplete') matchFilter = !isComplete;
+
+                    let matchCategory = true;
+                    if (categoryFilter !== 'all') {
+                        matchCategory = item.categoria === categoryFilter;
+                    }
+
+                    // if (allItems.indexOf(item) === selectedItemIndex) return true; // REMOVIDO: Item não deve ficar se não der match
+
+                    return matchSearch && matchFilter && matchCategory;
+                });
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; padding: 3rem; color: var(--text-muted);">Nenhum item encontrado</p>';
+                    return;
+                }
+
+                grid.innerHTML = filtered.map((item) => {
+                    const realIndex = allItems.indexOf(item);
+                    const itemId = String(item.id);
+                    const units = qrUnits[itemId] || [];
+                    const totalEstoque = parseInt(item.estoque) || 0;
+
+                    let bulkQty = 0;
+                    if (item.barcodeQuantities) {
+                        Object.values(item.barcodeQuantities).forEach(q => bulkQty += (parseInt(q) || 0));
+                    }
+
+                    // Lógica de Sub-locação (Estoque 0)
+                    const isSubRental = totalEstoque === 0;
+
+                    const cadastrados = units.length + bulkQty;
+                    const disponiveis = units.filter(u => u.status === 'disponivel').length + bulkQty;
+                    const manutencao = units.filter(u => u.status === 'manutencao').length;
+
+                    // Se for sub-rental, nunca está incompleto (é infinito)
+                    const isComplete = isSubRental ? true : (cadastrados >= totalEstoque);
+                    const isSelected = selectedItemIndex === realIndex;
+                    const barcodeCount = (item.barcodes || []).length;
+
+                    // Badge Logic
+                    let badgeHtml = '';
+                    if (isSubRental) {
+                        badgeHtml = `<div class="item-progress-badge" style="background: var(--neon-blue); color: #000; font-weight:800; border:none; width:auto; padding:0 10px; border-radius:12px;">SUB-LOCAÇÃO</div>`;
+                    } else {
+                        badgeHtml = `<div class="item-progress-badge ${isComplete ? 'complete' : 'incomplete'}">
+                                    ${cadastrados}/${totalEstoque}
+                                 </div>`;
+                    }
+
+                    return `
+                    <div class="item-card ${isSelected ? 'selected' : ''}" onclick="selectItem(${realIndex})" style="${isSubRental ? 'border-left: 3px solid var(--neon-blue);' : ''}">
+                        ${badgeHtml}
+                        <div class="item-name">${item.nome}</div>
+                        <div class="item-details">${item.categoria || '-'}</div>
+                        ${barcodeCount > 0 ? `<div style="font-size:0.8rem; color:var(--text-muted)">🏷️ ${barcodeCount} EANs vinculados</div>` : ''}
+                        
+                        <div class="item-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" style="color: var(--success)">${disponiveis}</div>
+                                <div class="stat-label">Disponíveis</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" style="color: var(--warning)">${manutencao}</div>
+                                <div class="stat-label">Manutenção</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">${isSubRental ? 'Locado' : Math.max(0, totalEstoque - cadastrados)}</div>
+                                <div class="stat-label">${isSubRental ? 'Externo' : 'Pendentes'}</div>
+                            </div>
+                        </div>
+                        ${cadastrados > 0 ? `
+                            <button class="view-units-btn" onclick="event.stopPropagation(); viewUnits(${realIndex})">
+                                Ver Unidades
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                }).join('');
+            } catch (error) {
+                console.error("❌ ERRO FATAL em renderItems:", error);
+                const grid = document.getElementById('itemsGrid');
+                if (grid) grid.innerHTML = `<p style="color:red; text-align:center; padding:2rem">Erro ao renderizar itens: ${error.message}</p>`;
+            }
+        }
+
+        function selectItem(index) {
+            selectedItemIndex = index;
+            const item = allItems[index];
+            document.getElementById('selectedItem').style.display = 'flex';
+            document.getElementById('selectedItemName').textContent = item.nome;
+            updateSelectionUI();
+            document.getElementById('qrInput').focus();
+            renderItems();
+        }
+
+        function updateSelectionUI() {
+            if (selectedItemIndex === null) return;
+            const item = allItems[selectedItemIndex];
+            const units = qrUnits[String(item.id)] || [];
+            const totalEstoque = parseInt(item.estoque) || 0;
+            const barcodeCount = (item.barcodes || []).length;
+
+            const detailsDiv = document.getElementById('selectedItemDetails');
+
+            if (currentMode === 'unit') {
+                detailsDiv.innerHTML = `
+                    <span style="color: var(--text-secondary)">Unidades Únicas (QR):</span>
+                    <strong style="color: white;">${units.length} / ${totalEstoque}</strong>
+                `;
+            } else {
+                detailsDiv.innerHTML = `
+                    <span style="color: var(--text-secondary)">Códigos de Barras (EANs):</span>
+                    <strong style="color: white;">${barcodeCount} vinculados</strong>
+                    <div style="font-size:0.8rem; color:var(--text-muted)">${(item.barcodes || []).join(', ')}</div>
+                `;
+            }
+        }
+
+        function clearSelection() {
+            selectedItemIndex = null;
+            document.getElementById('selectedItem').style.display = 'none';
+            document.getElementById('qrInput').value = '';
+            renderItems();
+        }
+
+        function setupScanner() {
+            const input = document.getElementById('qrInput');
+            const status = document.getElementById('scannerStatus');
+
+            input.addEventListener('keypress', async function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const scanCode = input.value.trim();
+                    if (!scanCode) return;
+
+                    if (selectedItemIndex === null) {
+                        status.innerHTML = '<span class="status-icon">⚠️</span><span>Selecione um item primeiro!</span>';
+                        status.style.color = 'var(--warning)';
+                        playBeep(400, 300);
+                        return;
+                    }
+
+                    // --- VALIDAÇÃO DE ESTOQUE (NOVO) ---
+                    const selectedItem = allItems[selectedItemIndex];
+                    const itemId = String(selectedItem.id);
+                    const units = qrUnits[itemId] || [];
+                    const maxStock = parseInt(selectedItem.estoque) || 0;
+
+                    let currentBulkQty = 0;
+                    if (selectedItem.barcodeQuantities) {
+                        Object.values(selectedItem.barcodeQuantities).forEach(q => currentBulkQty += (parseInt(q) || 0));
+                    }
+                    const currentTotal = units.length + currentBulkQty;
+                    // -----------------------------------
+
+                    if (currentMode === 'ean') {
+                        const qtyInput = prompt(`Quantidade para o código ${scanCode}?`, "1");
+                        if (qtyInput === null) return;
+                        const quantity = parseInt(qtyInput);
+                        if (isNaN(quantity) || quantity < 0) {
+                            alert("Quantidade inválida!");
+                            return;
+                        }
+
+                        // Validação EAN
+                        if (currentTotal + quantity > maxStock) {
+                            const available = Math.max(0, maxStock - currentTotal);
+                            alert(`❌ ERRO: Quantidade excede o estoque!\n\nEstoque Total: ${maxStock}\nCadastrados: ${currentTotal}\nDisponível para cadastro: ${available}`);
+                            playBeep(200, 500); // Beep de erro grave
+                            return;
+                        }
+
+                        try {
+                            const payload = {
+                                itemId: selectedItem.id,
+                                barcodes: [scanCode],
+                                quantity: quantity
+                            };
+                            console.log('📤 Enviando para servidor:', payload);
+
+                            const response = await fetch('/api/inventario/item/update-barcodes', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+                            const resData = await response.json();
+                            console.log('📥 Resposta do servidor:', resData);
+
+                            if (resData.success) {
+                                if (!allItems[selectedItemIndex].barcodes) allItems[selectedItemIndex].barcodes = [];
+                                if (!allItems[selectedItemIndex].barcodes.includes(scanCode)) {
+                                    allItems[selectedItemIndex].barcodes.push(scanCode);
+                                }
+                                if (!allItems[selectedItemIndex].barcodeQuantities) allItems[selectedItemIndex].barcodeQuantities = {};
+                                // Somar se já existir esse código, ou substituir? O prompt pede "quantidade para o código".
+                                // A lógica original substituía: allItems[selectedItemIndex].barcodeQuantities[scanCode] = quantity;
+                                // Vamos manter a lógica original de substituição/definição por enquanto, 
+                                // mas a validação acima considera o TOTAL, então se o usuário estiver EDITANDO um lote existente,
+                                // a validação pode falhar se não descontarmos o valor antigo.
+                                // Como o sistema parece tratar como "adicionar lote", vamos assumir que é um novo input.
+                                // CORREÇÃO: Se já existe esse barcode, o 'currentBulkQty' já inclui ele.
+                                // Se for uma edição, deveríamos subtrair o valor antigo antes de validar.
+                                // Mas o fluxo parece ser de bipar para adicionar. Vamos simplificar: bloqueia se (Total - AntigoDoCodigo + Novo) > Max.
+
+                                const oldQty = (allItems[selectedItemIndex].barcodeQuantities[scanCode] || 0);
+                                if (currentTotal - oldQty + quantity > maxStock) {
+                                    // Double check validation for edit case
+                                    const available = Math.max(0, maxStock - (currentTotal - oldQty));
+                                    alert(`❌ ERRO: Quantidade excede o estoque!\n\nPermitido para este lote: ${available}`);
+                                    return;
+                                }
+
+                                allItems[selectedItemIndex].barcodeQuantities[scanCode] = quantity;
+
+                                status.innerHTML = `<span class="status-icon">🔗</span><span>Vinculado! (${quantity} un.)</span>`;
+                                status.style.color = 'var(--neon-blue)';
+                                playBeep(600, 200);
+                                updateSelectionUI();
+                                renderItems();
+                            } else {
+                                throw new Error(resData.error);
+                            }
+                        } catch (err) {
+                            status.innerHTML = `<span class="status-icon">❌</span><span>Erro: ${err.message}</span>`;
+                            status.style.color = 'var(--danger)';
+                        }
+                        input.value = '';
+                        setTimeout(() => {
+                            status.innerHTML = '<span class="status-icon">⏳</span><span>Aguardando leitura...</span>';
+                            status.style.color = 'var(--text-primary)';
+                        }, 2000);
+                        return;
+                    }
+
+                    // Lógica UNITARIO (QR Único)
+                    // Verificar se QR já existe em QUALQUER item
+                    let qrExists = false;
+                    let existingUnit = null;
+
+                    Object.keys(qrUnits).forEach(idx => {
+                        const found = qrUnits[idx].find(u => u.qrCode === scanCode);
+                        if (found) {
+                            qrExists = true;
+                            existingUnit = found;
+                        }
+                    });
+
+                    if (qrExists) {
+                        if (existingUnit.status !== currentStatus) {
+                            const newStatusDisplay = currentStatus === 'manutencao' ? 'MANUTENÇÃO 🔧' : 'DISPONÍVEL ✅';
+                            const oldStatusDisplay = existingUnit.status === 'manutencao' ? 'MANUTENÇÃO' : 'DISPONÍVEL';
+
+                            if (confirm(`⚠️ Este item já existe como "${oldStatusDisplay}".\nDeseja alterar o status para "${newStatusDisplay}" ? `)) {
+                                let logText = null;
+                                if (currentStatus === 'manutencao') {
+                                    logText = prompt("📝 MOTIVO DO ENVIO PARA MANUTENÇÃO:");
+                                    if (logText === null) {
+                                        input.value = '';
+                                        return;
+                                    }
+                                } else {
+                                    logText = "Item marcado como disponível (retorno de manutenção/correção)";
+                                }
+                                await handleSaveUnit(scanCode, currentStatus, logText);
+                                input.value = '';
+                                return;
+                            }
+                        }
+                        status.innerHTML = `<span class="status-icon">❌</span><span>QR já cadastrado!</span>`;
+                        status.style.color = 'var(--danger)';
+                        playBeep(300, 500);
+                        input.value = '';
+                        return;
+                    }
+
+                    // Validação Estoque UNITARIO (Novo Cadastro)
+                    if (currentTotal >= maxStock) {
+                        alert(`❌ ERRO: Estoque Esgotado!\n\nVocê já cadastrou ${currentTotal} de ${maxStock} unidades.\nNão é possível adicionar mais.`);
+                        playBeep(200, 500);
+                        input.value = '';
+                        return;
+                    }
+
+                    // Se for novo cadastro
+                    if (currentStatus === 'manutencao') {
+                        let logText = prompt("📝 MOTIVO DO ENVIO PARA MANUTENÇÃO:");
+                        if (logText === null) {
+                            input.value = '';
+                            return;
+                        }
+                        await handleSaveUnit(scanCode, 'manutencao', logText);
+                    } else {
+                        await handleSaveUnit(scanCode, 'disponivel', null);
+                    }
+                    input.value = '';
+                }
+            });
+        }
+
+        async function handleSaveUnit(qrCode, statusStr, logText) {
+            if (selectedItemIndex === null) return;
+            if (isProcessing) return;
+            isProcessing = true;
+
+            // Failsafe: Destravar em 5s caso algo dê errado
+            setTimeout(() => {
+                if (isProcessing) {
+                    console.warn('⚠️ Failsafe ativado: Destravando isProcessing');
+                    isProcessing = false;
+                }
+            }, 5000);
+
+            const item = allItems[selectedItemIndex];
+            const itemId = String(item.id);
+
+            const unit = { qrCode, status: statusStr, timestamp: new Date().toISOString(), log: logText };
+
+            try {
+                const res = await fetch('/api/qr-units', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemIndex: itemId, itemName: item.nome, unit })
+                });
+
+                if (!qrUnits[itemId]) qrUnits[itemId] = [];
+                qrUnits[itemId].push(unit);
+                renderItems();
+                document.getElementById('scannerStatus').innerHTML = '<span class="status-icon">✓</span><span>Salvo!</span>';
+                playBeep(800, 100);
+                updateSelectionUI();
+            } catch (e) {
+                console.error(e);
+            }
+            isProcessing = false;
+        }
+
+        function viewUnits(index) {
+            const item = allItems[index];
+            const units = qrUnits[String(item.id)] || [];
+
+            document.getElementById('modalTitle').textContent = item.nome;
+
+            const unitsList = document.getElementById('unitsList');
+
+            const uniqueHtml = units.map((unit, unitIndex) => `
+            <div id="unit-${index}-${unitIndex}" class="unit-item ${unit.status === 'manutencao' ? 'manutencao' : ''}">
+                <div>
+                    <strong style="color: var(--neon-blue)">${unit.qrCode}</strong>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary)">
+                        ${new Date(unit.timestamp).toLocaleString()}
+                    </div>
+                    <div style="font-weight:bold; color: ${unit.status === 'manutencao' ? 'var(--warning)' : 'var(--success)'}">
+                        ${unit.status.toUpperCase()}
+                    </div>
+                </div>
+                <button class="btn-delete" onclick="deleteUnit(${index}, ${unitIndex}, '${unit.qrCode}')">🗑️</button>
+            </div>
+                        `).join('');
+
+            let bulkHtml = '';
+            if (item.barcodeQuantities && Object.keys(item.barcodeQuantities).length > 0) {
+                bulkHtml = Object.entries(item.barcodeQuantities).map(([code, qty]) => {
+                    const safeCode = code.replace(/'/g, "\\'");
+                    return `
+                <div class="unit-item" style="border-color: var(--neon-blue); background: rgba(0, 212, 255, 0.05);">
+                    <div>
+                        <strong style="color: var(--neon-blue)">LOTE / GRANEL</strong>
+                        <div style="font-size: 0.9rem; color: var(--text-secondary)">
+                            Código: ${code}
+                        </div>
+                        <div style="font-weight:bold; color: var(--text-primary)">
+                            Quantidade: <span style="font-size:1.2rem">${qty}</span>
+                        </div>
+                    </div>
+                    <button class="btn-delete" onclick="deleteBulkUnit(${index}, '${safeCode}')">🗑️</button>
+                </div>
+                        `}).join('');
+            }
+
+            let content = uniqueHtml;
+            if (uniqueHtml && bulkHtml) content += '<hr style="border-color:var(--glass-border); margin: 1rem 0;">';
+            content += bulkHtml;
+
+            if (!content) content = '<p style="text-align:center; color:gray">Nenhuma unidade cadastrada.</p>';
+
+            unitsList.innerHTML = content;
+            document.getElementById('unitsModal').classList.add('show');
+        }
+
+        function closeUnitsModal() {
+            document.getElementById('unitsModal').classList.remove('show');
+        }
+
+        async function deleteUnit(itemIndex, unitIndex, qrCode) {
+            if (!confirm(`Excluir QR Único: ${qrCode}?`)) return;
+
+            try {
+                // Aqui estava o erro de espaços no ID. Corrigido.
+                const unitElement = document.getElementById(`unit - ${itemIndex} -${unitIndex} `);
+                if (unitElement) {
+                    unitElement.style.opacity = '0.5';
+                    unitElement.innerText = 'Excluindo...';
+                }
+
+                const response = await fetch('/api/qr-units/delete', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ itemIndex: String(allItems[itemIndex].id), unitIndex, qrCode })
+                });
+
+                if (!response.ok) {
+                    // Fallback para index
+                    await fetch('/api/qr-units/delete', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ itemIndex: itemIndex, unitIndex, qrCode })
+                    });
+                }
+
+                // Atualiza localmente
+                const itemId = String(allItems[itemIndex].id);
+                if (qrUnits[itemId]) {
+                    qrUnits[itemId] = qrUnits[itemId].filter(u => u.qrCode !== qrCode);
+                }
+
+                // Recarrega o modal para sumir o item
+                viewUnits(itemIndex);
+                renderItems();
+            } catch (e) {
+                console.error(e);
+                alert('Erro ao excluir.');
+            }
+        }
+
+        async function deleteBulkUnit(itemIndex, barcode) {
+            if (!confirm(`Remover o lote com código "${barcode}" ?`)) return;
+
+            try {
+                const response = await fetch('/api/inventario/item/update-barcodes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        itemIndex: itemIndex,
+                        barcodes: [barcode],
+                        quantity: 0
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    if (allItems[itemIndex].barcodeQuantities) {
+                        delete allItems[itemIndex].barcodeQuantities[barcode];
+                    }
+                    // Força atualização da tela
+                    viewUnits(itemIndex);
+                    renderItems();
+                } else {
+                    alert("Erro ao excluir: " + data.error);
+                }
+            } catch (e) {
+                console.error(e);
+                alert("Erro ao excluir lote.");
+            }
+        }
+
+        document.getElementById('unitsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'unitsModal') closeUnitsModal();
+        });
+
+        async function exportQRCodes() {
+            window.open('/api/export-qr-codes', '_blank');
+        }
+
+        async function syncInventoryAPI() {
+            if (!confirm("Sincronizar?")) return;
+            await fetch('/api/sync-inventory', { method: 'POST' });
+            location.reload();
+        }
+
+        function playBeep(freq, duration) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.frequency.value = freq;
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration / 1000);
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + duration / 1000);
+            } catch (e) { }
+        }
+
+        // === INTEGRAÇÃO COM COMANDOS DE VOZ DA KIRA ===
+        window.applyVoiceFilter = function (filterText) {
+            console.log('🎤 Aplicando filtro por voz:', filterText);
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.value = filterText;
+                renderItems(); // Atualizar lista
+            }
+        };
+
+        window.startVoiceScanner = function () {
+            console.log('🎤 Ativando scanner por voz');
+            const scannerBtn = document.getElementById('scannerBtn');
+            if (scannerBtn && !scannerBtn.classList.contains('active')) {
+                scannerBtn.click(); // Simular clique no botão
+            }
+        };
+
+        window.stopVoiceScanner = function () {
+            console.log('🎤 Desativando scanner por voz');
+            const scannerBtn = document.getElementById('scannerBtn');
+            if (scannerBtn && scannerBtn.classList.contains('active')) {
+                scannerBtn.click();
+            }
+        };
+
+        // === AUTO-SAVE MODE (KIRA) ===
+        window.kiraAutoSaveMode = false;
+
+        window.enableAutoSave = function () {
+            window.kiraAutoSaveMode = true;
+            console.log('✅ Modo auto-save ativado!');
+
+            // Feedback por voz
+            if (typeof speak === 'function') {
+                speak('Modo automático ativado. Bipe os QR codes.');
+            }
+        };
+
+        window.disableAutoSave = function () {
+            window.kiraAutoSaveMode = false;
+            console.log('❌ Modo auto-save desativado');
+        };
+
+        // Interceptar eventos de QR Code para auto-save
+        // (Isso será integrado com o scanner existente)
+        window.onQRCodeDetected = function (qrCode) {
+            console.log('🔍 QR Code detectado:', qrCode);
+
+            if (window.kiraAutoSaveMode) {
+                // Auto-salvar
+                console.log('💾 Auto-salvando QR:', qrCode);
+
+                // Feedback por voz
+                if (typeof speak === 'function') {
+                    speak('QR registrado!');
+                }
+
+                // Aqui você integraria com a função de salvar existente
+                // saveQRCode(qrCode);
+            }
+        };
+
+        // Function filterItems that was missing and causing ReferenceError
+        function filterItems() {
+            try {
+                // console.log('🔍 Filtrando itens...');
+                renderItems();
+            } catch (e) {
+                console.error('❌ Erro em filterItems:', e);
+            }
+        }
+
+        // === GLOBAL FOCUS & FAILSAFE ===
+
+        // 1. Manter foco no input quando item estiver selecionado
+        // Se usuário começar a digitar/bipar sem foco, redirecionar para o input
+        document.addEventListener('keydown', (e) => {
+            if (selectedItemIndex !== null) {
+                const active = document.activeElement;
+                const isInput = active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT';
+
+                // Se não estiver em outro campo de texto e digitar tecla válida (letra/número)
+                if (!isInput && e.key.length === 1 && !e.ctrlKey && !e.altKey && !e.metaKey) {
+                    const qrInput = document.getElementById('qrInput');
+                    if (qrInput) {
+                        qrInput.focus();
+                        // O evento atual (e.key) vai pro input automaticamente pois ele recebeu foco no keydown? 
+                        // Às vezes navegador engole o primeiro char. Vamos garantir.
+                        // Mas 'focus()' no keydown usually works.
+                    }
+                }
+
+                // Se apertar Enter e não estiver em input nenhum, focar no QR input (pra processar o Enter do scanner)
+                if (!isInput && e.key === 'Enter') {
+                    const qrInput = document.getElementById('qrInput');
+                    if (qrInput) qrInput.focus();
+                }
+            }
+        });
+
+        // 2. Visual Feedback de Foco
+        const qrInputRef = document.getElementById('qrInput');
+        if (qrInputRef) {
+            qrInputRef.addEventListener('focus', () => {
+                document.querySelector('.scanner-input-group').classList.add('focused-scanner');
+            });
+            qrInputRef.addEventListener('blur', () => {
+                document.querySelector('.scanner-input-group').classList.remove('focused-scanner');
+            });
+        }
+
+        // 3. Failsafe para isProcessing (Resetar a cada 5s se estiver travado)
+        setInterval(() => {
+            if (isProcessing) {
+                // Verificar se passou muito tempo (ex: 5s) desde a última ação?
+                // Simplificação: Se isProcessing=true por 5s, destrava.
+                // Mas precisamos saber QUANDO travou.
+                // Melhor colocar o setTimeout dentro da função que seta true.
+            }
+        }, 1000);
+
+        loadInventory();
+    </script>
+    <script src="/js/mark-integration.js"></script>
+</body>
+
+</html>

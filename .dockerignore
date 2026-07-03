@@ -1,0 +1,30 @@
+# Segredos — NUNCA entram na imagem
+.env
+.env.*
+google-cloud-key.json
+data/access_keys.json
+
+# Dependências (reinstaladas no build)
+node_modules/
+
+# Sessão do WhatsApp (pesada e sensível)
+.wwebjs_auth*/
+.wwebjs_cache/
+
+# Dados de runtime (vão por Volume no Railway, não na imagem)
+logs/
+public/charts/
+dist/
+
+# Artefatos e binários grandes
+*.mp3
+*.tar.gz
+*.zip
+*.exe
+*.backup
+
+# Sistema / editor
+.DS_Store
+._*
+.vscode/
+.git/

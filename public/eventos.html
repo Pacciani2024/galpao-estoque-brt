@@ -1,0 +1,2696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos - BRT Audiovisual v2.1</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script>
+        // CRITICAL: Prevent FOUC by setting state before body renders
+        if (localStorage.getItem('markSidebarState') === 'collapsed') {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    </script>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- MARK AI SIDEBAR -->
+        <aside class="mark-sidebar" id="markSidebar">
+            <div class="mark-toggle" onclick="toggleMark()"><span id="markToggleIcon">◀</span></div>
+            <div class="mark-header">
+                <h2 class="mark-title">🤖 Mark AI</h2>
+            </div>
+            <div class="mark-chat-container">
+                <div class="mark-messages" id="markMessages">
+                    <div class="mark-message assistant">Olá! Pergunte sobre eventos!</div>
+                </div>
+                <div class="mark-input-container">
+                    <input type="text" class="mark-input" id="markInput" placeholder="Digite sua pergunta..."
+                        onkeypress="if(event.key==='Enter') sendToMark()" />
+                    <button class="mark-voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊</button>
+                    <button class="mark-send-btn" onclick="sendToMark()">➤</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- NAVIGATION SIDEBAR -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1 class="logo">BRT</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/" class="nav-link"><span
+                                class="nav-icon">📊</span><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a href="/eventos" class="nav-link active"><span
+                                class="nav-icon">📅</span><span>Eventos</span></a></li>
+                    <li class="nav-item"><a href="/inventario" class="nav-link"><span
+                                class="nav-icon">📦</span><span>Inventário</span></a></li>
+                    <li class="nav-item"><a href="/cadastro-qr" class="nav-link"><span
+                                class="nav-icon">🏷️</span><span>Cadastro QR</span></a></li>
+                    <li class="nav-item"><a href="/separacao" class="nav-link"><span
+                                class="nav-icon">🔖</span><span>Separação QR</span></a></li>
+                    <li class="nav-item"><a href="/pendencias" class="nav-link"><span
+                                class="nav-icon">⚠️</span><span>Pendências</span></a></li>
+                    <li class="nav-item"><a href="/etiquetas" class="nav-link"><span
+                                class="nav-icon">🖨️</span><span>Etiquetas</span></a></li>
+                    <li class="nav-item"><a href="/monitor" class="nav-link"><span
+                                class="nav-icon">⚡</span><span>Monitoramento</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="page-header fade-in-up"
+                style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <h1 class="page-title">📅 Eventos</h1>
+                    <p class="page-subtitle">Gerenciar eventos e equipamentos</p>
+                </div>
+                <button class="action-btn" onclick="syncAllEvents()"
+                    style="background-color: #2196F3; color: white; margin-top: 5px; display: flex; align-items: center; gap: 5px;">
+                    🔄 Puxar Eventos
+                </button>
+            </header>
+
+            <!-- Filtros de Estado -->
+            <div class="filter-tabs" style="margin-bottom: 1.5rem; display: flex; gap: 1rem;">
+                <button class="filter-tab active" onclick="setFilter('upcoming')" id="tab-upcoming">
+                    📅 Próximos
+                </button>
+                <button class="filter-tab" onclick="setFilter('completed')" id="tab-completed">
+                    ✅ Realizados
+                </button>
+            </div>
+
+            <style>
+                .filter-tab {
+                    background: transparent;
+                    border: 1px solid var(--glass-border);
+                    color: var(--text-muted);
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    transition: all 0.3s;
+                    font-weight: 500;
+                }
+
+                .filter-tab:hover {
+                    border-color: var(--neon-blue);
+                    color: var(--text-primary);
+                }
+
+                .filter-tab.active {
+                    background: rgba(0, 212, 255, 0.15);
+                    border-color: var(--neon-blue);
+                    color: var(--neon-blue);
+                    font-weight: 600;
+                }
+            </style>
+
+            <div class="fade-in-up" id="eventosContainer">
+                <p style="text-align: center; padding: 3rem; color: var(--text-muted);">Carregando eventos...</p>
+            </div>
+        </main>
+
+        <!-- Modal Detalhes -->
+        <div class="modal" id="eventoModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle">Detalhes do Evento</h2>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <button class="action-btn"
+                            style="background-color: #00bcd4; color: white; padding: 0.5rem 1rem; margin-right: 10px; font-weight: bold;"
+                            onclick="syncEventData()" title="CLIQUE AQUI PARA FORÇAR ATUALIZAÇÃO">
+                            🔄 Atualizar Dados
+                        </button>
+                        <button class="btn btn-primary" id="btnTickList" onclick="openTickList()"
+                            style="display: none;">
+                            ✓ Tick List
+                        </button>
+                        <button class="modal-close" onclick="closeModal()">✕</button>
+                    </div>
+                </div>
+                <div class="modal-body" id="modalBody"></div>
+            </div>
+        </div>
+
+        <!-- Modal Tick List -->
+        <div class="modal-overlay" id="tickListModal">
+            <div class="modal-content tick-modal">
+                <button class="close-modal" onclick="closeTickList()">✕</button>
+
+                <div class="scanner-section">
+                    <div class="scanner-icon">📷</div>
+                    <h3>Posicione o cursor aqui e escaneie o QR Code...</h3>
+                    <input type="text" id="scannerInput" class="scanner-input" autocomplete="off">
+                    <div id="scannerStatus" class="scanner-status">Aguardando leitura...</div>
+                </div>
+
+                <div class="tick-container">
+                    <!-- Coluna de Equipamentos (Esquerda) -->
+                    <div class="tick-column">
+                        <div class="tick-column-header"
+                            style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3>📋 Lista de Equipamentos</h3>
+                                <div class="tick-subtitle">Marque os itens conforme separa</div>
+                            </div>
+                            <div style="display: flex; gap: 0.5rem;">
+                                <button id="pullEventBtn" class="action-btn" onclick="openPullItemsModal()"
+                                    style="padding: 0.5rem 1rem; font-size: 0.9rem; background: #2196F3;">
+                                    🚚 Puxar Evento
+                                </button>
+                                <button id="addExtraItemBtn" class="action-btn" onclick="openAddItemModal()"
+                                    style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                                    + Adicionar Item
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tick-list" id="tickList">
+                            <!-- Itens serão renderizados aqui via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Coluna de Separados (Direita) -->
+                    <div class="tick-column separated">
+                        <div class="tick-column-header">
+                            <h3>✓ Itens Separados</h3>
+                            <p class="tick-subtitle" id="progressText">0 de 0</p>
+                        </div>
+                        <div class="tick-list" id="separatedList">
+                            <p style="text-align: center; padding: 3rem; color: var(--text-muted);">
+                                Nenhum item separado ainda
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Adicionar Item Extra -->
+        <div class="modal-overlay" id="addItemModal" style="z-index: 2000;">
+            <div class="modal-content" style="max-width: 600px;">
+                <button class="close-modal" onclick="closeAddItemModal()">✕</button>
+                <div class="modal-header">
+                    <h2>📦 Adicionar Item Extra</h2>
+                    <p class="modal-subtitle">Busque itens no inventário para adicionar à lista</p>
+                </div>
+
+                <div style="margin-bottom: 1.5rem;">
+                    <!-- Filtros de Categoria -->
+                    <div id="categoryFilters" class="category-chips">
+                        <!-- Chips serão gerados via JS -->
+                    </div>
+
+                    <input type="text" id="searchItemInput" class="form-input" placeholder="🔍 Digite para buscar..."
+                        oninput="searchInventory(this.value)">
+                </div>
+
+                <div id="searchResults" class="search-results-list" style="max-height: 400px; overflow-y: auto;">
+                    <p style="text-align: center; color: var(--text-muted); padding: 2rem;">
+                        Digite o nome de um equipamento...
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Autenticação (Chave de Acesso) -->
+        <div class="modal-overlay" id="authModal" style="z-index: 3000;">
+            <div class="modal-content" style="max-width: 400px; text-align: center;">
+                <button class="close-modal" onclick="closeAuthModal()">✕</button>
+                <div class="modal-header" style="justify-content: center;">
+                    <h2>🔒 Autorização Necessária</h2>
+                </div>
+                <div style="padding: 2rem;">
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                        O evento já foi despachado. Identifique-se para registrar esta alteração no histórico.
+                    </p>
+
+                    <input type="password" id="authKeyInput" class="form-input"
+                        placeholder="🔑 Digite sua Chave de Acesso"
+                        style="margin-bottom: 1rem; text-align: center; letter-spacing: 2px;">
+
+                    <button class="action-btn" onclick="confirmAuthAction()"
+                        style="width: 100%; justify-content: center;">
+                        🔓 Confirmar Acesso
+                    </button>
+                    <div id="authError" style="color: var(--danger); margin-top: 1rem; min-height: 1.2rem;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Puxar Itens de Outro Evento -->
+        <div id="pullItemsModal" class="modal">
+            <div class="modal-content" style="max-width: 600px;">
+                <span class="close" onclick="closePullItemsModal()">&times;</span>
+                <div class="modal-body">
+                    <h2>🚚 Puxar Itens de Outro Evento</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                        Selecione o evento de origem e os itens que deseja transferir
+                    </p>
+
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                            Evento de Origem:
+                        </label>
+                        <select id="pullSourceEvent" onchange="loadPullItems()"
+                            style="width: 100%; padding: 0.75rem; border-radius: 10px; border: 1px solid var(--glass-border); background: var(--glass-bg);">
+                            <option value="">Selecione um evento...</option>
+                        </select>
+                    </div>
+
+                    <div id="pullItemsList" style="display: none;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600;">
+                            Itens Disponíveis (Na Rua):
+                        </label>
+                        <div id="pullItemsContainer"
+                            style="max-height: 300px; overflow-y: auto; border: 1px solid var(--glass-border); border-radius: 10px; padding: 1rem;">
+                            <!-- Itens serão carregados aqui -->
+                        </div>
+
+                        <button class="action-btn" onclick="confirmPullItems()"
+                            style="width: 100%; justify-content: center; margin-top: 1.5rem;">
+                            ✅ Transferir Itens Selecionados
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <style>
+        .evento-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .evento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 212, 255, 0.3);
+            border-color: var(--neon-blue);
+        }
+
+        .evento-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .evento-nome {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--neon-blue);
+        }
+
+        .evento-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minwidth(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        /* Modal Overlay (Novo padrão) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 2rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: var(--neon-blue);
+            font-size: 1.5rem;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 59, 48, 0.3);
+        }
+
+        /* Botão Ação (Adicionar Item) */
+        .action-btn {
+            background: linear-gradient(135deg, var(--neon-blue), #2a52be);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+            background: linear-gradient(135deg, #00e5ff, #2a52be);
+        }
+
+        /* Ajuste do Header do Modal Tick List */
+        .tick-modal {
+            max-width: 1400px;
+            padding: 0;
+            /* Remove padding padrão para usar header customizado se precisar */
+            overflow: hidden;
+            /* Garante bordas arredondadas */
+            display: flex;
+            flex-direction: column;
+            height: 90vh;
+            /* Altura fixa para permitir scroll interno */
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--glass-border);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.2s;
+        }
+
+        .close-modal:hover {
+            background: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .detail-section h3 {
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .equipment-list {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .equipment-item {
+            padding: 1rem;
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid var(--neon-blue);
+            border-radius: 8px;
+            margin-bottom: 0.8rem;
+        }
+
+        .equipment-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .equipment-qty {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+        }
+
+        /* Scanner Input */
+        .scanner-input-container {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(0, 132, 255, 0.05));
+            border: 2px solid var(--neon-blue);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .scanner-icon {
+            font-size: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        .scanner-input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            color: var(--text-primary);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .scanner-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+        }
+
+        .scanner-status {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+            font-weight: 500;
+            min-width: 200px;
+            text-align: right;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Tick List (Layout Flexível) */
+        .tick-modal {
+            /* Garante que o modal ocupe no máximo 90% da tela */
+            max-height: 90vh;
+            height: 90vh;
+            /* Força altura para o flex funcionar */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            /* Corta o conteúdo excedente */
+        }
+
+        .tick-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            flex: 1;
+            /* Ocupa todo o espaço vertical disponível */
+            min-height: 0;
+            /* CRUCIAL: Permite que flex itens encolham */
+            padding: 0 0 1rem 0;
+            /* Espaço para não colar no fundo */
+            overflow: hidden;
+            /* Impede que o grid estoure o pai */
+        }
+
+        .tick-column {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Ocupa 100% da altura do grid cell */
+            max-height: 100%;
+            overflow: hidden;
+            /* Segura o conteúdo interno */
+        }
+
+        .tick-column.separated {
+            border-color: rgba(0, 255, 136, 0.3);
+        }
+
+        .tick-column-header {
+            margin-bottom: 1rem;
+            flex-shrink: 0;
+            /* Impede que o header esmague */
+        }
+
+        .tick-column-header h3 {
+            color: var(--neon-blue);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .tick-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .tick-list {
+            flex: 1;
+            /* Cresce para ocupar o espaço */
+            overflow-y: auto;
+            /* Scroll APENAS aqui dentro */
+            padding-right: 5px;
+            /* Espaço para scrollbar */
+            /* Remove max-height fixo: agora é controlado pelo flex */
+        }
+
+        .tick-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tick-item:hover {
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .tick-item.checked {
+            opacity: 0.5;
+        }
+
+        .tick-checkbox {
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            border: 2px solid var(--glass-border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .tick-item:hover .tick-checkbox {
+            border-color: var(--neon-blue);
+        }
+
+        .tick-item.checked .tick-checkbox {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        /* Destaque especial para itens importados (puxados) */
+        .tick-item.pulled-item {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0.05) 100%);
+            border-left: 4px solid var(--success);
+            opacity: 1 !important;
+        }
+
+        .tick-item.pulled-item .tick-checkbox {
+            background: var(--success);
+            border-color: var(--success);
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+
+        .tick-item.pulled-item::after {
+            content: '🚚';
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+
+        .tick-info {
+            flex: 1;
+        }
+
+        .tick-name {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .tick-qty {
+            color: var(--neon-blue);
+            font-size: 0.9rem;
+        }
+
+        /* Input de quantidade manual */
+        .qty-input {
+            width: 50px;
+            padding: 0.2rem 0.4rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            color: var(--neon-blue);
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .qty-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .qty-input:invalid {
+            border-color: var(--danger);
+        }
+
+        .separated-item {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .separated-icon {
+            width: 32px;
+            height: 32px;
+            min-width: 32px;
+            background: var(--success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        /* Botão de remover item separado */
+        .remove-separated-btn {
+            background: rgba(255, 255, 255, 0.05);
+            /* Levemente visível por padrão */
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            min-width: 36px;
+            /* Garante que não encolha */
+            flex-shrink: 0;
+            /* IMPEDE que o flexbox esmague o botão */
+            margin-left: auto;
+            /* Empurra para a direita */
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            /* Garante que fique por cima */
+        }
+
+        .remove-separated-btn:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(255, 59, 48, 0.4);
+        }
+
+        /* Resultados da Busca */
+        .search-result-item {
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-result-item:hover {
+            background: var(--bg-hover);
+            border-color: var(--neon-blue);
+        }
+
+        /* Chips de Categoria */
+        .category-chips {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            /* Permite quebrar linha se tiver muitos */
+        }
+
+        .category-chip {
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .category-chip:hover {
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+        }
+
+        .category-chip.active {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--neon-blue);
+            color: var(--neon-blue);
+            font-weight: 500;
+        }
+
+        /* Form Input Melhorado */
+        .form-input {
+            width: 100%;
+            background: var(--bg-primary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+        }
+    </style>
+
+    <!-- Modal de Transferência (Cross-Docking) -->
+    <div id="transferModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <div class="modal-header" style="background: var(--warning); color: black;">
+                <h2>🚚 Transferência de Item</h2>
+                <button class="close-btn" onclick="closeTransferModal()" style="color: black;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="transferItemName" style="font-weight: bold; margin-bottom: 1rem;"></p>
+                <p style="margin-bottom: 1rem;">Selecione o evento de origem para transferir:</p>
+
+                <div id="transferSourcesList"
+                    style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 300px; overflow-y: auto;">
+                    <!-- Lista de eventos preenchida via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let eventosData = [];
+        let currentEvento = null;
+        let currentFilter = 'upcoming'; // 'upcoming' or 'completed'
+        let currentInventory = null; // Novo: Cache de inventário para validações
+        let separatedItems = [];
+
+        let inventoryData = null; // Cache do inventário
+
+        // Carregar inventário
+        async function loadInventory() {
+            if (inventoryData) return inventoryData;
+            try {
+                const response = await fetch('/api/inventario');
+                const data = await response.json();
+                inventoryData = data;
+                return data;
+            } catch (error) {
+                console.error('Erro ao carregar inventário:', error);
+                return { items: [] };
+            }
+        }
+
+        // === NOVO: Salvar progresso automaticamente ===
+        async function saveTickProgress(isCompleted = false, authorizedBy = null) {
+            if (!currentEvento) return;
+
+            try {
+                const payload = {
+                    eventId: currentEvento.id,
+                    eventName: currentEvento.nome || currentEvento.nomeevento, // Fallback para garantir nome
+                    separatedItems: separatedItems,
+                    status: isCompleted ? 'completed' : (currentEvento.status === 'dispatched' ? 'dispatched' : 'in_progress'),
+                    lastUpdated: new Date().toISOString()
+                };
+
+                // Se houver autorização (auditoria), enviar junto
+                if (authorizedBy) {
+                    payload.authorizedBy = authorizedBy;
+                }
+
+                await fetch(`/api/tick-progress/${currentEvento.id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                console.log('Progresso salvo automaticamente' + (authorizedBy ? ` (Autorizado por: ${authorizedBy})` : ''));
+            } catch (error) {
+                console.error('Erro ao salvar progresso:', error);
+            }
+        }
+
+        // === NOVO: Carregar progresso salvo ===
+        async function loadTickProgress() {
+            if (!currentEvento) return;
+
+            try {
+                const response = await fetch(`/api/tick-progress/${currentEvento.id}`);
+                const data = await response.json();
+
+                if (data.separatedItems && data.separatedItems.length > 0) {
+                    separatedItems = data.separatedItems;
+
+                    // Restaurar estado visual
+                    separatedItems.forEach(item => {
+                        const tickItem = document.getElementById(`tick-${item.index}`);
+                        if (tickItem) {
+                            const hasQR = tickItem.getAttribute('data-has-qr') === 'true';
+                            const qty = item.qtySeparada || 0; // Garantir que não seja undefined
+
+                            // Atualizar atributo de dados
+                            tickItem.setAttribute('data-qty-scanned', qty);
+
+                            if (hasQR) {
+                                // Se tem QR, atualiza o span
+                                const qtySpan = tickItem.querySelector('.qty-scanned');
+                                if (qtySpan) qtySpan.textContent = qty;
+                            } else {
+                                // Se é manual, atualiza o input
+                                const qtyInput = tickItem.querySelector('.qty-input');
+                                if (qtyInput) qtyInput.value = qty;
+                            }
+
+                            const qtyNeeded = parseInt(tickItem.getAttribute('data-qty-needed'));
+
+                            // Marcar como completo se atingiu a quantidade
+                            if (qty >= qtyNeeded) {
+                                tickItem.classList.add('checked');
+                                tickItem.querySelector('.tick-checkbox').textContent = '✓';
+                            }
+
+                            // === NOVO: Aplicar classe se for item importado (pulled) ===
+                            if (item.method === 'pulled') {
+                                tickItem.classList.add('pulled-item');
+                                tickItem.classList.add('checked'); // Forçar checked visualmente
+                                tickItem.querySelector('.tick-checkbox').textContent = '✓';
+                            }
+                        }
+                    });
+
+                    // Atualizar lista de separados
+                    updateSeparatedList();
+                    updateProgress();
+
+                    console.log(`✓ Progresso carregado: ${separatedItems.length} itens`);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar progresso:', error);
+            }
+        }
+
+        // === NOVO: Atualizar quantidade manualmente (itens sem QR) ===
+        function updateManualQuantity(index, value) {
+            const quantity = parseInt(value) || 0;
+            const item = document.getElementById(`tick-${index}`);
+            if (!item) return;
+
+            const qtyNeeded = parseInt(item.getAttribute('data-qty-needed'));
+            const hasQR = item.getAttribute('data-has-qr') === 'true';
+
+            // Só permitir edição manual em itens SEM QR
+            if (hasQR) return;
+
+            // Validar apenas mínimo (itens sem QR podem ultrapassar o necessário)
+            // Exemplo: vendedor pediu 1 fita, mas pode levar 10
+            const validQuantity = Math.max(0, quantity);
+
+            // Atualizar input se foi corrigido
+            const input = item.querySelector('.qty-input');
+            if (input && validQuantity !== quantity) {
+                input.value = validQuantity;
+            }
+
+            // Atualizar atributo
+            item.setAttribute('data-qty-scanned', validQuantity);
+
+            // Atualizar lista de separados
+            const evento = currentEvento.equipamentos[index];
+            // Comparar índice como string para garantir compatibilidade
+            const existingSeparated = separatedItems.find(si => String(si.index) === String(index));
+
+            if (validQuantity > 0) {
+                if (existingSeparated) {
+                    existingSeparated.qtySeparada = validQuantity;
+                } else {
+                    separatedItems.push({
+                        ...evento,
+                        index,
+                        qtySeparada: validQuantity,
+                        qrCodes: [] // Itens manuais não têm QR
+                    });
+                }
+            } else {
+                // Remover se quantidade = 0
+                separatedItems = separatedItems.filter(si => si.index !== index);
+            }
+
+            // Marcar como completo se atingiu a quantidade
+            if (validQuantity >= qtyNeeded) {
+                item.classList.add('checked');
+                item.querySelector('.tick-checkbox').textContent = '✓';
+            } else {
+                item.classList.remove('checked');
+                item.querySelector('.tick-checkbox').textContent = '';
+            }
+
+            // Atualizar UI
+            updateSeparatedList();
+            updateProgress();
+
+            // Salvar progresso automaticamente
+            saveTickProgress();
+        }
+
+        async function loadEventos() {
+            try {
+                const response = await fetch('/api/eventos');
+                const data = await response.json();
+                eventosData = data.eventos || [];
+
+                const container = document.getElementById('eventosContainer');
+
+                if (eventosData.length === 0) {
+                    container.innerHTML = '<p style="text-align: center; padding: 3rem; color: var(--text-muted);">Nenhum evento encontrado</p>';
+                    return;
+                }
+
+                renderEventos();
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        }
+
+        function setFilter(filter) {
+            currentFilter = filter;
+
+            // Update UI tabs
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            document.getElementById(`tab-${filter}`).classList.add('active');
+
+            renderEventos();
+        }
+
+        function renderEventos() {
+            const container = document.getElementById('eventosContainer');
+
+            // Filter events
+            const filteredEvents = eventosData.filter(evento => {
+                const isReturned = evento.status === 'returned';
+
+                if (currentFilter === 'completed') {
+                    return isReturned;
+                } else {
+                    // upcoming: everything NOT returned (active, dispatched, partial, etc)
+                    return !isReturned;
+                }
+            });
+
+            // Sort events
+            filteredEvents.sort((a, b) => {
+                const dateA = new Date(a.data || a.dataevento || 0);
+                const dateB = new Date(b.data || b.dataevento || 0);
+
+                if (currentFilter === 'completed') {
+                    return dateB - dateA; // Newest completed first
+                } else {
+                    return dateA - dateB; // Nearest upcoming first
+                }
+            });
+
+            if (filteredEvents.length === 0) {
+                const msg = currentFilter === 'completed'
+                    ? 'Nenhum evento realizado encontrado'
+                    : 'Nenhum evento próximo encontrado';
+                container.innerHTML = `<p style="text-align: center; padding: 3rem; color: var(--text-muted);">${msg}</p>`;
+                return;
+            }
+
+            container.innerHTML = filteredEvents.map((evento) => {
+                // Find original index in full array to keep openModal working correctly
+                // Note: It's safer if openEventoModal used ID, but it uses index. 
+                // We must find the index in the original eventosData array.
+                const originalIndex = eventosData.indexOf(evento);
+
+                const isDispatched = evento.status === 'dispatched';
+                const isReturned = evento.status === 'returned';
+                const isPartial = evento.status === 'returned_partial';
+
+                let statusBadge = '';
+                if (isDispatched) {
+                    statusBadge = '<span style="background: var(--warning); color: black; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">🔒 EM SAÍDA</span>';
+                } else if (isReturned) {
+                    statusBadge = '<span style="background: var(--success); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">✔ DEVOLVIDO</span>';
+                } else if (isPartial) {
+                    statusBadge = '<span style="background: orange; color: black; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold;">⚠ PENDENTE</span>';
+                }
+
+                // Fallback para nomes e datas
+                const nome = evento.nome || evento.nomeevento || 'Evento sem nome';
+                const data = evento.data || evento.dataevento || new Date().toISOString();
+
+                return `
+                <div class="evento-card fade-in-up" onclick="openEventoModal(${originalIndex})" style="${isDispatched ? 'border-color: var(--warning);' : ''}">
+                    <div class="evento-header">
+                        <span class="evento-nome">${nome}</span>
+                        <span class="evento-data">${new Date(data).toLocaleDateString()}</span>
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">${statusBadge}</div>
+                    <div class="evento-info">
+                        <div class="info-item">
+                            <span>📍</span> ${evento.local || evento.localevento || 'Local não definido'}
+                        </div>
+                        <div class="info-item">
+                            <span>📦</span> ${evento.totalEquipamentos || 0} equipamentos
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function openEventoModal(index) {
+            currentEvento = eventosData[index];
+            const modal = document.getElementById('eventoModal');
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            const btnTickList = document.getElementById('btnTickList');
+            const btnDelete = document.getElementById('btnDeleteEvento'); // Novo (se houver)
+
+            title.textContent = currentEvento.nomeevento || currentEvento.nome || 'Evento sem nome';
+
+            // Mostrar botão Tick List se houver equipamentos
+            if (currentEvento.equipamentos && currentEvento.equipamentos.length > 0) {
+                btnTickList.style.display = 'block';
+            } else {
+                btnTickList.style.display = 'none';
+            }
+
+            let equipamentosHtml = '';
+            if (currentEvento.equipamentos && currentEvento.equipamentos.length > 0) {
+                equipamentosHtml = `
+                    <div class="detail-section">
+                        <h3>📦 Lista de Equipamentos (${currentEvento.equipamentos.length})</h3>
+                        <div class="equipment-list">
+                            ${currentEvento.equipamentos.map(eq => `
+                                <div class="equipment-item">
+                                    <div class="equipment-name">${eq.nome}</div>
+                                    <div class="equipment-qty">Quantidade: ${eq.quantidade}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                equipamentosHtml = `
+                    <div class="detail-section">
+                        <h3>📦 Equipamentos</h3>
+                        <p style="color: var(--text-muted); text-align: center; padding: 2rem;">
+                            Nenhum equipamento cadastrado para este evento
+                        </p>
+                    </div>
+                `;
+            }
+
+            body.innerHTML = `
+                <div class="detail-section">
+                    <h3>ℹ️ Informações do Evento</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Data do Evento</div>
+                            <div class="detail-value">${formatDate(currentEvento.dataevento)}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Local</div>
+                            <div class="detail-value">${currentEvento.localevento}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Solicitante</div>
+                            <div class="detail-value">${currentEvento.solicitante}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">ID do Evento</div>
+                            <div class="detail-value">#${currentEvento.id}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Total de Itens</div>
+                            <div class="detail-value">${currentEvento.totalEquipamentos} equipamentos</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Status</div>
+                            <div class="detail-value">
+                                <span class="badge badge-${currentEvento.totalEquipamentos > 0 ? 'success' : 'warning'}">
+                                    ${currentEvento.totalEquipamentos > 0 ? 'Pronto' : 'Pendente'}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                ${equipamentosHtml}
+            `;
+
+            modal.classList.add('show');
+        }
+
+        async function openTickList() {
+            separatedItems = [];
+            const modal = document.getElementById('tickListModal');
+            // Corrigido para buscar o ID certo que está no HTML
+            const equipmentList = document.getElementById('tickList');
+            const scannerInput = document.getElementById('scannerInput');
+
+            // Elementos de UI para travamento
+            const addItemBtn = document.getElementById('addExtraItemBtn');
+            const scannerHeader = document.querySelector('.scanner-section h3');
+
+            if (!currentEvento || !currentEvento.equipamentos) return;
+
+            // Verificar Status
+            const isLocked = currentEvento.status === 'dispatched' || currentEvento.status === 'returned_partial';
+
+            // ATUALIZAR UI DO MODAL BASEADO NO STATUS
+            if (isLocked) {
+                // Modo Travado
+                scannerHeader.textContent = '🔒 EVENTO DESPACHADO - MODO AUDITORIA';
+                scannerHeader.style.color = 'var(--warning)';
+
+                addItemBtn.textContent = '🔒 Adicionar Extra (Auditado)';
+                addItemBtn.style.background = 'var(--warning)';
+                addItemBtn.style.color = 'black';
+
+                // Alertar user (opcional, melhor só visual)
+            } else {
+                // Modo Normal
+                scannerHeader.textContent = 'Posicione o cursor aqui e escaneie o QR Code...';
+                scannerHeader.style.color = ''; // Reset
+
+                addItemBtn.textContent = '+ Adicionar Item';
+                addItemBtn.style.background = ''; // Reset
+                addItemBtn.style.color = '';
+            }
+
+            // Carregar inventário
+            const inventory = await loadInventory();
+
+            equipmentList.innerHTML = currentEvento.equipamentos.map((eq, index) => {
+                // Helper para normalizar nomes (FLEXÍVEL: ignora sufixos parenteses e hifens finais)
+                const normalizeName = (name) => name.toLowerCase().replace(/\s*\(.*?\)/g, '').replace(/\s*-\s*$/, '').trim().replace(/\s+/g, ' ');
+
+                // Buscar QR codes do inventário para este item
+                const itemsInventory = inventory.items.filter(item =>
+                    normalizeName(item.nome) === normalizeName(eq.nome)
+                );
+
+                // Mapear QR codes corretamente (backend retorna array de objetos)
+                // CRITICAL FIX: Incluir TANTO qrCodes (únicos) QUANTO barcodes (lote/granel)
+                const uniqueQRs = itemsInventory.flatMap(item =>
+                    (item.qrCodes || []).map(qr => qr.qrCode || qr)
+                ).filter(qr => qr);
+
+                const bulkBarcodes = itemsInventory.flatMap(item =>
+                    (item.barcodes || [])
+                ).filter(code => code);
+
+                // Combinar ambos
+                const qrCodes = [...uniqueQRs, ...bulkBarcodes];
+
+                const hasQR = qrCodes.length > 0;
+                const qrCodeText = hasQR
+                    ? `${qrCodes.length} QR disponíveis no estoque`
+                    : 'Sem QR cadastrado';
+
+
+                // Renderizar input editável para itens SEM QR (sem limite máximo)
+                const quantityDisplay = hasQR
+                    ? `<span class="qty-scanned">0</span>`
+                    : `<input type="number" class="qty-input" value="0" min="0" 
+                        data-index="${index}" 
+                        ${isLocked ? 'disabled title="Bloqueado: Evento Despachado"' : ''}
+                        onchange="updateManualQuantity(${index}, this.value)" onclick="event.stopPropagation()">`;
+
+                // Verificar uso em outros eventos (para botão de transferência)
+                let transferBtn = '';
+                if (!isLocked) {
+                    const invItem = itemsInventory[0]; // Pega dados do primeiro match (se houver)
+                    if (invItem && invItem.usoDetalhado) {
+                        // Filtrar para não mostrar o próprio evento
+                        const externalUsage = invItem.usoDetalhado.filter(d => String(d.eventId) !== String(currentEvento.id));
+
+                        if (externalUsage.length > 0) {
+                            // Botão de Caminhãozinho
+                            // StopPropagation para não triggar o toggleItem ao clicar no botão
+                            // Passar os dados via JSON stringify no onclick pode ser chato com aspas, 
+                            // melhor chamar uma função que busca os dados novamente ou passar ID.
+                            // Vamos passar apenas index e a função busca de novo.
+                            transferBtn = `
+                                 <div class="transfer-btn" style="position: absolute; right: 10px; top: 10px; z-index: 10; cursor: pointer;" 
+                                      onclick="event.stopPropagation(); checkAndOpenTransfer(${index});"
+                                      title="Transferir de outro evento">
+                                     🚚
+                                 </div>
+                             `;
+                        }
+                    }
+                }
+
+                return `
+                    <div class="tick-item ${isLocked ? 'locked-item' : ''}" id="tick-${index}" onclick="toggleItem(${index})" 
+                         data-item-name="${eq.nome}" 
+                         data-qty-needed="${eq.quantidade}"
+                         data-qty-scanned="0"
+                         data-has-qr="${hasQR}"
+                         style="${isLocked ? 'opacity: 0.7; cursor: not-allowed;' : ''}; position: relative;">
+                        ${transferBtn}
+                        <div class="tick-checkbox">${isLocked ? '🔒' : ''}</div>
+                        <div class="tick-info">
+                            <div class="tick-name">${eq.nome}</div>
+                            <div class="tick-qty">Necessário: <span class="qty-needed">${eq.quantidade}</span> | Separado: ${quantityDisplay}</div>
+                            <div class="tick-inventory">${qrCodeText}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            updateProgress();
+            modal.classList.add('show');
+
+            // Focus no input do scanner
+            setTimeout(async () => {
+                scannerInput.value = '';
+                scannerInput.focus();
+                setupScanner();
+
+                // === NOVO: Carregar progresso salvo ===
+                await loadTickProgress();
+            }, 300);
+        }
+
+
+        function setupScanner() {
+            const scannerInput = document.getElementById('scannerInput');
+            const scannerStatus = document.getElementById('scannerStatus');
+
+            scannerInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    const code = scannerInput.value.trim().toUpperCase();
+
+                    if (code) {
+                        processQRCode(code);
+                        scannerInput.value = '';
+                    }
+                }
+            });
+
+            // Auto-focus quando clicar em qualquer lugar do modal
+            document.getElementById('tickListModal').addEventListener('click', function (e) {
+                if (!e.target.closest('.tick-item')) {
+                    scannerInput.focus();
+                }
+            });
+        }
+
+        async function processQRCode(code) {
+            const scannerStatus = document.getElementById('scannerStatus');
+
+            // === NOVO: Verificar se o QR code já foi escaneado ===
+            const alreadyScanned = separatedItems.some(item =>
+                item.qrCodes && item.qrCodes.includes(code)
+            );
+
+            if (alreadyScanned) {
+                scannerStatus.textContent = '❌ Este QR Code já foi escaneado!';
+                scannerStatus.style.color = 'var(--danger)';
+                playBeep(300, 500);
+                setTimeout(() => {
+                    scannerStatus.textContent = 'Aguardando leitura...';
+                    scannerStatus.style.color = 'var(--neon-blue)';
+                }, 2000);
+                return;
+            }
+
+            // Carregar inventário
+            const inventory = await loadInventory();
+
+            // Procurar no inventário qual item tem este QR
+            // CRITICAL FIX: Procurar TANTO em qrCodes (únicos) QUANTO em barcodes (lote)
+            const inventoryItem = inventory.items.find(item => {
+                // Verificar QR únicos
+                const hasUniqueQR = item.qrCodes && Array.isArray(item.qrCodes) &&
+                    item.qrCodes.some(qr => qr.qrCode === code);
+
+                // Verificar barcodes em lote
+                const hasBulkBarcode = item.barcodes && Array.isArray(item.barcodes) &&
+                    item.barcodes.includes(code);
+
+                return hasUniqueQR || hasBulkBarcode;
+            });
+
+            if (!inventoryItem) {
+                scannerStatus.textContent = '❌ Código não encontrado no inventário!';
+                scannerStatus.style.color = 'var(--danger)';
+                playBeep(300, 500);
+                setTimeout(() => {
+                    scannerStatus.textContent = 'Aguardando leitura...';
+                    scannerStatus.style.color = 'var(--neon-blue)';
+                }, 2000);
+                return;
+            }
+
+            // Procurar item na lista do evento que corresponde
+            const items = document.querySelectorAll('.tick-item');
+            let found = false;
+
+            items.forEach((item, index) => {
+                const itemName = item.getAttribute('data-item-name');
+                const qtyNeeded = parseInt(item.getAttribute('data-qty-needed'));
+                let qtyScanned = parseInt(item.getAttribute('data-qty-scanned'));
+
+                // Helper para normalizar nomes (FLEXÍVEL: ignora sufixos parenteses e hifens finais)
+                const normalizeName = (name) => name.toLowerCase().replace(/\s*\(.*?\)/g, '').replace(/\s*-\s*$/, '').trim().replace(/\s+/g, ' ');
+
+                // Verificar se é o item correto
+                if (normalizeName(itemName) === normalizeName(inventoryItem.nome)) {
+                    found = true;
+
+                    // Verificar se já separou a quantidade necessária
+                    if (qtyScanned >= qtyNeeded) {
+                        scannerStatus.textContent = `⚠️ ${itemName} - Quantidade já completa!`;
+                        scannerStatus.style.color = 'var(--warning)';
+                        playBeep(400, 200);
+                        setTimeout(() => {
+                            scannerStatus.textContent = 'Aguardando leitura...';
+                            scannerStatus.style.color = 'var(--neon-blue)';
+                        }, 2000);
+                        return;
+                    }
+
+                    // NOVO: Detectar se é QR em lote (bulk) ou único
+                    // Se o código estiver na lista de barcodes do item (e não for um QR único específico)
+                    const isBulkBarcode = inventoryItem.barcodes &&
+                        Array.isArray(inventoryItem.barcodes) &&
+                        inventoryItem.barcodes.includes(code);
+
+                    let quantityToAdd = 1; // Padrão para QR único
+
+                    if (isBulkBarcode) {
+                        const remaining = Math.max(0, qtyNeeded - qtyScanned);
+                        // É um código em lote - perguntar quantidade
+                        const qtyInput = prompt(`📦 Código em LOTE detectado!\n\nQuantos "${itemName}" você está separando?`, remaining);
+
+                        if (qtyInput === null) {
+                            // Usuário cancelou
+                            scannerStatus.textContent = 'Operação cancelada';
+                            scannerStatus.style.color = 'var(--text-muted)';
+                            setTimeout(() => {
+                                scannerStatus.textContent = 'Aguardando leitura...';
+                                scannerStatus.style.color = 'var(--neon-blue)';
+                            }, 1500);
+                            return;
+                        }
+
+                        const parsedQty = parseInt(qtyInput);
+                        if (isNaN(parsedQty) || parsedQty <= 0) {
+                            scannerStatus.textContent = '❌ Quantidade inválida!';
+                            scannerStatus.style.color = 'var(--danger)';
+                            playBeep(300, 500);
+                            setTimeout(() => {
+                                scannerStatus.textContent = 'Aguardando leitura...';
+                                scannerStatus.style.color = 'var(--neon-blue)';
+                            }, 2000);
+                            return;
+                        }
+                        quantityToAdd = parsedQty;
+                    }
+
+                    // Incrementar quantidade separada
+                    qtyScanned += quantityToAdd;
+                    item.setAttribute('data-qty-scanned', qtyScanned);
+                    item.querySelector('.qty-scanned').textContent = qtyScanned;
+
+                    // Atualizar lista de separados
+                    const existingSeparated = separatedItems.find(si => si.index === index);
+                    if (existingSeparated) {
+                        existingSeparated.qtySeparada = qtyScanned;
+                        existingSeparated.qrCodes.push(code);
+                    } else {
+                        const evento = currentEvento.equipamentos[index];
+                        separatedItems.push({
+                            ...evento,
+                            index,
+                            qtySeparada: qtyScanned,
+                            qrCodes: [code]
+                        });
+                    }
+
+                    // Marcar como completo se atingiu a quantidade
+                    if (qtyScanned >= qtyNeeded) {
+                        item.classList.add('checked');
+                        item.querySelector('.tick-checkbox').textContent = '✓';
+                    }
+
+                    // Atualizar UI de separados
+                    updateSeparatedList();
+
+                    // Feedback visual
+                    scannerStatus.textContent = `✓ ${itemName} - ${qtyScanned}/${qtyNeeded} separado!`;
+                    scannerStatus.style.color = 'var(--success)';
+
+                    // Efeito de destaque
+                    item.style.background = 'rgba(0, 255, 136, 0.2)';
+                    setTimeout(() => {
+                        item.style.background = '';
+                    }, 1000);
+
+                    playBeep(800, 100);
+
+                    setTimeout(() => {
+                        scannerStatus.textContent = 'Aguardando leitura...';
+                        scannerStatus.style.color = 'var(--neon-blue)';
+                    }, 2000);
+
+                    updateProgress();
+
+                    // === NOVO: Salvar progresso automaticamente ===
+                    saveTickProgress();
+                }
+            });
+
+            if (!found) {
+                scannerStatus.textContent = `⚠️ ${inventoryItem.nome} não está na lista deste evento!`;
+                scannerStatus.style.color = 'var(--warning)';
+                playBeep(400, 300);
+                setTimeout(() => {
+                    scannerStatus.textContent = 'Aguardando leitura...';
+                    scannerStatus.style.color = 'var(--neon-blue)';
+                }, 3000);
+            }
+        }
+
+        function updateSeparatedList() {
+            const separatedList = document.getElementById('separatedList');
+
+            if (separatedItems.length === 0) {
+                separatedList.innerHTML = '<p style="text-align: center; padding: 3rem; color: var(--text-muted);">Nenhum item separado ainda</p>';
+            } else {
+                // Verificar status para esconder lixeira
+                const isLocked = currentEvento && (currentEvento.status === 'dispatched' || currentEvento.status === 'returned_partial');
+
+                separatedList.innerHTML = separatedItems.map(item => `
+                    <div class="separated-item" style="position: relative; padding-right: 50px; ${item.isExtra ? 'border-left: 3px solid var(--neon-blue);' : ''}">
+                        <div class="separated-icon">${item.isExtra ? '+' : '✓'}</div>
+                        <div class="tick-info">
+                            <div class="tick-name">
+                                ${item.nome}
+                                ${item.isExtra ? '<span style="font-size: 0.7rem; background: var(--neon-blue); color: #000; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">EXTRA</span>' : ''}
+                            </div>
+                            <div class="tick-qty">Separado: ${item.qtySeparada || 0}/${item.isExtra ? '-' : item.quantidade}</div>
+                            <div class="tick-qrs" style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem;">
+                                ${item.qrCodes && item.qrCodes.length > 0 ? `QRs: ${item.qrCodes.join(', ')}` : (item.isExtra ? 'Adicionado manualmente' : 'Manual')}
+                            </div>
+                        </div>
+                        <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                            ${!isLocked || item.isNewExtra ? `
+                            <button class="remove-separated-btn" onclick="removeSeparatedItem(${item.index})" title="Remover item">
+                                🗑️
+                            </button>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+                // Adicionar botão de finalizar
+                separatedList.innerHTML += `
+                    <div style="margin-top: 2rem; text-align: right; padding-bottom: 1rem;">
+                        <button class="action-btn" onclick="finalizeSeparation()" style="background: var(--success); width: 100%; justify-content: center; display: flex; gap: 0.5rem; align-items: center;">
+                            🏁 Finalizar Separação
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // === Finalizar Separação ===
+        // === Finalizar Separação ===
+        function finalizeSeparation() {
+            if (separatedItems.length === 0) {
+                alert("Separe pelo menos um item antes de finalizar!");
+                return;
+            }
+
+            const isLocked = currentEvento && (currentEvento.status === 'dispatched' || currentEvento.status === 'returned_partial');
+
+            let message = "Tem certeza que deseja finalizar a separação deste evento?\n\nIsso marcará o evento como PRONTO para saída.";
+            if (isLocked) {
+                message = "Deseja salvar as alterações (Itens Extras) neste evento?";
+            }
+
+            if (!confirm(message)) {
+                return;
+            }
+
+            // Salvar com flag de completo (a função saveTickProgress agora trata o 'isLocked' internamente)
+            saveTickProgress(true);
+
+            alert(isLocked ? "✅ Alterações salvas com sucesso!" : "✅ Separação finalizada com sucesso!\n\nAgora você pode conferir o evento na aba 'Separação QR'.");
+            closeTickList();
+        }
+
+
+
+        // === NOVO: Remover item da lista de separados ===
+        function removeSeparatedItem(index) {
+            // Verificar se o evento já foi despachado (BLOQUEAR REMOÇÃO DE ITENS ORIGINAIS)
+            // Se for item EXTRA adicionado AGORA (auditado), talvez pudesse remover, mas por segurança bloqueamos tudo se 'dispatched'.
+            // O usuário disse: "os itens que saiu nao pode ser excluido"
+
+            const isLocked = currentEvento && (currentEvento.status === 'dispatched' || currentEvento.status === 'returned_partial');
+            if (isLocked) {
+                // Tenta achar o item para ver se é um Extra RECENTE (não salvo ainda? dificil saber sem flag)
+                // Mas a regra geral segura é: Se o evento tá despachado, a lista de "Separados" é a lista oficial de saída.
+                // Não se deve remover itens dela, apenas adicionar via auditoria.
+                // Se adicionou errado via auditoria? Deveria poder remover.
+                // VAMOS VERIFICAR: Se o item já estava salvo no `tick_progress` carregado ou se foi adicionado nesta sessão?
+                // Simplificação: Bloquear tudo e avisar. Se precisar remover, teria que ser admin.
+
+                // Melhor: Se for item EXTRA, permitir remover APENAS se foi adicionado agora?
+                // Vamos bloquear tudo conforme solicitado: "os itens que saiu nao pode ser excluido"
+
+                alert('🚫 Ação Bloqueada!\n\nEste evento já foi despachado. Itens registrados na saída não podem ser removidos.');
+                return;
+            }
+
+            // Remover da lista de separados
+            separatedItems = separatedItems.filter(item => item.index !== index);
+
+            // Resetar UI do item na lista da esquerda
+            const tickItem = document.getElementById(`tick-${index}`);
+            if (tickItem) {
+                const hasQR = tickItem.getAttribute('data-has-qr') === 'true';
+
+                // Resetar quantidade para 0
+                tickItem.setAttribute('data-qty-scanned', '0');
+
+                if (hasQR) {
+                    const qtySpan = tickItem.querySelector('.qty-scanned');
+                    if (qtySpan) qtySpan.textContent = '0';
+                } else {
+                    const qtyInput = tickItem.querySelector('.qty-input');
+                    if (qtyInput) qtyInput.value = '0';
+                }
+
+                // Desmarcar checkbox
+                tickItem.classList.remove('checked');
+                tickItem.querySelector('.tick-checkbox').textContent = '';
+            }
+
+            // Atualizar UI
+            updateSeparatedList();
+            updateProgress();
+
+            // Salvar progresso
+            saveTickProgress();
+        }
+
+        function playBeep(frequency, duration) {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = frequency;
+                oscillator.type = 'sine';
+
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration / 1000);
+            } catch (e) {
+                // Navegador não suporta Web Audio API
+            }
+        }
+
+        async function toggleItem(index) {
+            // Verificar se evento está travado
+            const isLocked = currentEvento && (currentEvento.status === 'dispatched' || currentEvento.status === 'returned_partial');
+
+            if (isLocked) {
+                // Ao invés de bloquear, pedir autorização
+                if (!confirm('🔒 Evento já despachado/em uso!\n\nDeseja MODIFICAR a lista com permissão de Administrador?')) {
+                    return;
+                }
+
+                // Solicitar senha/chave
+                const authorized = await checkAuth('Desfazer separação em evento despachado');
+                if (!authorized) return;
+            }
+
+            const item = currentEvento.equipamentos[index];
+            const tickItem = document.getElementById(`tick-${index}`); // FIX: Remove spaces
+            if (!tickItem) return;
+
+            const qtyNeeded = parseInt(tickItem.getAttribute('data-qty-needed'));
+            const qtyScanned = parseInt(tickItem.getAttribute('data-qty-scanned')) || 0;
+            const hasQR = tickItem.getAttribute('data-has-qr') === 'true';
+            let qtyToSeparate = 0; // Declarar no escopo da função
+
+            if (tickItem.classList.contains('checked')) {
+                // Desmarcar (Resetar para 0)
+                if (confirm(`Deseja remover a separação de "${item.nome}"?`)) {
+                    tickItem.classList.remove('checked');
+                    tickItem.setAttribute('data-qty-scanned', '0');
+                    if (hasQR) {
+                        tickItem.querySelector('.qty-scanned').textContent = '0';
+                    } else {
+                        const input = tickItem.querySelector('.qty-input');
+                        if (input) input.value = 0;
+                    }
+                    tickItem.querySelector('.tick-checkbox').textContent = '';
+
+                    // Remover da lista de separados
+                    separatedItems = separatedItems.filter(i => i.index !== index);
+                }
+            } else {
+                // Marcar (Separar)
+                qtyToSeparate = qtyNeeded;
+
+                // Se houver mais de 1 item necessário (especialmente Granel com QR), perguntar quantidade
+                // Se for item ÚNICO (qty=1), marca direto (ou verifica estoque se tiver lógica estrita)
+                if (qtyNeeded > 1) {
+                    const remaining = Math.max(0, qtyNeeded - qtyScanned);
+                    const input = prompt(`Confirma separação manual de "${item.nome}"?\n\nQuantidade Necessária: ${qtyNeeded}\nJá Separado: ${qtyScanned}\n\nQuanto adicionar agora?`, remaining);
+
+                    if (input === null) return; // Cancelou
+                    const val = parseInt(input);
+                    if (isNaN(val) || val <= 0) return;
+
+                    qtyToSeparate = val;
+                }
+
+                // === NOVO: Validação de Estoque Cruzado (Cross-Docking) ===
+                if (currentInventory) {
+                    // Normalizar nome para busca
+                    const normalize = (s) => s.toLowerCase().trim().replace(/\s+/g, ' ');
+                    const invItem = currentInventory.items.find(i => normalize(i.nome) === normalize(item.nome));
+
+                    if (invItem) {
+                        const estoqueFisico = parseInt(invItem.estoque) || 0;
+                        const emUso = parseInt(invItem.emUso) || 0;
+                        const manutencao = parseInt(invItem.qtdManutencao) || 0;
+                        const disponivel = Math.max(0, estoqueFisico - emUso - manutencao);
+
+                        // Se tentar separar mais do que tem disponível
+                        if (qtyToSeparate > disponivel) {
+                            // Verificar se tem em outros eventos
+                            const details = invItem.usoDetalhado || [];
+                            // Filtrar eventos que NÃO sejam o atual
+                            const externalUsage = details.filter(d => String(d.eventId) !== String(currentEvento.id));
+
+                            if (externalUsage.length > 0) {
+                                // Usar NOVO Modal de Transferência
+                                openTransferModal(item, qtyToSeparate, externalUsage);
+                                return; // Para o fluxo de "separacao manual" e aguarda o modal
+                            } else {
+                                // Se negar transferência, permite separar do negativo? Ou bloqueia.
+                                // Por enquanto, permite (com aviso) ou bloqueia.
+                                // Vamos permitir com confirmação extra (furo de estoque)
+                                if (!confirm('🛑 Continuar separação mesmo SEM ESTOQUE físico? (Furo de Estoque)')) {
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Calcular novo total
+            const newTotal = qtyScanned + qtyToSeparate;
+
+            // Atualizar UI
+            tickItem.setAttribute('data-qty-scanned', newTotal);
+            if (hasQR) {
+                tickItem.querySelector('.qty-scanned').textContent = newTotal;
+            } else {
+                const input = tickItem.querySelector('.qty-input');
+                if (input) input.value = newTotal;
+            }
+
+            // Check visual se completou
+            if (newTotal >= qtyNeeded) {
+                tickItem.classList.add('checked');
+                tickItem.querySelector('.tick-checkbox').textContent = '✓';
+            }
+
+            // Atualizar lista de separados logicamente
+            // Remove anterior se houver (para atualizar quantidade)
+            const existingIndex = separatedItems.findIndex(i => i.index === index);
+            if (existingIndex >= 0) {
+                separatedItems[existingIndex].qtySeparada = newTotal;
+            } else {
+                separatedItems.push({
+                    ...item,
+                    index,
+                    qtySeparada: newTotal,
+                    qrCodes: [] // Manual, sem QR específico na lista (ou assume genérico)
+                });
+            }
+            // Atualizar UI Geral
+            updateSeparatedList();
+            updateProgress();
+
+            // Salvar progresso
+            saveTickProgress();
+        }
+
+        function checkAndOpenTransfer(index) {
+            const item = currentEvento.equipamentos[index];
+            const tickItem = document.getElementById(`tick-${index}`);
+            const qtyNeeded = parseInt(tickItem.getAttribute('data-qty-needed'));
+            const qtyScanned = parseInt(tickItem.getAttribute('data-qty-scanned')) || 0;
+            const qtyToSeparate = Math.max(1, qtyNeeded - qtyScanned); // Pelo menos 1, ou o saldo
+
+            if (currentInventory) {
+                const normalize = (s) => s.toLowerCase().trim().replace(/\s+/g, ' ');
+                const invItem = currentInventory.items.find(i => normalize(i.nome) === normalize(item.nome));
+
+                if (invItem && invItem.usoDetalhado) {
+                    const externalUsage = invItem.usoDetalhado.filter(d => String(d.eventId) !== String(currentEvento.id));
+                    if (externalUsage.length > 0) {
+                        openTransferModal(item, qtyToSeparate, externalUsage);
+                    } else {
+                        alert('Nenhum evento ativo com este item disponível para transferência.');
+                    }
+                }
+            }
+        }
+
+        function updateProgress() {
+            const total = currentEvento.equipamentos ? currentEvento.equipamentos.length : 0;
+            const completed = separatedItems.length;
+            document.getElementById('progressText').textContent = `${completed} de ${total} `;
+        }
+
+        function closeModal() {
+            document.getElementById('eventoModal').classList.remove('show');
+        }
+
+        function closeTickList() {
+            // === NOVO: Salvar separação antes de fechar ===
+            if (currentEvento && separatedItems.length > 0) {
+                saveEventSeparation();
+            }
+
+            document.getElementById('tickListModal').classList.remove('show');
+        }
+
+        // === Lógica de Itens Extras ===
+        let activeCategory = null;
+
+        // === FUNÇÕES DO MODAL PUXAR ITENS ===
+        async function openPullItemsModal() {
+            if (!currentEvento) {
+                alert('⚠️ Selecione um evento primeiro!');
+                return;
+            }
+
+            document.getElementById('pullItemsModal').classList.add('show');
+
+            // Carregar lista de eventos (exceto o atual)
+            const response = await fetch('/api/eventos');
+            const data = await response.json();
+            const eventos = data.eventos || [];
+
+            const select = document.getElementById('pullSourceEvent');
+            select.innerHTML = '<option value="">Selecione um evento...</option>';
+
+            eventos.forEach(evt => {
+                if (evt.id !== currentEvento.id) {
+                    const option = document.createElement('option');
+                    option.value = evt.id;
+
+                    // Formatar data corretamente
+                    let dateStr = 'Data não definida';
+                    const rawDate = evt.data || evt.dataevento;
+                    if (rawDate) {
+                        try {
+                            const date = new Date(rawDate);
+                            if (!isNaN(date.getTime())) {
+                                dateStr = date.toLocaleDateString('pt-BR');
+                            }
+                        } catch (e) {
+                            console.warn('Erro ao formatar data:', e);
+                        }
+                    }
+
+                    const nome = evt.nome || evt.nomeevento || 'Evento sem nome';
+                    option.textContent = `${nome} - ${dateStr}`;
+                    select.appendChild(option);
+                }
+            });
+        }
+
+        function closePullItemsModal() {
+            document.getElementById('pullItemsModal').classList.remove('show');
+            document.getElementById('pullItemsList').style.display = 'none';
+            document.getElementById('pullItemsContainer').innerHTML = '';
+        }
+
+        async function loadPullItems() {
+            const sourceEventId = document.getElementById('pullSourceEvent').value;
+            if (!sourceEventId) {
+                document.getElementById('pullItemsList').style.display = 'none';
+                return;
+            }
+
+            // Carregar itens separados do evento de origem (rota corrigida com tratamento de erro)
+            let data;
+            try {
+                const response = await fetch(`/api/tick-progress/${sourceEventId}`);
+                if (response.ok) {
+                    data = await response.json();
+                } else {
+                    data = { separatedItems: [] };
+                }
+            } catch (e) {
+                console.warn('Erro ao carregar itens para puxar:', e);
+                data = { separatedItems: [] };
+            }
+
+            const container = document.getElementById('pullItemsContainer');
+            container.innerHTML = '';
+
+            if (!data.separatedItems || data.separatedItems.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhum item separado neste evento</p>';
+                document.getElementById('pullItemsList').style.display = 'block';
+                return;
+            }
+
+            // Filtrar apenas itens que estão na rua (separados mas não devolvidos)
+            const itemsNaRua = data.separatedItems.filter(item => {
+                const qtySeparada = item.qtySeparada || 0;
+                const qtyReturned = item.qtyReturned || 0;
+                return (qtySeparada - qtyReturned) > 0;
+            });
+
+            if (itemsNaRua.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Nenhum item na rua para transferir</p>';
+                document.getElementById('pullItemsList').style.display = 'block';
+                return;
+            }
+
+            itemsNaRua.forEach(item => {
+                const qtySeparada = item.qtySeparada || 0;
+                const qtyReturned = item.qtyReturned || 0;
+                const qtyNaRua = qtySeparada - qtyReturned;
+
+                const itemDiv = document.createElement('div');
+                itemDiv.style.cssText = 'display: flex; justify-content: space-between; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--glass-border);';
+
+                itemDiv.innerHTML = `
+                    <div>
+                        <strong>${item.nome}</strong>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+                            🚚 Na rua: ${qtyNaRua} unidade(s)
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="number" 
+                            id="pull-qty-${item.index}" 
+                            min="1" 
+                            max="${qtyNaRua}" 
+                            value="${qtyNaRua}"
+                            style="width: 60px; padding: 0.25rem; text-align: center; border-radius: 5px; border: 1px solid var(--glass-border);">
+                        <input type="checkbox" 
+                            id="pull-check-${item.index}" 
+                            checked
+                            style="width: 20px; height: 20px;">
+                    </div>
+                `;
+
+                container.appendChild(itemDiv);
+            });
+
+            document.getElementById('pullItemsList').style.display = 'block';
+        }
+
+        // Helper para persistir item no evento (backend + frontend)
+        async function addItemToEvent(itemName, quantidade) {
+            try {
+                // 1. Persistir no backend (adicionar à lista de equipamentos do evento)
+                const response = await fetch(`/api/eventos/${currentEvento.id}/add-item`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome: itemName, quantidade: quantidade })
+                });
+
+                if (!response.ok) {
+                    console.error('Erro ao adicionar item ao evento:', await response.text());
+                }
+
+                // 2. Adicionar localmente à lista de separados (para aparecer imediatamente)
+                // Nota: O item precisa existir na lista de equipamentos para ser separado.
+                // Como acabamos de adicionar ao backend, ao recarregar o evento (loadEvento), ele aparecerá.
+                // Mas para dar feedback imediato, podemos adicionar ao separatedItems aqui.
+
+                // Verificar se já existe (não deve, pois o check foi feito antes)
+                const existingIndex = separatedItems.findIndex(i => i.nome === itemName);
+                if (existingIndex === -1) {
+                    separatedItems.push({
+                        index: -Date.now(), // Index temporário negativo
+                        nome: itemName,
+                        qtySeparada: quantidade,
+                        method: 'pulled'
+                    });
+                }
+            } catch (e) {
+                console.error('Erro helper addItemToEvent:', e);
+            }
+        }
+
+        async function addItemToEventRobust(itemName, quantidade) {
+            let backendSuccess = false;
+            try {
+                const response = await fetch(`/api/eventos/${currentEvento.id}/add-item`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nome: itemName, quantidade: quantidade })
+                });
+
+                if (response.ok) backendSuccess = true;
+                else console.warn('Backend add-item falhou, usando fallback local.');
+            } catch (e) {
+                console.warn('Erro backend add-item, usando fallback local:', e);
+            }
+
+            // Fallback: Atualizar LOCALMENTE o currentEvento
+            if (!backendSuccess) {
+                if (!currentEvento.equipamentos) currentEvento.equipamentos = [];
+                const normalize = s => s.toLowerCase().trim();
+                const existing = currentEvento.equipamentos.find(eq => normalize(eq.nome) === normalize(itemName));
+                if (!existing) {
+                    currentEvento.equipamentos.push({ nome: itemName, quantidade: parseInt(quantidade) });
+                }
+            }
+
+            // Adicionar localmente à lista de separados
+            // Remover anterior para evitar duplicata (se houver)
+            // Mas cuidado para não remover se já estava certo.
+            // Aqui estamos ADICIONANDO, então assumimos que é novo ou atualização.
+
+            // O código original filtrava por index. Aqui vamos filtrar por nome se for novo.
+
+            // Se o item já existe na lista de separados, atualizamos?
+            // O confirmPullItems já filtrou por itemIndex se o item existia.
+            // Se itemIndex era -1, ele veio pra cá.
+
+            const existingSepIndex = separatedItems.findIndex(i => i.nome === itemName);
+            if (existingSepIndex !== -1) {
+                // Atualizar quantidade
+                separatedItems[existingSepIndex].qtySeparada = quantidade;
+                separatedItems[existingSepIndex].method = 'pulled';
+            } else {
+                separatedItems.push({
+                    index: -Date.now(),
+                    nome: itemName,
+                    qtySeparada: quantidade,
+                    method: 'pulled'
+                });
+            }
+
+            return backendSuccess;
+        }
+
+        async function confirmPullItems() {
+            const sourceEventId = document.getElementById('pullSourceEvent').value;
+            if (!sourceEventId) return;
+
+            const container = document.getElementById('pullItemsContainer');
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+
+            if (checkboxes.length === 0) {
+                alert('⚠️ Selecione pelo menos um item para transferir');
+                return;
+            }
+
+            const transfers = [];
+            checkboxes.forEach(checkbox => {
+                const index = checkbox.id.replace('pull-check-', '');
+                const qtyInput = document.getElementById(`pull-qty-${index}`);
+                const qty = parseInt(qtyInput.value);
+
+                if (qty > 0) {
+                    const itemDiv = checkbox.closest('div').parentElement;
+                    const itemName = itemDiv.querySelector('strong').textContent;
+                    transfers.push({ nome: itemName, quantidade: qty, index: parseInt(index) });
+                }
+            });
+
+            if (transfers.length === 0) {
+                alert('⚠️ Nenhum item válido selecionado');
+                return;
+            }
+
+            // Confirmar transferência
+            const sourceEventName = document.getElementById('pullSourceEvent').selectedOptions[0].textContent;
+            if (!confirm(`Transferir ${transfers.length} item(ns) de "${sourceEventName}" para "${currentEvento.nome}"?\n\nOs itens serão automaticamente marcados como separados.`)) {
+                return;
+            }
+
+            // Executar transferências e marcar como separados
+            let successCount = 0;
+            for (const item of transfers) {
+                // Procurar item na lista do evento atual
+                const normalize = (s) => s.toLowerCase().trim().replace(/\s+/g, ' ');
+                const itemIndex = currentEvento.equipamentos.findIndex(eq =>
+                    normalize(eq.nome) === normalize(item.nome)
+                );
+
+                if (itemIndex >= 0) {
+                    // Item já existe na lista - marcar como separado
+                    const tickItem = document.getElementById(`tick-${itemIndex}`);
+                    if (tickItem) {
+                        // Atualizar quantidade separada
+                        const qtyNeeded = parseInt(tickItem.getAttribute('data-qty-needed'));
+                        const qtySeparada = Math.min(item.quantidade, qtyNeeded);
+
+                        tickItem.setAttribute('data-qty-scanned', qtySeparada);
+                        tickItem.classList.add('checked');
+                        tickItem.classList.add('pulled-item'); // Classe especial para destacar
+
+                        const hasQR = tickItem.getAttribute('data-has-qr') === 'true';
+                        if (hasQR) {
+                            tickItem.querySelector('.qty-scanned').textContent = qtySeparada;
+                        } else {
+                            const input = tickItem.querySelector('.qty-input');
+                            if (input) input.value = qtySeparada;
+                        }
+                        tickItem.querySelector('.tick-checkbox').textContent = '✓';
+
+                        // Remover anterior para evitar duplicata
+                        separatedItems = separatedItems.filter(i => i.index !== itemIndex);
+
+                        // Adicionar à lista de separados
+                        separatedItems.push({
+                            index: itemIndex,
+                            nome: item.nome,
+                            qtySeparada: qtySeparada,
+                            method: 'pulled' // Marcar como importado
+                        });
+
+                        successCount++;
+                    }
+                } else {
+                    // Item não existe - adicionar à lista
+                    await addItemToEventRobust(item.nome, item.quantidade);
+                    successCount++;
+                }
+            }
+
+            // Salvar progresso
+            await saveTickProgress();
+
+            alert(`✅ ${successCount} item(ns) transferido(s) e marcados como separados!\n\n🟢 Itens importados estão destacados em verde.`);
+            closePullItemsModal();
+
+            // Recarregar evento atual para refletir novos itens
+            await reloadCurrentEvent();
+        }
+
+        async function reloadCurrentEvent() {
+            if (!currentEvento) return;
+
+            // Tentar preservar estado
+            const currentId = currentEvento.id;
+
+            // Recarregar lista de eventos da API
+            // loadEventos() popula a variavel global eventosData
+            // Precisamos garantir que ela seja awaitable e retorne ou preencha dados
+            await loadEventos();
+
+            // Encontrar evento atualizado
+            const updated = eventosData.find(e => String(e.id) === String(currentId));
+
+            if (updated) {
+                currentEvento = updated;
+                // Re-abrir tick list para renderizar novos itens
+                openTickList();
+            }
+        }
+
+        async function syncEventData() {
+            if (!currentEvento) return;
+            if (!confirm('Deseja forçar atualização dos dados (scraper)? Isso pode levar alguns segundos.')) return;
+
+            // Encontrar botão
+            const buttons = document.querySelectorAll('#eventoModal button');
+            let syncBtn = null;
+            buttons.forEach(b => {
+                if (b.textContent.includes('Atualizar')) syncBtn = b;
+            });
+
+            let originalText = '🔄 Atualizar';
+            if (syncBtn) {
+                originalText = syncBtn.textContent;
+                syncBtn.textContent = '⏳ Sincronizando...';
+                syncBtn.disabled = true;
+            }
+
+            try {
+                const response = await fetch(`/api/eventos/${currentEvento.id}/sync`, { method: 'POST' });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('✅ ' + (result.message || 'Dados atualizados!'));
+
+                    // Recarregar evento
+                    await reloadCurrentEvent();
+                } else {
+                    const err = await response.json();
+                    alert('❌ Erro: ' + (err.error || 'Falha na sincronização'));
+                }
+            } catch (e) {
+                alert('Erro de conexão/servidor: ' + e.message);
+            } finally {
+                if (syncBtn) {
+                    syncBtn.textContent = originalText;
+                    syncBtn.disabled = false;
+                }
+            }
+        }
+
+        async function syncAllEvents() {
+            if (!confirm('Deseja puxar e sincronizar TODOS os eventos agora?\nIsso pode levar de 10 a 30 segundos.')) return;
+
+            const btn = document.querySelector('button[onclick="syncAllEvents()"]');
+            const originalText = btn.textContent;
+            btn.textContent = '⏳ Puxando...';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            try {
+                const response = await fetch('/api/sync-events', { method: 'POST' });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('✅ ' + (result.message || 'Sincronização concluída!'));
+                    location.reload();
+                } else {
+                    const err = await response.json();
+                    alert('❌ Erro: ' + (err.error || 'Falha na sincronização'));
+                }
+            } catch (e) {
+                alert('Erro de conexão: ' + e.message);
+            } finally {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                btn.style.opacity = '1';
+            }
+        }
+
+        async function openAddItemModal() {
+            document.getElementById('addItemModal').classList.add('show');
+            const input = document.getElementById('searchItemInput');
+            input.value = '';
+            activeCategory = null; // Resetar filtro
+
+            // Recarregar inventário para garantir dados atualizados (incluindo estoque 0)
+            const inventory = await loadInventory();
+            inventoryData = inventory; // Atualizar global
+
+            renderCategoryFilters();
+            input.focus();
+            searchInventory(''); // Carregar lista inicial
+        }
+
+        function renderCategoryFilters() {
+            const container = document.getElementById('categoryFilters');
+            if (!inventoryData || !inventoryData.items) return;
+
+            // Extrair categorias únicas
+            const categories = [...new Set(inventoryData.items.map(i => i.categoria).filter(c => c))].sort();
+
+            // Adicionar opção "Todos"
+            let html = `
+                    < div class="category-chip ${activeCategory === null ? 'active' : ''}" onclick = "filterByCategory(null)" >
+                        Todos
+                </div >
+                    `;
+
+            html += categories.map(cat => `
+                    < div class="category-chip ${activeCategory === cat ? 'active' : ''}" onclick = "filterByCategory('${cat.replace(/'/g, "\\'")}') ">
+                    ${cat}
+                </div >
+                    `).join('');
+
+        }
+
+        function searchInventory(query) {
+            if (!inventoryData || !inventoryData.items) return;
+
+            const resultsContainer = document.getElementById('searchResults');
+            const term = query.toLowerCase().trim();
+
+            // Filtrar itens (busca global + categoria)
+            const results = inventoryData.items.filter(item => {
+                const matchesTerm = item.nome.toLowerCase().includes(term) ||
+                    (item.categoria && item.categoria.toLowerCase().includes(term));
+
+                const matchesCategory = activeCategory ? item.categoria === activeCategory : true;
+
+                return matchesTerm && matchesCategory;
+            }).slice(0, 500);
+
+            if (results.length === 0) {
+                resultsContainer.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 2rem;">Nenhum item encontrado.</p>';
+                return;
+            }
+
+            resultsContainer.innerHTML = results.map(item => {
+                const stock = parseInt(item.estoque) || 0;
+                const isSubLocacao = stock === 0;
+
+                return `
+                    <div class="search-result-item" onclick="addExtraItem('${item.nome.replace(/'/g, "\\'")}')" style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid var(--glass-border);">
+                        <div>
+                            <div style="font-weight: 500; color: var(--text-color);">
+                                ${item.nome}
+                                ${isSubLocacao ? '<span style="font-size: 0.7rem; background: var(--danger); color: white; padding: 2px 6px; border-radius: 4px; margin-left: 5px;">SUB-LOCAÇÃO</span>' : ''}
+                            </div>
+                            <div style="font-size: 0.8rem; color: var(--text-muted);">
+                                ${item.categoria || 'Sem categoria'} | Estoque: ${stock}
+                            </div>
+                        </div>
+                        <div style="color: var(--neon-blue); font-weight: bold; cursor: pointer;">+ Adicionar</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function closeAddItemModal() {
+            document.getElementById('addItemModal').classList.remove('show');
+        }
+
+        // === Lógica de Transferência (Cross-Docking) ===
+        let currentTransferItem = null;
+        let currentTransferQtyNeeded = 0;
+
+        function closeTransferModal() {
+            document.getElementById('transferModal').classList.remove('show');
+            currentTransferItem = null;
+            currentTransferQtyNeeded = 0;
+        }
+
+        function openTransferModal(item, qtyNeeded, externalUsage) {
+            currentTransferItem = item;
+            currentTransferQtyNeeded = qtyNeeded;
+
+            document.getElementById('transferItemName').textContent = `Transferir "${item.nome}" (Necessário: ${qtyNeeded})`;
+
+            const list = document.getElementById('transferSourcesList');
+            list.innerHTML = externalUsage.map(source => `
+                <div class="transfer-source-item" style="background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 8px; border: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-weight: bold; color: var(--text-color);">${source.eventName}</div>
+                        <div style="font-size: 0.8rem; color: var(--text-muted);">Disponível: ${source.qty}</div>
+                    </div>
+                    <button class="action-btn" style="padding: 5px 10px; font-size: 0.8rem; background: var(--secondary);"
+                            onclick="selectTransferSource('${source.eventId}', '${source.eventName}', ${source.qty})">
+                        Selecionar
+                    </button>
+                </div>
+            `).join('');
+
+            document.getElementById('transferModal').classList.add('show');
+        }
+
+        async function selectTransferSource(sourceId, sourceName, availableQty) {
+            if (!currentTransferItem) return;
+
+            // Perguntar quantidade
+            const maxTransfer = Math.min(availableQty, currentTransferQtyNeeded);
+            const input = prompt(`Quantos "${currentTransferItem.nome}" você deseja transferir de "${sourceName}"?\n\nDisponível: ${availableQty}\nSugerido: ${maxTransfer}`, maxTransfer);
+
+            if (input === null) return;
+            const qtyToTransfer = parseInt(input);
+
+            if (isNaN(qtyToTransfer) || qtyToTransfer <= 0) {
+                alert('Quantidade inválida.');
+                return;
+            }
+
+            if (qtyToTransfer > availableQty) {
+                alert(`Quantidade indisponível em "${sourceName}". Máximo: ${availableQty}`);
+                return;
+            }
+
+            // Executar Transferência
+            if (confirm(`Confirmar transferência de ${qtyToTransfer}x "${currentTransferItem.nome}"\nDE: ${sourceName}\nPARA: ${currentEvento.nome}?`)) {
+                try {
+                    const resp = await fetch('/api/transfer-item', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            fromEventId: sourceId,
+                            toEventId: currentEvento.id,
+                            itemName: currentTransferItem.nome,
+                            quantity: qtyToTransfer,
+                            userName: 'App User'
+                        })
+                    });
+                    const resJson = await resp.json();
+
+                    if (resJson.success) {
+                        alert('✅ Transferência realizada com sucesso!');
+                        closeTransferModal();
+                        await loadInventory();
+
+                        // Feedback visual para o usuário recarregar
+                        alert('A transferência já separou os itens para este evento.\nPor favor, saia e entre novamente no evento para ver a separação atualizada.');
+                    } else {
+                        alert('❌ Erro na transferência: ' + resJson.error);
+                    }
+                } catch (err) {
+                    alert('Erro de rede ao transferir.');
+                }
+            }
+        }
+
+        // === Lógica de Autenticação e Auditoria ===
+        let pendingAuthAction = null; // Função a ser executada após sucesso
+
+        function openAuthModal(callback) {
+            document.getElementById('authModal').classList.add('show');
+            document.getElementById('authKeyInput').value = '';
+            document.getElementById('authError').textContent = '';
+            document.getElementById('authKeyInput').focus();
+            pendingAuthAction = callback;
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.remove('show');
+            pendingAuthAction = null;
+        }
+
+        async function confirmAuthAction() {
+            const key = document.getElementById('authKeyInput').value;
+            if (!key) return;
+
+            try {
+                const response = await fetch('/api/verify-access', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    if (pendingAuthAction) pendingAuthAction(data.name); // Passa o nome do responsável
+                    closeAuthModal();
+                } else {
+                    document.getElementById('authError').textContent = '❌ Chave inválida!';
+                }
+            } catch (error) {
+                console.error('Erro na auth:', error);
+                document.getElementById('authError').textContent = 'Erro de conexão';
+            }
+        }
+
+        // Enter no input de senha
+        document.getElementById('authKeyInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') confirmAuthAction();
+        });
+
+
+        // === Lógica de Itens Extras (Com suporte a Auth) ===
+        // Agora busca em TODO o inventário
+        function addExtraItem(itemName) {
+            // Tentar achar no inventário global
+            // Se inventoryData não estiver carregado, carregar? (Geralmente carregado no init se chamou loadInventory)
+            // Mas loadInventory é chamado dentro de openTickList.
+            // Vamos garantir busca.
+
+            // inventoryData é global definido no inicio? Não, inventoryData é local de loadInventory.
+            // Precisamos garantir acesso ao inventário completo.
+            // Vamos buscar no DOM ou pedir loadInventory() novamente se vazio.
+
+            // Melhor: A função openAddItemModal já deve ter populado o datalist com todo o inventário.
+            // O itemName vem do input.
+
+            // Buscar item no cache global se existir, ou carregar
+            // Como inventoryData é variavel local de loadInventory, vamos torná-la acessível ou buscar de novo.
+
+            // Solução: Adicionar inventoryData ao escopo global ou carregar sob demanda
+            loadInventory().then(inventory => {
+                const item = inventory.items.find(i => i.nome === itemName);
+
+                if (!item) {
+                    alert("Item não encontrado no estoque global!");
+                    return;
+                }
+
+                // Verificar se evento está travado (Despachado)
+                const isLocked = currentEvento && (currentEvento.status === 'dispatched' || currentEvento.status === 'returned_partial');
+
+                // Preparar a ação de adicionar
+                const performAdd = (authorizedBy = null) => {
+                    // Perguntar quantidade
+                    const qtyStr = prompt(`Quantos "${item.nome}" deseja adicionar ? ` + (authorizedBy ? `\n(Autorizado por: ${authorizedBy})` : ''), "1");
+                    if (qtyStr === null) return; // Cancelou
+
+                    const qty = parseInt(qtyStr);
+                    if (isNaN(qty) || qty <= 0) {
+                        alert("Por favor, insira uma quantidade válida.");
+                        return;
+                    }
+
+                    // Verificar se já existe na lista
+                    const existingIndex = separatedItems.findIndex(i => i.nome === item.nome);
+
+                    if (existingIndex >= 0) {
+                        // Atualizar existente
+                        separatedItems[existingIndex].qtySeparada += qty;
+                        // Marcar como extra se não era
+                        if (!separatedItems[existingIndex].isExtra) {
+                            // Se era item original, agora tem mais.
+                            // Melhor não marcar como extra se já estava na lista, apenas aumentou.
+                            // Mas para auditoria é bom saber.
+                        }
+                    } else {
+                        // Adicionar novo
+                        separatedItems.push({
+                            nome: item.nome,
+                            quantidade: 0, // Necessário original era 0
+                            qtySeparada: qty, // O que estamos levando
+                            qrCodes: [], // Sem QR por enquanto (manual)
+                            isExtra: true,
+                            index: -Date.now() // Index temporário negativo para não colidir
+                        });
+                    }
+
+                    updateSeparatedList();
+
+                    // Salvar progresso com auditoria
+                    saveTickProgress(false, authorizedBy);
+
+                    alert(`✅ ${qty}x ${item.nome} adicionado(s)!`);
+                    closeAddItemModal();
+                };
+
+                // SE ESTIVER TRAVADO, EXIGIR AUTH
+                if (isLocked) {
+                    closeAddItemModal(); // Fecha modal de busca para abrir o de auth
+                    openAuthModal((authorizedName) => {
+                        // Callback de sucesso da auth
+                        performAdd(authorizedName);
+                    });
+                } else {
+                    // Se não estiver travado, adiciona direto
+                    performAdd(null);
+                }
+            });
+        }
+
+        // Close modal click outside
+        window.onclick = function (event) {
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                if (event.target == modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        }
+
+        // === NOVO: Salvar histórico de separação ===
+        async function saveEventSeparation() {
+            try {
+                const items = currentEvento.equipamentos || [];
+
+                await fetch('/api/event-separations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        eventId: currentEvento.id,
+                        eventName: currentEvento.nomeevento,
+                        items: items.map(eq => ({ name: eq.nome, quantity: eq.quantidade })),
+                        separatedItems: separatedItems.map(si => ({ name: si.nome, quantity: si.quantidade })),
+                        completedAt: new Date().toISOString()
+                    })
+                });
+
+                console.log(`✓ Separação salva: ${currentEvento.nomeevento} (${separatedItems.length}/${items.length} itens)`);
+            } catch (error) {
+                console.warn('Erro ao salvar separação:', error);
+            }
+        }
+
+        // Close modals on outside click
+        document.getElementById('eventoModal').addEventListener('click', (e) => {
+            if (e.target.id === 'eventoModal') closeModal();
+        });
+
+        document.getElementById('tickListModal').addEventListener('click', (e) => {
+            if (e.target.id === 'tickListModal') closeTickList();
+        });
+
+        function formatDate(dateStr) {
+            const [y, m, d] = dateStr.split('-');
+            return `${d} /${m}/${y}`;
+        }
+
+        loadEventos();
+    </script>
+    <script src="/js/mark-integration.js"></script>
+</body>
+
+</html>

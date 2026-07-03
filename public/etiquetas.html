@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador de Etiquetas - BRT Audiovisual</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script>
+        // CRITICAL: Prevent FOUC by setting state before body renders
+        if (localStorage.getItem('markSidebarState') === 'collapsed') {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    </script>
+    <script src="/js/qrcode.min.js"></script>
+    <style>
+        /* =========================================
+           ESTILOS DE TELA (UI DO SISTEMA)
+           ========================================= */
+        @media screen {
+            .generator-container {
+                display: grid;
+                grid-template-columns: 350px 1fr;
+                gap: 2rem;
+                height: calc(100vh - 100px);
+            }
+
+            .control-panel {
+                background: var(--bg-secondary);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px;
+                padding: 1.5rem;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .main-preview {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                border-radius: 16px;
+                padding: 2rem;
+                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .form-group label {
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+                font-weight: 600;
+            }
+
+            .input-box {
+                background: var(--bg-primary);
+                border: 1px solid var(--glass-border);
+                padding: 0.8rem;
+                border-radius: 8px;
+                color: white;
+                font-family: inherit;
+            }
+
+            .input-box:focus {
+                border-color: var(--neon-blue);
+                outline: none;
+            }
+
+            .btn-add {
+                background: linear-gradient(135deg, var(--neon-blue), var(--neon-blue-dark));
+                color: black;
+                font-weight: bold;
+                padding: 1rem;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+
+            .btn-add:hover {
+                transform: translateY(-2px);
+            }
+
+            .queue-list {
+                display: flex;
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+
+            .queue-item {
+                background: rgba(255, 255, 255, 0.05);
+                padding: 1rem;
+                border-radius: 8px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border: 1px solid transparent;
+            }
+
+            .queue-item:hover {
+                border-color: var(--text-muted);
+            }
+
+            .preview-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .preview-card {
+                background: white;
+                color: black;
+                padding: 1rem;
+                border-radius: 8px;
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            }
+
+            .print-btn {
+                background: var(--success);
+                color: black;
+                font-weight: bold;
+                padding: 1rem 2rem;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                font-size: 1.1rem;
+                align-self: flex-end;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            }
+
+            .print-btn:hover {
+                background: #00ffaa;
+                transform: scale(1.05);
+            }
+        }
+
+        /* =========================================
+           ESTILOS DE IMPRESSÃO (A4 - 27 ETIQUETAS/PAG)
+           ========================================= */
+        @media print {
+
+            /* 1. Configuração da Página */
+            @page {
+                size: A4;
+                /* Aumentei a margem vertical para 12mm para centralizar as 9 linhas */
+                margin: 12mm 7mm;
+            }
+
+            /* 2. Ocultar Interface */
+            .sidebar,
+            .mark-sidebar,
+            .control-panel,
+            header,
+            .print-btn-container,
+            .print-ignore,
+            .btn-add {
+                display: none !important;
+            }
+
+            /* 3. Reset Global */
+            body,
+            html {
+                background: white !important;
+                color: black !important;
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                font-size: 10pt;
+            }
+
+            .generator-container,
+            .main-preview {
+                display: block !important;
+                height: auto !important;
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                overflow: visible !important;
+            }
+
+            /* 4. Grade 3x9 (27 etiquetas por folha) */
+            .preview-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                /* Define altura fixa para todas as linhas, inclusive as da 2ª página */
+                grid-auto-rows: 27mm !important;
+                gap: 2mm !important;
+                padding: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            /* 5. Cartão da Etiqueta (LAYOUT HORIZONTAL) */
+            .preview-card {
+                background: white !important;
+                border: 1px dashed #ccc !important;
+                border-radius: 4px !important;
+                padding: 2mm !important;
+                height: 100% !important;
+                /* Respeita a altura da linha do grid */
+                box-sizing: border-box;
+                overflow: hidden;
+
+                /* Garante que a etiqueta não quebre no meio entre páginas */
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                text-align: left !important;
+                gap: 5px !important;
+            }
+
+            /* 6. O QR Code (Esquerda) */
+            .preview-card>div:nth-child(2) {
+                order: -1 !important;
+                flex-shrink: 0 !important;
+            }
+
+            .preview-card img,
+            .preview-card canvas {
+                width: 19mm !important;
+                height: 19mm !important;
+                display: block;
+            }
+
+            /* 7. O Nome do Item (Direita) */
+            .preview-card>div:first-child {
+                flex-grow: 1 !important;
+                font-size: 9pt !important;
+                font-weight: bold !important;
+                line-height: 1.1 !important;
+                white-space: normal !important;
+                overflow: hidden;
+
+                /* Permite até 4 linhas de texto */
+                display: -webkit-box;
+                -webkit-line-clamp: 4;
+                -webkit-box-orient: vertical;
+            }
+
+            /* 8. O Código Numérico (Oculto) */
+            .preview-card>div:last-child {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <aside class="mark-sidebar" id="markSidebar">
+            <div class="mark-toggle" onclick="toggleMark()"><span id="markToggleIcon">◀</span></div>
+            <div class="mark-header">
+                <h2 class="mark-title">🤖 Mark AI</h2>
+            </div>
+            <div class="mark-chat-container">
+                <div class="mark-messages" id="markMessages">
+                    <div class="mark-message assistant">Olá! Posso ajudar a gerar suas etiquetas?</div>
+                </div>
+                <div class="mark-input-container">
+                    <input type="text" class="mark-input" id="markInput" placeholder="Digite sua pergunta..."
+                        onkeypress="if(event.key==='Enter') sendToMark()" />
+                    <button class="mark-voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊</button>
+                    <button class="mark-send-btn" onclick="sendToMark()">➤</button>
+                </div>
+            </div>
+        </aside>
+
+        <aside class="sidebar">
+            <div class="logo-container">
+                <h1 class="logo">BRT</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/" class="nav-link"><span
+                                class="nav-icon">📊</span><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a href="/eventos" class="nav-link"><span
+                                class="nav-icon">📅</span><span>Eventos</span></a></li>
+                    <li class="nav-item"><a href="/inventario" class="nav-link"><span
+                                class="nav-icon">📦</span><span>Inventário</span></a></li>
+                    <li class="nav-item"><a href="/cadastro-qr" class="nav-link"><span
+                                class="nav-icon">🏷️</span><span>Cadastro QR</span></a></li>
+                    <li class="nav-item"><a href="/separacao" class="nav-link"><span
+                                class="nav-icon">🔖</span><span>Separação QR</span></a></li>
+                    <li class="nav-item"><a href="/pendencias" class="nav-link"><span
+                                class="nav-icon">⚠️</span><span>Pendências</span></a></li>
+                    <li class="nav-item"><a href="/etiquetas" class="nav-link active"><span
+                                class="nav-icon">🖨️</span><span>Etiquetas</span></a></li>
+                    <li class="nav-item"><a href="/monitor" class="nav-link"><span
+                                class="nav-icon">⚡</span><span>Monitoramento</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="content-header print-ignore">
+                <div>
+                    <h1 class="page-title">🖨️ Gerador de Etiquetas</h1>
+                    <p class="page-subtitle">Crie etiquetas sequenciais (Unitários) ou cópias (Granel) para impressão.
+                    </p>
+                </div>
+            </header>
+
+            <div class="generator-container">
+                <div class="control-panel">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h3 style="color:var(--neon-blue); margin:0;">Adicionar Lote</h3>
+                        <input type="file" id="csvUpload" accept=".csv" style="display: none;"
+                            onchange="handlecsvUpload(this)">
+                        <button onclick="document.getElementById('csvUpload').click()"
+                            style="background:rgba(255,255,255,0.1); border:1px solid var(--glass-border); color:white; border-radius:8px; cursor:pointer; font-size:0.8rem; padding:0.5rem;">
+                            📂 Carregar CSV
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tipo de Etiqueta</label>
+                        <select id="labelType" class="input-box" onchange="toggleMode()">
+                            <option value="copy">📦 Granel (Cópias Iguais)</option>
+                            <option value="sequential">🔢 Unitário (Sequencial)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nome do Item</label>
+                        <input type="text" id="itemName" class="input-box" placeholder="Ex: Cabo de Aço 5m">
+                    </div>
+
+                    <div id="codeConfig">
+                        <div class="form-group">
+                            <label id="codeLabel">Conteúdo do QR (Ex: Código Master)</label>
+                            <input type="text" id="qrContent" class="input-box" placeholder="Cole o código aqui">
+                        </div>
+                    </div>
+
+                    <div id="seqConfig" style="display:none; gap:1rem; flex-direction:column;">
+                        <div class="form-group">
+                            <label>Prefixo (Opcional)</label>
+                            <input type="text" id="seqPrefix" class="input-box" placeholder="Ex: ESCADA-">
+                        </div>
+                        <div class="form-group">
+                            <label>Número Inicial</label>
+                            <input type="number" id="seqStart" class="input-box" value="2000">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Quantidade de Etiquetas</label>
+                        <input type="number" id="qty" class="input-box" value="10" min="1">
+                    </div>
+
+                    <button class="btn-add" onclick="addToQueue()">➕ Adicionar à Fila</button>
+
+                    <hr style="border-color:var(--glass-border); width:100%">
+
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h3 style="margin:0;">Fila de Impressão</h3>
+                        <button onclick="clearQueue()"
+                            style="background:none; border:none; color:var(--danger); cursor:pointer;">Limpar
+                            TUDO</button>
+                    </div>
+
+                    <div class="queue-list" id="queueList">
+                        <div style="text-align:center; color:var(--text-muted); font-size:0.9rem;">Fila vazia</div>
+                    </div>
+                </div>
+
+                <div class="main-preview">
+                    <div class="print-btn-container"
+                        style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                        <div>
+                            <h2 style="margin:0; color:white;">Visualização A4</h2>
+                            <p style="color:var(--text-muted); margin:0;" id="totalTags">0 etiquetas</p>
+                        </div>
+                        <div style="display:flex; gap:1rem; align-items:center;">
+                            <button onclick="sortQueue()"
+                                style="background:rgba(255,255,255,0.1); border:1px solid var(--glass-border); padding:0.8rem; border-radius:8px; color:white; cursor:pointer;">
+                                🔽 Ordenar A-Z
+                            </button>
+                            <button class="print-btn" onclick="window.print()">🖨️ IMPRIMIR</button>
+                        </div>
+                    </div>
+
+                    <div id="printArea" class="preview-grid"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let printQueue = [];
+
+        function toggleMode() {
+            const mode = document.getElementById('labelType').value;
+            const seqConfig = document.getElementById('seqConfig');
+            const codeConfig = document.getElementById('codeConfig');
+            const codeLabel = document.getElementById('codeLabel');
+
+            if (mode === 'sequential') {
+                codeConfig.style.display = 'none';
+                seqConfig.style.display = 'flex';
+            } else {
+                codeConfig.style.display = 'block';
+                seqConfig.style.display = 'none';
+                codeLabel.textContent = 'Conteúdo do QR (Código Master)';
+            }
+        }
+
+        function addToQueue() {
+            const mode = document.getElementById('labelType').value;
+            const name = document.getElementById('itemName').value.trim();
+            const qty = parseInt(document.getElementById('qty').value) || 0;
+
+            if (!name || qty <= 0) {
+                alert('Preencha nome e quantidade!');
+                return;
+            }
+
+            let batch = [];
+
+            if (mode === 'sequential') {
+                const start = parseInt(document.getElementById('seqStart').value) || 0;
+                const prefix = document.getElementById('seqPrefix').value.trim();
+
+                for (let i = 0; i < qty; i++) {
+                    const num = start + i;
+                    const code = prefix + num;
+                    batch.push({
+                        name: name,
+                        code: code,
+                        displayCode: code
+                    });
+                }
+                document.getElementById('seqStart').value = start + qty;
+            } else {
+                const code = document.getElementById('qrContent').value.trim();
+                if (!code) { alert('Preencha o código QR!'); return; }
+
+                for (let i = 0; i < qty; i++) {
+                    batch.push({
+                        name: name,
+                        code: code,
+                        displayCode: code
+                    });
+                }
+            }
+
+            printQueue = [...printQueue, ...batch];
+            updateUI();
+        }
+
+        function clearQueue() {
+            if (confirm('Limpar toda a fila?')) {
+                printQueue = [];
+                updateUI();
+            }
+        }
+
+        function sortQueue() {
+            printQueue.sort((a, b) => a.name.localeCompare(b.name));
+            updateUI();
+        }
+
+        function updateUI() {
+            const queueList = document.getElementById('queueList');
+            const totalTags = document.getElementById('totalTags');
+            totalTags.textContent = `${printQueue.length} etiquetas`;
+
+            if (printQueue.length === 0) {
+                queueList.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:0.9rem;">Fila vazia</div>';
+            } else {
+                const uniqueNames = [...new Set(printQueue.map(i => i.name))];
+                queueList.innerHTML = uniqueNames.map(name => {
+                    const count = printQueue.filter(i => i.name === name).length;
+                    return `
+                        <div class="queue-item">
+                            <div style="flex-grow:1">
+                                <div style="font-weight:bold; color:white;">${name}</div>
+                                <div style="font-size:0.8rem; color:var(--text-muted)">${count} etiquetas</div>
+                            </div>
+                            <button onclick="removeFromQueue('${name}')" style="background:none; border:none; color:var(--danger); font-size:1.2rem; cursor:pointer;" title="Remover grupo">🗑️</button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            const grid = document.getElementById('printArea');
+            grid.innerHTML = '';
+
+            printQueue.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'preview-card';
+
+                const title = document.createElement('div');
+                title.textContent = item.name;
+
+                const qrDiv = document.createElement('div');
+                qrDiv.id = `qr-${index}`;
+
+                const codeText = document.createElement('div');
+                codeText.textContent = item.displayCode;
+
+                card.appendChild(title);
+                card.appendChild(qrDiv);
+                card.appendChild(codeText);
+                grid.appendChild(card);
+
+                new QRCode(qrDiv, {
+                    text: item.code,
+                    width: 100,
+                    height: 100,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            });
+        }
+
+        function removeFromQueue(name) {
+            if (confirm(`Remover todas as etiquetas de "${name}" da fila?`)) {
+                printQueue = printQueue.filter(i => i.name !== name);
+                updateUI();
+            }
+        }
+
+        async function suggestNextId() {
+            try {
+                const invRes = await fetch('/api/inventario').then(r => r.json());
+                const allItems = invRes.items || [];
+                let maxId = 1999;
+                allItems.forEach(item => {
+                    if (item.barcodes && Array.isArray(item.barcodes)) {
+                        item.barcodes.forEach(code => {
+                            const match = code.toString().match(/(\d+)$/);
+                            if (match) {
+                                const num = parseInt(match[1]);
+                                if (num > maxId && num < 900000) maxId = num;
+                            }
+                        });
+                    }
+                });
+                document.getElementById('seqStart').value = maxId + 1;
+            } catch (e) {
+                console.error('Erro ao sugerir ID:', e);
+            }
+        }
+
+        function handlecsvUpload(input) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const text = e.target.result;
+                const lines = text.split('\n');
+                let addedCount = 0;
+                const startIndex = lines[0].toLowerCase().includes('nome') ? 1 : 0;
+
+                const useSequential = confirm('Deseja GERAR NOVOS CÓDIGOS SEQUENCIAIS para estes itens?\n\n[OK] = Gerar novos códigos (Seguro > 2000)\n[Cancelar] = Usar códigos do arquivo CSV');
+
+                let nextSeq = 0;
+                let prefix = '';
+
+                if (useSequential) {
+                    nextSeq = parseInt(document.getElementById('seqStart').value) || 2000;
+                    prefix = document.getElementById('seqPrefix').value.trim();
+                }
+
+                for (let i = startIndex; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if (!line) continue;
+                    const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+
+                    if (parts.length >= 1) { // Aceita só nome se for sequencial
+                        const name = parts[0].replace(/^"|"$/g, '').trim();
+                        let code = '';
+
+                        if (!useSequential && parts.length >= 2) {
+                            code = parts[1].replace(/^"|"$/g, '').trim();
+                        } else if (useSequential) {
+                            code = prefix + nextSeq;
+                            nextSeq++;
+                        }
+
+                        if (name && code) {
+                            printQueue.push({ name: name, code: code, displayCode: code });
+                            addedCount++;
+                        }
+                    }
+                }
+
+                if (useSequential) {
+                    document.getElementById('seqStart').value = nextSeq;
+                }
+
+                printQueue.sort((a, b) => a.name.localeCompare(b.name));
+                updateUI();
+                alert(`✅ ${addedCount} etiquetas carregadas!`);
+                input.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        window.addEventListener('load', suggestNextId);
+    </script>
+    <script src="/js/mark-integration.js"></script>
+</body>
+
+</html>

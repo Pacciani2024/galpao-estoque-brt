@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Separação QR - BRT Audiovisual</title>
+
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script>
+        // CRITICAL: Prevent FOUC by setting state before body renders
+        if (localStorage.getItem('markSidebarState') === 'collapsed') {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    </script>
+</head>
+
+
+
+<body>
+
+    <div class="app-container">
+
+        <!-- MARK AI SIDEBAR -->
+
+        <aside class="mark-sidebar" id="markSidebar">
+
+            <div class="mark-toggle" onclick="toggleMark()"><span id="markToggleIcon">◀</span></div>
+
+            <div class="mark-header">
+
+                <h2 class="mark-title">🤖 Mark AI</h2>
+
+            </div>
+
+            <div class="mark-chat-container">
+
+                <div class="mark-messages" id="markMessages">
+
+                    <div class="mark-message assistant">Olá! Posso ajudar com separações!</div>
+
+                </div>
+
+                <div class="mark-input-container">
+
+                    <input type="text" class="mark-input" id="markInput" placeholder="Digite sua pergunta..."
+                        onkeypress="if(event.key==='Enter') sendToMark()" />
+
+                    <button class="mark-voice-btn" id="voiceBtn" onclick="toggleVoice()">🔊</button>
+
+                    <button class="mark-send-btn" onclick="sendToMark()">➤</button>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- NAVIGATION SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo-container">
+
+                <h1 class="logo">BRT</h1>
+
+            </div>
+
+            <nav>
+
+                <ul class="nav-menu">
+
+                    <li class="nav-item"><a href="/" class="nav-link"><span
+                                class="nav-icon">📊</span><span>Dashboard</span></a></li>
+
+                    <li class="nav-item"><a href="/eventos" class="nav-link"><span
+                                class="nav-icon">📅</span><span>Eventos</span></a></li>
+
+                    <li class="nav-item"><a href="/inventario" class="nav-link"><span
+                                class="nav-icon">📦</span><span>Inventário</span></a></li>
+
+                    <li class="nav-item"><a href="/cadastro-qr" class="nav-link"><span
+                                class="nav-icon">🏷️</span><span>Cadastro QR</span></a></li>
+
+                    <li class="nav-item"><a href="/separacao" class="nav-link active"><span
+                                class="nav-icon">🔖</span><span>Separação QR</span></a></li>
+
+                    <li class="nav-item"><a href="/pendencias" class="nav-link"><span
+                                class="nav-icon">⚠️</span><span>Pendências</span></a></li>
+
+                    <li class="nav-item"><a href="/etiquetas" class="nav-link"><span
+                                class="nav-icon">🖨️</span><span>Etiquetas</span></a></li>
+
+                    <li class="nav-item"><a href="/monitor" class="nav-link"><span
+                                class="nav-icon">⚡</span><span>Monitoramento</span></a></li>
+
+                </ul>
+
+            </nav>
+
+        </aside>
+
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+            <header class="page-header fade-in-up">
+
+                <h1 class="page-title">🔖 Separação QR - Check-out/in</h1>
+
+                <p class="page-subtitle">Conferência de saída e retorno de equipamentos</p>
+
+            </header>
+
+
+
+            <div class="fade-in-up" id="separationsContainer">
+
+                <div class="loading">Carregando separações...</div>
+
+            </div>
+
+        </main>
+
+
+
+        <!-- Modal de Checkout -->
+
+        <div class="modal-overlay" id="checkoutModal">
+
+            <div class="modal-content tick-modal">
+
+                <button class="close-modal" onclick="closeCheckoutModal()">✕</button>
+
+
+
+                <div class="modal-header">
+
+                    <h2 id="checkoutTitle">Conferência de Saída</h2>
+
+                    <div class="badge badge-warning" id="checkoutStatusBadge">Aguardando Saída</div>
+
+                </div>
+
+
+
+                <div class="scanner-section">
+
+                    <div class="scanner-icon">📤</div>
+
+                    <h3>Escaneie os itens para liberar a SAÍDA</h3>
+
+                    <input type="text" id="checkoutScannerInput" class="scanner-input" autocomplete="off"
+                        placeholder="Bipe o QR Code aqui...">
+
+                    <div id="checkoutScannerStatus" class="scanner-status">Aguardando leitura...</div>
+
+                </div>
+
+
+
+                <div class="controls-bar">
+
+                    <div class="search-box">
+
+                        <input type="text" id="searchInput" placeholder="🔍 Buscar item..." onkeyup="filterItems()">
+
+                    </div>
+
+                    <div class="filter-group">
+
+                        <select id="filterStatus" onchange="filterItems()">
+
+                            <option value="all">Todos</option>
+
+                            <option value="incomplete">Incompletos</option>
+
+                            <option value="complete">Completos</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="tick-container">
+
+                    <div class="tick-column">
+
+                        <div class="tick-column-header">
+
+                            <h3>📦 Itens Separados</h3>
+
+                            <p class="tick-subtitle">Itens que devem sair</p>
+
+                        </div>
+
+                        <div class="tick-list" id="checkoutList">
+
+                            <!-- Lista de itens -->
+
+                        </div>
+
+                    </div>
+
+                    <div class="tick-column">
+
+                        <div class="tick-column-header">
+
+                            <h3>🚚 Itens Conferidos (Saída)</h3>
+
+                            <p class="tick-subtitle" id="checkoutProgressText">0 de 0</p>
+
+                        </div>
+
+                        <div class="tick-list" id="dispatchedList">
+
+                            <p class="empty-msg">Nenhum item conferido ainda</p>
+
+                        </div>
+
+                        <div style="margin-top: auto; text-align: right; padding-top: 1rem;">
+
+                            <button class="action-btn" onclick="finalizeCheckout()">
+
+                                🚚 Confirmar Saída
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+
+
+        <!-- Modal de Quantidade (Bulk Checkout) -->
+
+        <div class="modal-overlay" id="quantityModal" style="z-index: 2000;">
+
+            <div class="modal-content"
+                style="max-width: 400px; padding: 2rem; text-align: center; background: var(--bg-secondary); border: 1px solid var(--glass-border); border-radius: 16px;">
+
+                <h2 style="color: var(--neon-blue); margin-bottom: 0.5rem;" id="qtyModalTitle">Item Identificado</h2>
+
+                <p style="color: var(--text-muted); margin-bottom: 2rem;" id="qtyModalSubtitle">Quantos itens deseja
+
+                    confirmar?</p>
+
+
+
+                <div style="margin-bottom: 2rem;">
+
+                    <input type="number" id="qtyModalInput" class="scanner-input"
+                        style="width: 100%; font-size: 2.5rem; text-align: center; font-weight: bold; padding: 1rem;"
+                        min="1" value="1">
+
+                    <div id="qtyModalHint" style="margin-top: 0.5rem; font-size: 0.9rem; color: var(--text-muted);">
+
+                        Restante: <span id="qtyModalRemaining">0</span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+
+                    <button onclick="closeQuantityModal()" class="action-btn"
+                        style="background: rgba(255, 255, 255, 0.1); margin: 0;">
+
+                        Cancelar
+
+                    </button>
+
+                    <button onclick="confirmQuantity()" class="action-btn mode-return" style="margin: 0;">
+
+                        Confirmar
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <style>
+            /* Controls Bar Styling */
+
+            .controls-bar {
+
+                display: flex;
+
+                gap: 1rem;
+
+                margin-bottom: 1.5rem;
+
+                background: rgba(255, 255, 255, 0.05);
+
+                padding: 1rem;
+
+                border-radius: 12px;
+
+                border: 1px solid var(--glass-border);
+
+            }
+
+
+
+            .search-box {
+
+                flex: 1;
+
+            }
+
+
+
+            .search-box input {
+
+                width: 100%;
+
+                padding: 0.8rem 1rem;
+
+                background: var(--bg-primary);
+
+                border: 1px solid var(--glass-border);
+
+                border-radius: 8px;
+
+                color: var(--text-primary);
+
+                font-family: inherit;
+
+                transition: all 0.3s ease;
+
+            }
+
+
+
+            .search-box input:focus {
+
+                outline: none;
+
+                border-color: var(--neon-blue);
+
+                box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+
+            }
+
+
+
+            .filter-group select {
+
+                padding: 0.8rem 1rem;
+
+                background: var(--bg-primary);
+
+                border: 1px solid var(--glass-border);
+
+                border-radius: 8px;
+
+                color: var(--text-primary);
+
+                font-family: inherit;
+
+                cursor: pointer;
+
+                outline: none;
+
+                min-width: 150px;
+
+            }
+
+
+
+            .filter-group select:focus {
+
+                border-color: var(--neon-blue);
+
+            }
+
+
+
+            .empty-msg {
+
+                text-align: center;
+
+                padding: 2rem;
+
+                color: var(--text-muted);
+
+            }
+
+
+
+            .modal-overlay {
+
+                display: none;
+
+                position: fixed;
+
+                top: 0;
+
+                left: 0;
+
+                width: 100%;
+
+                height: 100%;
+
+                background: rgba(0, 0, 0, 0.85);
+
+                z-index: 1000;
+
+                align-items: center;
+
+                justify-content: center;
+
+                backdrop-filter: blur(5px);
+
+            }
+
+
+
+            .modal-overlay.show {
+
+                display: flex;
+
+            }
+
+
+
+            .tick-modal {
+
+                max-height: 90vh;
+
+                height: 90vh;
+
+                display: flex;
+
+                flex-direction: column;
+
+                width: 95%;
+
+                max-width: 1400px;
+
+                background: var(--bg-secondary);
+
+                border-radius: 20px;
+
+                border: 1px solid var(--glass-border);
+
+                position: relative;
+
+            }
+
+
+
+            .tick-container {
+
+                display: grid;
+
+                grid-template-columns: 1fr 1fr;
+
+                gap: 1.5rem;
+
+                flex: 1;
+
+                min-height: 0;
+
+                padding: 1.5rem;
+
+                overflow: hidden;
+
+            }
+
+
+
+            .tick-column {
+
+                background: var(--glass-bg);
+
+                border: 1px solid var(--glass-border);
+
+                border-radius: 16px;
+
+                padding: 1.5rem;
+
+                display: flex;
+
+                flex-direction: column;
+
+                height: 100%;
+
+                overflow: hidden;
+
+            }
+
+
+
+            .tick-list {
+
+                flex: 1;
+
+                overflow-y: auto;
+
+            }
+
+
+
+            .scanner-section {
+
+                background: var(--glass-bg);
+
+                padding: 1.5rem;
+
+                text-align: center;
+
+                border-bottom: 1px solid var(--glass-border);
+
+            }
+
+
+
+            .scanner-input {
+
+                background: var(--bg-primary);
+
+                border: 1px solid var(--glass-border);
+
+                color: white;
+
+                padding: 1rem;
+
+                font-size: 1.2rem;
+
+                width: 60%;
+
+                margin: 1rem auto;
+
+                display: block;
+
+                border-radius: 8px;
+
+                text-align: center;
+
+            }
+
+
+
+            .close-modal {
+
+                position: absolute;
+
+                top: 1rem;
+
+                right: 1rem;
+
+                background: transparent;
+
+                border: none;
+
+                color: white;
+
+                font-size: 1.5rem;
+
+                cursor: pointer;
+
+                z-index: 100;
+
+            }
+
+
+
+            .action-btn {
+
+                width: 100%;
+
+                padding: 1rem 2rem;
+
+                border: none;
+
+                border-radius: 16px;
+
+                font-family: 'Poppins', sans-serif;
+
+                font-weight: 600;
+
+                font-size: 1.1rem;
+
+                color: var(--bg-primary);
+
+                /* Texto escuro para contraste */
+
+                cursor: pointer;
+
+                display: flex;
+
+                justify-content: center;
+
+                align-items: center;
+
+                gap: 0.8rem;
+
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+                text-transform: uppercase;
+
+                letter-spacing: 0.5px;
+
+                margin-top: 1rem;
+
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+                position: relative;
+
+                overflow: hidden;
+
+            }
+
+
+
+            .action-btn::after {
+
+                content: '';
+
+                position: absolute;
+
+                top: 0;
+
+                left: 0;
+
+                width: 100%;
+
+                height: 100%;
+
+                background: linear-gradient(rgba(255, 255, 255, 0.2), transparent);
+
+                opacity: 0;
+
+                transition: opacity 0.3s;
+
+            }
+
+
+
+            .action-btn:hover {
+
+                transform: translateY(-2px);
+
+                filter: brightness(1.1);
+
+            }
+
+
+
+            .action-btn:hover::after {
+
+                opacity: 1;
+
+            }
+
+
+
+            .action-btn:active {
+
+                transform: scale(0.98);
+
+            }
+
+
+
+            .action-btn.mode-dispatch {
+
+                background: linear-gradient(135deg, var(--warning), #ff8800);
+
+                box-shadow: 0 4px 15px rgba(255, 170, 0, 0.4);
+
+            }
+
+
+
+            .action-btn.mode-dispatch:hover {
+
+                box-shadow: 0 8px 25px rgba(255, 170, 0, 0.6);
+
+            }
+
+
+
+            .action-btn.mode-return {
+
+                background: linear-gradient(135deg, var(--neon-blue), var(--neon-blue-dark));
+
+                box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+
+            }
+
+
+
+            .action-btn.mode-return:hover {
+
+                box-shadow: 0 8px 25px rgba(0, 212, 255, 0.6);
+
+            }
+
+
+
+            /* Badge Info Definição (caso falte) */
+
+            .badge-info {
+
+                background: rgba(0, 212, 255, 0.15);
+
+                color: var(--neon-blue);
+
+                border: 1px solid rgba(0, 212, 255, 0.3);
+
+            }
+        </style>
+
+
+
+        <script>
+
+            let completedEvents = [];
+
+            let currentCheckoutEvent = null;
+
+            let dispatchedItems = [];
+
+
+
+            async function loadSeparations() {
+
+                try {
+
+                    const response = await fetch('/api/separations/completed');
+
+                    completedEvents = await response.json();
+
+                    renderSeparations();
+
+                } catch (error) {
+
+                    console.error('Erro ao carregar separações:', error);
+
+                    document.getElementById('separationsContainer').innerHTML = '<p class="empty-msg">Erro ao carregar dados.</p>';
+
+                }
+
+            }
+
+
+
+            function renderSeparations() {
+
+                const container = document.getElementById('separationsContainer');
+
+                if (completedEvents.length === 0) {
+
+                    container.innerHTML = '<p class="empty-msg">Nenhuma separação finalizada encontrada.</p>';
+
+                    return;
+
+                }
+
+
+
+                container.innerHTML = completedEvents.map((evt, index) => `
+
+                    <div class="evento-card fade-in-up" onclick="openCheckoutModal(${index})" style="background: var(--glass-bg); padding: 1.5rem; border-radius: 16px; border: 1px solid var(--glass-border); margin-bottom: 1rem; cursor: pointer; transition: transform 0.2s;">
+
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                            <h3 style="color: var(--neon-blue); margin: 0;">${evt.eventName}</h3>
+
+                            <span class="badge badge-success" style="background: var(--success); color: black; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">
+
+                                ${evt.status === 'dispatched' ? 'SAIU' : 'PRONTO PARA SAÍDA'}
+
+                            </span>
+
+                        </div>
+
+                        <div style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+
+                            📅 Atualizado: ${new Date(evt.lastUpdated).toLocaleString()} • 📦 ${evt.separatedItems.length} itens separados
+
+                        </div>
+
+                    </div>
+
+                `).join('');
+
+            }
+
+
+
+            function openCheckoutModal(index) {
+
+                currentCheckoutEvent = completedEvents[index];
+
+                const isDispatched = currentCheckoutEvent.status === 'dispatched' || currentCheckoutEvent.status === 'returned_partial';
+
+
+
+                document.getElementById('checkoutTitle').textContent = isDispatched
+
+                    ? `Conferência de Devolução - ${currentCheckoutEvent.eventName}`
+
+                    : `Conferência de Saída - ${currentCheckoutEvent.eventName}`;
+
+
+
+                document.getElementById('checkoutStatusBadge').textContent = isDispatched ? 'Devolvendo' : 'Aguardando Saída';
+
+                document.getElementById('checkoutStatusBadge').className = `badge badge-${isDispatched ? 'info' : 'warning'}`;
+
+                document.getElementById('checkoutModal').classList.add('show');
+
+
+
+                // Configurar Modo
+
+                const scannerSection = document.querySelector('.scanner-section');
+
+                const btn = document.querySelector('.action-btn');
+
+
+
+                // Elementos de texto das colunas
+
+                const colRightTitle = document.querySelectorAll('.tick-column-header h3')[1];
+
+                const colRightSub = document.querySelectorAll('.tick-column-header p')[1];
+
+
+
+                // Limpar botão da esquerda se existir (para evitar duplicação)
+
+                const existingWrapper = document.getElementById('btnConfirmExitWrapper');
+
+                if (existingWrapper) existingWrapper.remove();
+
+
+
+                if (isDispatched) {
+                    // MODO DEVOLUÇÃO (Scanner Ativo + 2 Colunas)
+                    scannerSection.style.display = 'block';
+                    document.querySelector('.scanner-section h3').textContent = 'Escaneie os itens para DEVOLUÇÃO';
+
+                    // Atualizar textos das colunas
+                    colRightTitle.textContent = '📥 Itens Devolvidos';
+                    // colRightSub (progress text) é atualizado no renderCheckoutLists
+
+                    document.querySelector('.tick-container').style.gridTemplateColumns = '1fr 1fr'; // 2 Colunas
+                    document.querySelectorAll('.tick-column')[1].style.display = 'flex'; // Mostrar direita
+
+                    // Configurar Botão Principal (Abaixo das colunas em telas pequenas, ou fixo)
+                    // O botão original 'btnConfirmExit' está dentro do modal-footer ou similar?
+                    // Verificamos que o layout tem um botão principal 'btnConfirmExit'
+
+                    btn.onclick = finalizeReturn; // Função de finalizar devolução
+                    btn.textContent = '📥 Finalizar Devolução'; // Usar textContent para evitar reset de ícones se houver
+                    btn.className = 'action-btn mode-return';
+                    btn.style.background = 'var(--neon-blue)'; // Forçar cor para destaque
+                    btn.style.color = 'black';
+
+                    // Garantir que não tenha wrapper duplicado do modo saída
+                    const existingWrapper = document.getElementById('btnConfirmExitWrapper');
+                    if (existingWrapper) existingWrapper.remove();
+
+                    // Mostrar botão principal se estiver escondido
+                    btn.style.display = 'block';
+
+                    // Focar scanner
+                    setTimeout(() => document.getElementById('checkoutScannerInput').focus(), 300);
+                } else {
+                    // MODO SAÍDA (Confirmação Apenas + 1 Coluna)
+                    scannerSection.style.display = 'none';
+
+                    document.querySelector('.tick-container').style.gridTemplateColumns = '1fr'; // 1 Coluna
+                    document.querySelectorAll('.tick-column')[1].style.display = 'none'; // Esconder direita
+
+                    // Configurar Botão Principal
+                    btn.onclick = finalizeCheckout;
+                    btn.textContent = '🚚 Confirmar SAÍDA do Estoque';
+                    btn.className = 'action-btn mode-dispatch';
+                    btn.style.background = ''; // Reset
+                    btn.style.color = '';
+
+                    // Adicionar botão de ação na coluna esquerda (Movendo o botão para baixo da lista)
+                    const leftCol = document.querySelectorAll('.tick-column')[0];
+                    const wrapper = document.createElement('div');
+                    wrapper.id = 'btnConfirmExitWrapper';
+                    wrapper.style.marginTop = 'auto';
+                    wrapper.style.paddingTop = '1rem';
+
+                    // Clonar para remover listeners antigos e evitar problemas
+                    const newBtn = btn.cloneNode(true);
+                    newBtn.onclick = finalizeCheckout;
+                    wrapper.appendChild(newBtn);
+
+                    leftCol.appendChild(wrapper);
+
+                    // Esconder botão original "flutuante" ou externo se houver, para usar o da lista
+                    btn.style.display = 'none';
+                }
+
+
+
+                renderCheckoutLists();
+
+            }
+
+
+
+            function closeCheckoutModal() {
+
+                document.getElementById('checkoutModal').classList.remove('show');
+
+            }
+
+
+
+            function renderCheckoutLists() {
+
+                const itemsList = document.getElementById('checkoutList');
+
+                const dispatchedList = document.getElementById('dispatchedList');
+
+                const isDispatched = currentCheckoutEvent.status === 'dispatched'; // True = Devolução, False = Saída
+
+
+
+                // Lista Esquerda (O que saiu / O que foi separado)
+
+                // Lista Esquerda (O que saiu / O que foi separado)
+
+                // Lista Esquerda (O que saiu / O que foi separado)
+
+                itemsList.innerHTML = currentCheckoutEvent.separatedItems.map((item, idx) => {
+
+                    const hasQr = item.qrCodes && item.qrCodes.length > 0 && item.qrCodes[0] !== 'Manual';
+
+                    const isManual = !hasQr;
+
+
+
+                    // Fallback para quantidade (trata casos undefined)
+
+                    const qtyTotal = item.qtySeparada || item.qty || item.quantidade || 0;
+
+                    // Garante que a propriedade existe para cálculos
+
+                    item.qtySeparada = qtyTotal;
+
+
+
+                    // Inicializar status (já existente)
+
+                    if (isManual && typeof item.qtyReturned === 'undefined') {
+
+                        // Se for Sub-locação (Estoque 0) e quantity é undefined, setar 0
+
+                        item.qtyReturned = 0;
+
+                    }
+
+
+
+                    const isFullyReturned = item.returned || (isManual && item.qtyReturned >= qtyTotal);
+
+                    const isOverflow = isManual && (item.qtyReturned > qtyTotal);
+
+
+
+                    // Verificar se é Sub-locação (Estoque 0)
+
+                    const inventoryItem = inventoryMap[item.nome];
+
+                    const isSubRental = inventoryItem && parseInt(inventoryItem.estoque) === 0;
+
+
+
+                    // Estilo da Quantidade (Verde se OK, Amarelo se Excesso, Normal se parcial)
+
+                    let qtyColor = 'var(--text-muted)';
+
+                    if (isFullyReturned) qtyColor = 'var(--success)';
+
+                    if (isOverflow) qtyColor = 'var(--warning)';
+
+
+
+                    // Input HTML para itens manuais:
+
+                    let actionHtml = '';
+
+                    if (!isFullyReturned && isManual) {
+
+                        actionHtml = `
+
+                            <div style="display: flex; gap: 0.5rem; align-items: center; margin-top: 0.5rem;">
+
+                                <input type="number" id="qty-input-${idx}"
+
+                                       value="${Math.max(0, qtyTotal - item.qtyReturned)}"
+
+                                       min="1"
+
+                                       class="qty-input-manual"
+                                       onclick="event.stopPropagation()" 
+                                       onkeydown="if(event.key === 'Enter') validateManualQty(${idx})"
+
+                                       style="width: 60px; padding: 0.5rem; border-radius: 8px; border: 1px solid var(--glass-border); background: var(--bg-primary); color: white; text-align: center;">
+
+                                <button onclick="event.stopPropagation(); validateManualQty(${idx})" style="background: var(--neon-blue); border: none; padding: 0.5rem 1rem; border-radius: 8px; color: black; font-weight: bold; cursor: pointer;">
+
+                                    ${isDispatched ? 'Check' : 'Validar'}
+
+                                </button>
+
+                            </div>
+
+                         `;
+
+                    }
+
+
+
+                    return `
+                    <div class="tick-item ${isFullyReturned ? 'checked' : ''}" 
+                         id="return-item-index-${idx}" 
+                         onclick="handleReturnItemClick(${idx})"
+                         style="padding: 1rem; border-bottom: 1px solid var(--glass-border); opacity: ${isFullyReturned ? '0.8' : '1'}; border-left: ${isOverflow ? '4px solid var(--warning)' : (isSubRental ? '4px solid var(--neon-blue)' : 'none')}; cursor: pointer;">
+                        
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                            <div>
+                                <div style="font-weight: bold; display:flex; align-items:center; gap:0.5rem;">
+                                    ${item.nome}
+                                    ${isSubRental ? '<span style="background:rgba(0,212,255,0.2); color:var(--neon-blue); font-size:0.6rem; padding:2px 6px; border-radius:4px; border:1px solid rgba(0,212,255,0.3);">SUB-LOCAÇÃO</span>' : ''}
+                                    ${isFullyReturned ? (isOverflow ? '⚠️' : '✅') : ''}
+                                </div>
+                                <div style="font-size: 0.9rem; color: var(--text-muted);">
+                                     Qtd: ${qtyTotal} | ${isManual ? `${isDispatched ? 'Devolvido' : 'Conferido'}: <span style="color:${qtyColor}; font-weight:bold;">${item.qtyReturned || 0}</span>` : `QRs: ${item.qrCodes.join(', ')}`}
+                                </div>
+                            </div>
+                           
+                            <!-- Ações: Status Badge ou Reset -->
+                            ${isFullyReturned ? `
+                                <div style="display:flex; align-items:center; gap:0.5rem;">
+                                    <span class="badge badge-success" style="${isOverflow ? 'background:var(--warning); color:black;' : ''}">${isOverflow ? 'EXCESSO' : 'OK'}</span>
+                                    <button onclick="resetItem(${idx}, event)" title="Corrigir/Refazer" style="background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border); color: var(--text-primary); border-radius: 50%; width: 24px; height: 24px; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                                        🔄
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${actionHtml}
+                    </div>
+                `}).join('');
+
+
+
+                // Lógica de lista direita (Logs) e texto de progresso
+
+                // Calculamos o progresso baseado em checked/returned
+
+                let totalChecked = 0;
+
+                let totalItems = 0;
+
+
+
+                currentCheckoutEvent.separatedItems.forEach(item => {
+                    const hasQr = item.qrCodes && item.qrCodes.length > 0 && item.qrCodes[0] !== 'Manual';
+                    const qtyTotal = item.qtySeparada || 0;
+                    const qrCount = hasQr ? item.qrCodes.length : 0;
+
+                    // Considerar como "Lógica de Quantidade" se não tiver QR 
+                    // OU se for Granel com QR (Qtd > QRs)
+                    const useQuantityLogic = !hasQr || (qtyTotal > qrCount);
+
+                    if (!useQuantityLogic) {
+                        // QRs Únicos (1 para 1)
+                        totalItems += 1;
+                        if (item.returned) totalChecked += 1;
+                    } else {
+                        // Manual ou Lote
+                        totalItems += qtyTotal;
+                        totalChecked += (item.qtyReturned || 0);
+                    }
+                });
+
+                document.getElementById('checkoutProgressText').textContent = `${totalChecked} de ${totalItems}`;
+
+                // Lista Direita
+                if (totalChecked > 0) {
+                    const logItems = [];
+                    currentCheckoutEvent.separatedItems.forEach(item => {
+                        const hasQr = item.qrCodes && item.qrCodes.length > 0 && item.qrCodes[0] !== 'Manual';
+                        const qtyTotal = item.qtySeparada || 0;
+                        const qrCount = hasQr ? item.qrCodes.length : 0;
+                        const useQuantityLogic = !hasQr || (qtyTotal > qrCount);
+
+                        if (!useQuantityLogic && item.returned) {
+                            logItems.push({ nome: item.nome, detail: 'QR Lido' });
+                        } else if (useQuantityLogic && item.qtyReturned > 0) {
+                            logItems.push({ nome: item.nome, detail: `${isDispatched ? 'Devolvido' : 'Validado'}: ${item.qtyReturned}/${qtyTotal}` });
+                        }
+                    });
+
+
+
+                    dispatchedList.innerHTML = logItems.map(log => `
+
+                         <div class="tick-item" style="padding: 1rem; border-bottom: 1px solid var(--glass-border); background: rgba(0, 255, 136, 0.1);">
+
+                            <div style="font-weight: bold;">${log.nome}</div>
+
+                            <div style="font-size: 0.8rem; color: var(--success);">${log.detail}</div>
+
+                        </div>
+
+                    `).join('');
+
+                } else {
+
+                    dispatchedList.innerHTML = '<p class="empty-msg">Valide os itens para começar...</p>';
+
+                }
+
+            }
+
+
+
+            function validateManualQty(index) {
+
+                if (!currentCheckoutEvent) return;
+
+
+
+                const item = currentCheckoutEvent.separatedItems[index];
+
+                const input = document.getElementById(`qty-input-${index}`);
+
+                // Fallback de segurança se input não renderizou mas função foi chamada
+
+                const qtyToAdd = input ? (parseInt(input.value) || 0) : 0;
+
+
+
+                if (qtyToAdd <= 0) return;
+
+
+
+                // Atualizar quantidade
+
+                item.qtyReturned = (item.qtyReturned || 0) + qtyToAdd;
+
+
+
+                // Verificar se completou
+
+                if (item.qtyReturned >= item.qtySeparada) {
+
+                    item.returned = true; // Marca como 'checked'
+
+                    item.qtyReturned = item.qtySeparada; // Cap
+
+                }
+
+
+
+                renderCheckoutLists();
+
+            }
+
+
+
+            function resetItem(index, event) {
+
+                if (event) event.stopPropagation();
+
+                if (!currentCheckoutEvent) return;
+
+
+
+                const item = currentCheckoutEvent.separatedItems[index];
+
+                if (item) {
+
+                    item.returned = false;
+
+                    item.qtyReturned = 0;
+
+                    renderCheckoutLists();
+
+                }
+
+            }
+
+
+
+            // Scanner Logic
+
+            document.getElementById('checkoutScannerInput').addEventListener('input', function (e) {
+
+                const code = e.target.value.trim();
+
+                if (code.length > 3) { // Min length
+
+                    processReturnScan(code);
+
+                }
+
+            });
+
+
+
+            // Mapeamento Dinâmico de Códigos de Barras Genéricos (EAN) -> Nome do Item
+
+            // Mapeamento Dinâmico de Códigos -> Nome do Item
+
+            let GENERIC_BARCODES = {};
+
+            let inventoryMap = {};
+
+
+
+            async function loadInventoryBarcodes() {
+
+                try {
+
+                    // 1. Carregar Inventário (Lotes e EANs)
+
+                    const invResponse = await fetch('/api/inventario');
+
+                    const invData = await invResponse.json();
+
+
+
+                    // 2. Carregar Unidades Únicas (Para reconhecer QRs únicos em itens manuais)
+
+                    const unitResponse = await fetch('/api/qr-units');
+
+                    const unitData = await unitResponse.json();
+
+
+
+                    // Resetar mapa
+
+                    GENERIC_BARCODES = {};
+
+
+
+                    // Helper para limpar string (case insensitive)
+
+                    const normalize = (str) => str ? str.trim().toLowerCase() : '';
+
+
+
+                    // A. Processar Inventário Geral
+
+                    if (invData && invData.items) {
+
+                        invData.items.forEach(item => {
+
+                            if (item.nome) {
+
+                                inventoryMap[item.nome] = item;
+
+                            }
+
+
+
+                            // Barcodes Simples (Array)
+
+                            if (item.barcodes && Array.isArray(item.barcodes)) {
+
+                                item.barcodes.forEach(code => {
+
+                                    if (code) GENERIC_BARCODES[normalize(code)] = item.nome;
+
+                                });
+
+                            }
+
+                            // Barcodes com Quantidade (Bulk/Lote)
+
+                            if (item.barcodeQuantities) {
+
+                                Object.keys(item.barcodeQuantities).forEach(code => {
+
+                                    if (code) GENERIC_BARCODES[normalize(code)] = item.nome;
+
+                                });
+
+                            }
+
+                        });
+
+                    }
+
+
+
+                    // B. Processar Unidades Únicas (O PULO DO GATO 🐈)
+
+                    // Isso permite que você bipe um QR Único e o sistema saiba qual Item ele é,
+
+                    // mesmo que o item tenha sido separado como "Quantidade Manual".
+
+                    if (unitData && unitData.units) {
+
+                        // unitData.units é um objeto { "itemId": [ {qrCode: "XYZ", ...} ] }
+
+                        Object.keys(unitData.units).forEach(itemId => {
+
+                            // Tentar achar o nome do item pelo ID no inventário carregado
+
+                            const foundItem = invData.items.find(i => String(i.id) === String(itemId));
+
+
+
+                            if (foundItem) {
+
+                                const unitsList = unitData.units[itemId];
+
+                                unitsList.forEach(u => {
+
+                                    if (u.qrCode) {
+
+                                        // Mapeia o QR Único -> Nome do Item (ex: "CX-SOM-01" -> "Caixa de Som")
+
+                                        GENERIC_BARCODES[normalize(u.qrCode)] = foundItem.nome;
+
+                                    }
+
+                                });
+
+                            }
+
+                        });
+
+                    }
+
+
+
+                    console.log('📦 Base de dados de Scanner atualizada:');
+
+                    console.log(`- ${Object.keys(GENERIC_BARCODES).length} códigos totais mapeados.`);
+
+
+
+
+
+
+
+                } catch (error) {
+
+                    console.error('Erro fatal ao carregar barcodes:', error);
+
+                }
+
+            }
+
+
+
+            // Carregar barcodes ao iniciar
+            setTimeout(loadInventoryBarcodes, 1000);
+
+            // Recarregar dados automaticamente ao focar na aba (evita F5)
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    console.log('🔄 Aba ativa: Recarregando dados de inventário...');
+                    loadInventoryBarcodes().then(() => {
+                        // Se houver evento aberto, re-renderizar para atualizar status "Sem QR" para "Com QR"
+                        if (currentCheckoutEvent) {
+                            renderCheckoutLists();
+                        }
+                    });
+                }
+            });
+
+
+
+
+
+            // --- BULK CHECKOUT LOGIC ---
+
+            let currentBulkItem = null;
+
+            let currentBulkItemIndex = -1;
+
+
+
+            function openQuantityModal(item, index) {
+
+                currentBulkItem = item;
+
+                currentBulkItemIndex = index;
+
+
+
+                const modal = document.getElementById('quantityModal');
+
+                const title = document.getElementById('qtyModalTitle');
+
+                const subtitle = document.getElementById('qtyModalSubtitle');
+
+                const input = document.getElementById('qtyModalInput');
+
+                const remainingSpan = document.getElementById('qtyModalRemaining');
+
+
+
+                title.textContent = item.nome;
+
+
+
+                // Calcular restante
+
+                const current = item.qtyReturned || 0;
+
+                const total = item.qtySeparada || 0;
+
+                const remaining = total - current;
+
+
+
+                remainingSpan.textContent = remaining > 0 ? remaining : '0 (Completo)';
+
+
+
+                // Reset Input
+
+                input.value = '';
+
+                input.placeholder = remaining > 0 ? remaining : 'Extra';
+
+
+
+                modal.classList.add('show');
+
+                setTimeout(() => input.focus(), 100);
+
+            }
+
+
+
+            function closeQuantityModal() {
+
+                document.getElementById('quantityModal').classList.remove('show');
+
+                currentBulkItem = null;
+
+                currentBulkItemIndex = -1;
+
+                // Devolver foco ao scanner principal
+
+                setTimeout(() => document.getElementById('checkoutScannerInput').focus(), 300);
+
+            }
+
+
+
+            function confirmQuantity() {
+
+                if (!currentBulkItem) return;
+
+
+
+                const input = document.getElementById('qtyModalInput');
+
+                const qtyToAdd = parseInt(input.value);
+
+
+
+                if (isNaN(qtyToAdd) || qtyToAdd <= 0) {
+
+                    alert('Por favor, insira uma quantidade válida.');
+
+                    return;
+
+                }
+
+
+
+                // Lógica de Soma com Permissão de Excesso (Over-delivery)
+                const current = currentBulkItem.qtyReturned || 0;
+                const total = currentBulkItem.qtySeparada || 0;
+
+                // Verificar se ultrapassa o total
+                if (current + qtyToAdd > total) {
+                    alert(`🚫 Quantidade inválida!\n\nVocê está tentando devolver ${current + qtyToAdd}, mas apenas ${total} saíram.\n\nRegistre o excesso como item extra se necessário.`);
+                    return;
+                }
+
+                currentBulkItem.qtyReturned = current + qtyToAdd;
+
+                // Feedback visual de excesso será tratado no renderCheckoutLists (amarelo se > total)
+                if (currentBulkItem.qtyReturned >= total) {
+                    currentBulkItem.returned = true;
+                }
+
+
+
+                renderCheckoutLists();
+
+                closeQuantityModal();
+
+
+
+                // Feedback no scanner status
+
+                const statusDiv = document.getElementById('checkoutScannerStatus');
+
+                statusDiv.textContent = `✅ +${qtyToAdd} unidades confirmadas!`;
+
+                statusDiv.style.color = 'var(--success)';
+
+            }
+
+
+
+            // Enter no modal de quantidade
+
+            document.getElementById('qtyModalInput').addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') confirmQuantity();
+            });
+
+            // === NOVO: Handler de Clique no Item de Devolução ===
+            function handleReturnItemClick(index) {
+                if (!currentCheckoutEvent) return;
+                const item = currentCheckoutEvent.separatedItems[index];
+
+                // Se já estiver completo, perguntar se quer desfazer
+                if (item.returned) {
+                    if (confirm(`O item "${item.nome}" já consta como devolvido. Deseja reabrir/zerar a conferência dele?`)) {
+                        resetItem(index);
+                    }
+                    return;
+                }
+
+                const total = item.qtySeparada || 0;
+
+                // Se for item de Múltiplas Quantidades (Granel ou Manual > 1)
+                // OU se tiver QRs únicos mas o usuário clicou (Override Manual)
+                if (total > 1) {
+                    openQuantityModal(item, index);
+                } else {
+                    // Item unitário (1 unidade)
+                    // Toggle direto
+                    item.qtyReturned = 1;
+                    item.returned = true;
+                    renderCheckoutLists();
+
+                    // Feedback sonoro opcional
+                    // playBeep(800, 100);
+                }
+            }
+
+            function processReturnScan(rawCode) {
+
+                const statusDiv = document.getElementById('checkoutScannerStatus');
+
+
+
+                // Normalizar entrada (remover espaços e deixar minúsculo para busca)
+
+                const code = rawCode.trim();
+
+                const cleanCode = code.toLowerCase();
+
+
+
+                // 1. Tentar encontrar Item por QR Code Único (Exact Match na lista do evento)
+
+                // Verifica tanto o código original quanto o limpo
+
+                let item = currentCheckoutEvent.separatedItems.find(i =>
+
+                    i.qrCodes && (i.qrCodes.includes(code) || i.qrCodes.includes(cleanCode))
+
+                );
+
+
+
+                // 2. Se não achou, verificar no Mapa Genérico (Lotes + Unidades Únicas Globais)
+
+                if (!item && GENERIC_BARCODES[cleanCode]) {
+
+                    const targetName = GENERIC_BARCODES[cleanCode];
+
+
+
+                    // Encontrar o indice do item na lista de separação pelo NOME
+                    let idx = currentCheckoutEvent.separatedItems.findIndex(i => i.nome === targetName);
+
+                    // Se não achar exato, tenta busca FLEXÍVEL (ignorando sufixos entre parênteses e hífens)
+                    if (idx === -1) {
+                        const norm = s => s.toLowerCase().replace(/\s*\(.*?\)/g, '').replace(/\s*-\s*$/, '').trim();
+                        const targetNorm = norm(targetName);
+                        idx = currentCheckoutEvent.separatedItems.findIndex(i => norm(i.nome) === targetNorm);
+
+                        if (idx !== -1) {
+                            console.log(`🔗 Match flexível: "${targetName}" -> "${currentCheckoutEvent.separatedItems[idx].nome}"`);
+                        }
+                    }
+
+
+
+                    if (idx !== -1) {
+
+                        item = currentCheckoutEvent.separatedItems[idx];
+
+
+
+                        // PAUSA ESCANEAMENTO E ABRE MODAL DE QUANTIDADE
+
+                        // Isso é ideal para lotes
+
+                        openQuantityModal(item, idx);
+
+                        statusDiv.textContent = `🔢 Confirmar Qtd: ${item.nome}`;
+
+                        statusDiv.style.color = 'var(--neon-blue)';
+
+                        document.getElementById('checkoutScannerInput').value = '';
+
+                        return;
+
+                    } else {
+
+                        // Achou no banco de dados geral, mas este item NÃO está na lista deste evento
+
+                        statusDiv.textContent = `⚠️ Item "${targetName}" não consta nesta separação!`;
+
+                        statusDiv.style.color = 'var(--warning)';
+
+                        // playErrorSound();
+
+                    }
+
+                }
+
+                else if (item) {
+                    // Lógica para item encontrado
+
+                    // DEBUG: Ver o que está chegando
+                    // alert(`DEBUG:\nItem: ${item.nome}\nTotal Separado: ${item.qtySeparada}\nQtd Original: ${item.quantidade}\nQRs: ${item.qrCodes ? item.qrCodes.length : 0}`);
+                    console.log('Item scan:', item);
+
+                    const totalSeparated = parseInt(item.qtySeparada || item.quantidade) || 0;
+                    // Se qrCodes for nulo ou array com "Manual", conta como 0 QRs reais
+                    const qrCount = (item.qrCodes && item.qrCodes[0] !== 'Manual') ? item.qrCodes.length : 0;
+
+                    console.log('Total:', totalSeparated, 'QR Count:', qrCount);
+
+                    // Se a quantidade separada for MAIOR que o número de QRs cadastrados,
+                    // Significa que esse QR vale por "Lote" ou "Referência".
+                    if (totalSeparated > qrCount) {
+                        const idx = currentCheckoutEvent.separatedItems.indexOf(item);
+                        console.log('Opening modal for bulk item');
+                        openQuantityModal(item, idx);
+                        statusDiv.textContent = `🔢 Confirmar Qtd (Lote QR): ${item.nome}`;
+                        statusDiv.style.color = 'var(--neon-blue)';
+                        document.getElementById('checkoutScannerInput').value = '';
+                        return;
+                    }
+
+                    // Inicializar array de QRs retornados se não existir
+                    if (!item.returnedQRs) item.returnedQRs = [];
+
+                    // Verificar se este QR específico já foi bipado na devolução
+                    if (item.returnedQRs.includes(code)) {
+                        statusDiv.textContent = `⚠️ Este QR já foi conferido!`;
+                        statusDiv.style.color = 'var(--warning)';
+                        return;
+                    }
+
+                    // Adicionar QR à lista de retornados
+                    item.returnedQRs.push(code);
+
+                    // Atualizar quantidade retornada baseada nos QRs únicos
+                    if (item.qrCodes && item.qrCodes.length > 0) {
+                        // Se for item com QRs, o qtyReturned é a contagem de QRs únicos bipados
+                        item.qtyReturned = item.returnedQRs.length;
+
+                        // Se todos os QRs foram bipados, marcar como completo
+                        if (item.returnedQRs.length >= item.qrCodes.length) {
+                            item.returned = true;
+                        } else {
+                            item.returned = false; // Parcial
+                        }
+                    } else {
+                        // Logica Manual anterior
+                        item.returned = true;
+                    }
+
+                    statusDiv.textContent = `✅ ${item.nome} (${item.qtyReturned}/${item.qtySeparada}) OK!`;
+                    statusDiv.style.color = 'var(--success)';
+                    renderCheckoutLists();
+                }
+
+                else {
+
+                    statusDiv.textContent = `❌ QR não reconhecido: ${code}`;
+
+                    statusDiv.style.color = 'var(--danger)';
+
+                }
+
+
+
+                // Limpar input
+
+                setTimeout(() => {
+
+                    const input = document.getElementById('checkoutScannerInput');
+
+                    if (input) input.value = '';
+
+                    // Não limpar statusDiv imediatamente se for erro, para dar tempo de ler
+
+                }, 100);
+
+            }
+
+
+
+            async function finalizeCheckout() {
+
+                if (!currentCheckoutEvent) return;
+
+
+
+                if (!confirm(`Confirma a SAÍDA de todos os itens do evento "${currentCheckoutEvent.eventName}"?`)) {
+
+                    return;
+
+                }
+
+
+
+                // LIMPEZA DE ESTADO:
+
+                // Como usamos "returned" para marcar checklist de saída,
+
+                // precisamos resetar isso para que a Devolução comece do zero.
+
+                currentCheckoutEvent.separatedItems.forEach(item => {
+
+                    item.returned = false;
+
+                    item.qtyReturned = 0;
+
+                });
+
+
+
+                try {
+
+                    // Atualizar status para dispatched
+
+                    await fetch(`/api/tick-progress/${currentCheckoutEvent.eventId}`, {
+
+                        method: 'POST',
+
+                        headers: { 'Content-Type': 'application/json' },
+
+                        body: JSON.stringify({
+
+                            eventName: currentCheckoutEvent.eventName,
+
+                            separatedItems: currentCheckoutEvent.separatedItems,
+
+                            status: 'dispatched' // Status de SAÍDA
+
+                        })
+
+                    });
+
+
+
+                    alert('✅ Saída confirmada com sucesso! Evento despachado.\nO status dos itens foi resetado para aguardar a devolução.');
+
+                    closeCheckoutModal();
+
+                    loadSeparations(); // Recarregar lista
+
+                } catch (error) {
+
+                    console.error('Erro ao finalizar saída:', error);
+
+                    alert('Erro ao confirmar saída.');
+
+                }
+
+            }
+
+
+
+            async function finalizeReturn() {
+
+                if (!currentCheckoutEvent) return;
+
+
+
+                // Calcular pendências (mix de QR boleanos e Manual numérico)
+
+                let pendingCount = 0;
+
+
+
+                currentCheckoutEvent.separatedItems.forEach(item => {
+
+                    const hasQr = item.qrCodes && item.qrCodes.length > 0 && item.qrCodes[0] !== 'Manual';
+
+                    if (hasQr) {
+
+                        if (!item.returned) pendingCount++;
+
+                    } else {
+
+                        // Manual
+
+                        const returned = item.qtyReturned || 0;
+
+                        const missing = item.qtySeparada - returned;
+
+                        if (missing > 0) pendingCount += missing;
+
+                    }
+
+                });
+
+
+
+                let newStatus = 'returned';
+
+                let validMsg = 'Confirma a DEVOLUÇÃO completa dos itens?';
+
+
+
+                if (pendingCount > 0) {
+
+                    newStatus = 'returned_partial';
+
+                    if (!confirm(`⚠️ ATENÇÃO: Faltam ${pendingCount} unidades para devolver!\n\nSe continuar, este evento será movido para a área de PENDÊNCIAS.\n\nDeseja finalizar com pendências?`)) {
+
+                        return;
+
+                    }
+
+                } else {
+
+                    if (!confirm(validMsg)) return;
+
+                }
+
+
+
+                try {
+
+                    // Atualizar status
+
+                    await fetch(`/api/tick-progress/${currentCheckoutEvent.eventId}`, {
+
+                        method: 'POST',
+
+                        headers: { 'Content-Type': 'application/json' },
+
+                        body: JSON.stringify({
+
+                            eventName: currentCheckoutEvent.eventName,
+
+                            separatedItems: currentCheckoutEvent.separatedItems,
+
+                            status: newStatus
+
+                        })
+
+                    });
+
+
+
+                    if (newStatus === 'returned_partial') {
+
+                        alert('⚠️ Devolução parcial registrada! Verifique na aba "Pendências".');
+
+                    } else {
+
+                        alert('✅ Devolução finalizada com sucesso! Estoque atualizado.');
+
+                    }
+
+
+
+                    closeCheckoutModal();
+
+                    loadSeparations();
+
+                } catch (error) {
+
+                    console.error('Erro ao finalizar devolução:', error);
+
+                    alert('Erro ao confirmar devolução.');
+
+                }
+
+            }
+
+
+
+            loadSeparations();
+
+            // Filter Logic
+
+            function filterItems() {
+
+                const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+
+                const statusFilter = document.getElementById('filterStatus').value;
+
+
+
+                const items = document.querySelectorAll('#checkoutList .tick-item');
+
+
+
+                items.forEach(item => {
+
+                    const text = item.innerText.toLowerCase();
+
+                    const isChecked = item.classList.contains('checked');
+
+
+
+                    let matchesSearch = text.includes(searchTerm);
+
+                    let matchesStatus = true;
+
+
+
+                    if (statusFilter === 'incomplete') {
+
+                        matchesStatus = !isChecked;
+
+                    } else if (statusFilter === 'complete') {
+
+                        matchesStatus = isChecked;
+
+                    }
+
+
+
+                    if (matchesSearch && matchesStatus) {
+
+                        item.style.display = 'flex';
+
+                    } else {
+
+                        item.style.display = 'none';
+
+                    }
+
+                });
+
+            }
+
+        </script>
+
+    </div>
+
+
+
+    <script src="/js/mark-integration.js"></script>
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pendências - BRT Audiovisual</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <script>
+        // CRITICAL: Prevent FOUC by setting state before body renders
+        if (localStorage.getItem('markSidebarState') === 'collapsed') {
+            document.documentElement.classList.add('sidebar-collapsed');
+        }
+    </script>
+    <style>
+        .pendency-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-left: 4px solid var(--danger);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .pendency-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .missing-item {
+            background: rgba(255, 68, 102, 0.1);
+            color: var(--danger);
+            padding: 0.8rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resolve-btn {
+            background: var(--success);
+            color: black;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- NAVIGATION SIDEBAR -->
+        <aside class="sidebar" style="left: 0;">
+            <div class="logo-container">
+                <h1 class="logo">BRT</h1>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="/" class="nav-link"><span
+                                class="nav-icon">📊</span><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a href="/eventos" class="nav-link"><span
+                                class="nav-icon">📅</span><span>Eventos</span></a></li>
+                    <li class="nav-item"><a href="/inventario" class="nav-link"><span
+                                class="nav-icon">📦</span><span>Inventário</span></a></li>
+                    <li class="nav-item"><a href="/cadastro-qr" class="nav-link"><span
+                                class="nav-icon">🏷️</span><span>Cadastro QR</span></a></li>
+                    <li class="nav-item"><a href="/separacao" class="nav-link"><span
+                                class="nav-icon">🔖</span><span>Separação QR</span></a></li>
+                    <li class="nav-item"><a href="/pendencias" class="nav-link active"><span
+                                class="nav-icon">⚠️</span><span>Pendências</span></a></li>
+                    <li class="nav-item"><a href="/etiquetas" class="nav-link"><span
+                                class="nav-icon">🖨️</span><span>Etiquetas</span></a></li>
+                    <li class="nav-item"><a href="/monitor" class="nav-link"><span
+                                class="nav-icon">⚡</span><span>Monitoramento</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" style="margin-left: 280px;">
+            <header class="page-header fade-in-up">
+                <h1 class="page-title">⚠️ Pendências de Devolução</h1>
+                <p class="page-subtitle">Itens que não retornaram dos eventos finalizados</p>
+            </header>
+
+            <div class="fade-in-up" id="pendenciesContainer">
+                <div class="loading">Carregando pendências...</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Resolução (Simples confirm) -->
+
+    <script>
+        let pendencyEvents = [];
+
+        async function loadPendencies() {
+            try {
+                const response = await fetch('/api/separations/pendencies');
+                pendencyEvents = await response.json();
+                renderPendencies();
+            } catch (error) {
+                console.error('Erro ao carregar pendências:', error);
+                document.getElementById('pendenciesContainer').innerHTML = '<p class="empty-msg">Erro ao carregar dados.</p>';
+            }
+        }
+
+        function renderPendencies() {
+            const container = document.getElementById('pendenciesContainer');
+            if (pendencyEvents.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 4rem; color: var(--text-muted);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+                        <h3>Tudo certo!</h3>
+                        <p>Nenhuma pendência encontrada.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = pendencyEvents.map((evt, index) => {
+                // Filtro refinado: item não devolvido (boleano) OU manual com devolução parcial
+                const missingItems = evt.separatedItems.filter(i => {
+                    const hasQr = i.qrCodes && i.qrCodes.length > 0 && i.qrCodes[0] !== 'Manual';
+                    if (hasQr) {
+                        return !i.returned;
+                    } else {
+                        // Manual: considera pendente se (qtyReturned < qtySeparada)
+                        const returned = i.qtyReturned || 0;
+                        return returned < i.qtySeparada;
+                    }
+                });
+
+                // Calcular total de itens (unidades) faltando para o badge
+                const totalMissingUnits = missingItems.reduce((acc, i) => {
+                    const hasQr = i.qrCodes && i.qrCodes.length > 0 && i.qrCodes[0] !== 'Manual';
+                    if (hasQr) return acc + 1;
+                    return acc + (i.qtySeparada - (i.qtyReturned || 0));
+                }, 0);
+
+                return `
+                <div class="pendency-card fade-in-up">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+                        <div>
+                            <h3 style="color: var(--text-primary); margin: 0; font-size: 1.4rem;">${evt.eventName}</h3>
+                            <div style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">
+                                📅 Última interação: ${new Date(evt.lastUpdated).toLocaleString()}
+                            </div>
+                        </div>
+                        <span class="badge badge-danger">Faltam ${totalMissingUnits} unidades</span>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.2); border-radius: 12px; padding: 1rem;">
+                        <h4 style="margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.9rem; text-transform: uppercase;">Itens Faltantes:</h4>
+                        ${missingItems.map(item => {
+                    const hasQr = item.qrCodes && item.qrCodes.length > 0 && item.qrCodes[0] !== 'Manual';
+                    const missingQty = hasQr ? 1 : (item.qtySeparada - (item.qtyReturned || 0));
+                    const returnedQty = hasQr ? 0 : (item.qtyReturned || 0);
+
+                    return `
+                            <div class="missing-item">
+                                <div>
+                                    <strong>${item.nome}</strong>
+                                    <div style="font-size: 0.8rem; opacity: 0.8;">
+                                        ${hasQr ? `QR: ${item.qrCodes.join(', ')}` : `Manual: ${returnedQty}/${item.qtySeparada} recebidos`}
+                                    </div>
+                                    <div style="color: var(--warning); font-size: 0.85rem; margin-top:2px;">
+                                        ⚠️ Faltam ${missingQty} unidades
+                                    </div>
+                                </div>
+                                <button class="resolve-btn" onclick="resolveItem('${evt.eventId}', '${item.nome}')">
+                                    Devolver Restante
+                                </button>
+                            </div>
+                        `;
+                }).join('')}
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        async function resolveItem(eventId, itemName) {
+            if (!confirm(`Confirma que o RESTANTE do item "${itemName}" foi devolvido?`)) return;
+
+            // Encontrar evento e item
+            const evt = pendencyEvents.find(e => e.eventId === eventId);
+            if (!evt) return;
+
+            const item = evt.separatedItems.find(i => i.nome === itemName);
+            if (item) {
+                // Se for manual, completamos a quantidade. Se for QR, true.
+                item.returned = true;
+                item.qtyReturned = item.qtySeparada;
+            }
+
+            // Verificar se ainda resta algo
+            let pendingCount = 0;
+            evt.separatedItems.forEach(i => {
+                const hasQr = i.qrCodes && i.qrCodes.length > 0 && i.qrCodes[0] !== 'Manual';
+                if (hasQr) {
+                    if (!i.returned) pendingCount++;
+                } else {
+                    if ((i.qtyReturned || 0) < i.qtySeparada) pendingCount++;
+                }
+            });
+
+            const newStatus = pendingCount === 0 ? 'returned' : 'returned_partial';
+
+            try {
+                await fetch(`/api/tick-progress/${eventId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        eventName: evt.eventName,
+                        separatedItems: evt.separatedItems,
+                        status: newStatus
+                    })
+                });
+
+                // Recarregar
+                loadPendencies();
+
+            } catch (error) {
+                alert('Erro ao atualizar pendência');
+                console.error(error);
+            }
+        }
+
+        loadPendencies();
+    </script>
+</body>
+
+</html>

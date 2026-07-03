@@ -1,0 +1,164 @@
+openapi: 3.0.3
+info:
+  title: BRT Controle de Estoque — API de Integração
+  version: "1.0.0"
+  description: >
+    API pública do sistema de Controle de Estoque BRT Audiovisual, usada para
+    integrar com o sistema **brt desenrola** e com o **MeEventos**.
+    Autenticação por chave: envie o header `x-api-key` (ou `?key=` na query).
+servers:
+  - url: https://SEU-BACKEND.up.railway.app
+    description: Produção (Railway)
+  - url: http://localhost:3000
+    description: Desenvolvimento local
+
+security:
+  - ApiKeyHeader: []
+
+components:
+  securitySchemes:
+    ApiKeyHeader:
+      type: apiKey
+      in: header
+      name: x-api-key
+  schemas:
+    UnitDetail:
+      type: object
+      properties:
+        qr_code: { type: string, example: "000004" }
+        status:
+          type: string
+          enum: [disponivel, em_uso, manutencao]
+        last_event: { type: string, nullable: true, example: "593" }
+    StockItem:
+      type: object
+      properties:
+        id: { type: string, example: "2" }
+        name: { type: string, example: "CAIXA ATIVA QSC K12" }
+        category: { type: string, example: "SONORIZAÇÃO" }
+        total_stock: { type: integer, example: 6 }
+        real_stock_available:
+          type: integer
+          description: Disponível real = físico - manutenção - reservas na data
+          example: 4
+        maintenance: { type: integer, example: 0 }
+        commitments_on_date:
+          type: integer
+          description: Quantidade já reservada em eventos na data consultada
+          example: 0
+        value: { type: string, example: "250,00" }
+        units_detail:
+          type: array
+          items: { $ref: '#/components/schemas/UnitDetail' }
+    StockResponse:
+      type: object
+      properties:
+        timestamp: { type: string, format: date-time }
+        date_queried: { type: string, example: "2026-07-10" }
+        total_items: { type: integer, example: 482 }
+        data:
+          type: array
+          items: { $ref: '#/components/schemas/StockItem' }
+    Pendency:
+      type: object
+      properties:
+        event_id: { type: string }
+        event_name: { type: string }
+        missing_items:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              missing_qty: { type: integer }
+        last_update: { type: string, format: date-time }
+    Error:
+      type: object
+      properties:
+        error: { type: string }
+
+paths:
+  /api/ping:
+    get:
+      summary: Health check (usado pelo Railway)
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: { type: string, example: pong }
+                  serverTime: { type: string, format: date-time }
+
+  /api/v1/public/stock:
+    get:
+      summary: Estoque real consolidado por data
+      description: >
+        Retorna disponibilidade real de cada item, descontando reservas de
+        eventos agendados para a data informada. Sem `date`, assume hoje.
+      parameters:
+        - name: date
+          in: query
+          required: false
+          schema: { type: string, format: date }
+          description: Data alvo no formato YYYY-MM-DD
+        - name: key
+          in: query
+          required: false
+          schema: { type: string }
+          description: Alternativa ao header x-api-key
+      responses:
+        '200':
+          description: Estoque consolidado
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StockResponse' }
+        '401':
+          description: API Key inválida ou ausente
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /api/v1/public/events/{eventId}:
+    get:
+      summary: Status de separação/devolução de um evento
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Progresso do evento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  eventId: { type: string }
+                  eventName: { type: string }
+                  status:
+                    type: string
+                    enum: [in_progress, dispatched, returned, returned_partial]
+                  separatedItems: { type: array, items: { type: object } }
+                  lastUpdated: { type: string, format: date-time }
+        '404':
+          description: Evento não encontrado ou sem movimentação
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /api/v1/public/pendencies:
+    get:
+      summary: Pendências gerais (itens que faltaram no retorno)
+      responses:
+        '200':
+          description: Lista de pendências
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Pendency' }

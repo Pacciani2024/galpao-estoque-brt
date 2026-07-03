@@ -1,0 +1,33 @@
+# ---- Segredos (NUNCA comitar) ----
+.env
+.env.local
+google-cloud-key.json
+data/access_keys.json
+
+# ---- Dependências ----
+node_modules/
+
+# ---- Sessão do WhatsApp (pesada e sensível) ----
+.wwebjs_auth/
+.wwebjs_cache/
+
+# ---- Dados gerados em runtime ----
+logs/
+public/charts/
+dist/
+
+# ---- Áudio/artefatos ----
+*.mp3
+
+# ---- Sistema ----
+.DS_Store
+._*
+
+# ---- Pacotes/builds grandes (não versionar) ----
+*.tar.gz
+*.zip
+*.exe
+
+# ---- Python cache ----
+__pycache__/
+*.pyc
