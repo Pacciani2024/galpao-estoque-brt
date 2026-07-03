@@ -15,6 +15,11 @@ Cada sistema é **dono de uma verdade** e ninguém pisa na do outro:
 
 Regra de ouro: **um dado tem UM dono.** Os outros consomem, não reescrevem.
 
+> **Granularidade da disponibilidade.** A disponibilidade agregada por data (o que o
+> BRT consome) **nasce do status de cada unidade** no galpão: `disponível`, `separado`,
+> `em evento`, `em manutenção`, `pendente de retorno`, `perdido/avariado`. Essa camada
+> por unidade é a base das Ondas 2 (conferência/pendências) e 3 (unidade/manutenção).
+
 ---
 
 ## 2. Matriz de responsabilidades
@@ -72,6 +77,21 @@ tem", **pergunta ao galpão** (não recalcula).
 3. **Casamento de nomes via `equipment_aliases`.** Camada única de reconciliação
    entre MeEventos ↔ BRT ↔ galpão. Gate: decisão automática só depois do
    relatório `name-diff` limpo.
+
+### Nota de transição (importante)
+
+Na fase inicial, o galpão **pode** consultar o MeEventos direto para manter o
+dashboard operacional. Na **arquitetura madura**, o fluxo preferido é:
+
+```
+MeEventos → BRT Desenrola → Galpão
+```
+
+e **não** `MeEventos → BRT` e `MeEventos → Galpão` em paralelo. O BRT centraliza
+a interpretação comercial/operacional e o galpão recebe apenas o que precisa para
+separação, conferência e disponibilidade física. Isso evita dupla consulta,
+divergência de IDs e regras duplicadas. **O scrape/API direto do galpão ao
+MeEventos é transitório.**
 
 ---
 
