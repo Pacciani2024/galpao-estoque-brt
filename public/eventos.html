@@ -944,9 +944,11 @@
             if (!currentEvento) return;
 
             try {
+                const eventoKey = currentEvento.idorcamento || currentEvento.id;
                 const payload = {
-                    eventId: currentEvento.id,
-                    eventName: currentEvento.nome || currentEvento.nomeevento, // Fallback para garantir nome
+                    eventId: eventoKey,
+                    idorcamento: currentEvento.idorcamento || null,
+                    eventName: currentEvento.nome || currentEvento.nomeevento,
                     separatedItems: separatedItems,
                     status: isCompleted ? 'completed' : (currentEvento.status === 'dispatched' ? 'dispatched' : 'in_progress'),
                     lastUpdated: new Date().toISOString()
@@ -957,7 +959,7 @@
                     payload.authorizedBy = authorizedBy;
                 }
 
-                await fetch(`/api/tick-progress/${currentEvento.id}`, {
+                await fetch(`/api/tick-progress/${eventoKey}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
@@ -973,7 +975,7 @@
             if (!currentEvento) return;
 
             try {
-                const response = await fetch(`/api/tick-progress/${currentEvento.id}`);
+                const response = await fetch(`/api/tick-progress/${currentEvento.idorcamento || currentEvento.id}`);
                 const data = await response.json();
 
                 if (data.separatedItems && data.separatedItems.length > 0) {
@@ -1362,7 +1364,8 @@
                     const invItem = itemsInventory[0]; // Pega dados do primeiro match (se houver)
                     if (invItem && invItem.usoDetalhado) {
                         // Filtrar para não mostrar o próprio evento
-                        const externalUsage = invItem.usoDetalhado.filter(d => String(d.eventId) !== String(currentEvento.id));
+                        const eventoAtualKey = String(currentEvento.idorcamento || currentEvento.id);
+                        const externalUsage = invItem.usoDetalhado.filter(d => String(d.eventId) !== eventoAtualKey);
 
                         if (externalUsage.length > 0) {
                             // Botão de Caminhãozinho
@@ -1835,7 +1838,8 @@
                             // Verificar se tem em outros eventos
                             const details = invItem.usoDetalhado || [];
                             // Filtrar eventos que NÃO sejam o atual
-                            const externalUsage = details.filter(d => String(d.eventId) !== String(currentEvento.id));
+                            const eventoAtualKey = String(currentEvento.idorcamento || currentEvento.id);
+                            const externalUsage = details.filter(d => String(d.eventId) !== eventoAtualKey);
 
                             if (externalUsage.length > 0) {
                                 // Usar NOVO Modal de Transferência
@@ -1905,7 +1909,8 @@
                 const invItem = currentInventory.items.find(i => normalize(i.nome) === normalize(item.nome));
 
                 if (invItem && invItem.usoDetalhado) {
-                    const externalUsage = invItem.usoDetalhado.filter(d => String(d.eventId) !== String(currentEvento.id));
+                    const eventoAtualKey = String(currentEvento.idorcamento || currentEvento.id);
+                    const externalUsage = invItem.usoDetalhado.filter(d => String(d.eventId) !== eventoAtualKey);
                     if (externalUsage.length > 0) {
                         openTransferModal(item, qtyToSeparate, externalUsage);
                     } else {
@@ -2660,7 +2665,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        eventId: currentEvento.id,
+                        eventId: currentEvento.idorcamento || currentEvento.id,
                         eventName: currentEvento.nomeevento,
                         items: items.map(eq => ({ name: eq.nome, quantity: eq.quantidade })),
                         separatedItems: separatedItems.map(si => ({ name: si.nome, quantity: si.quantidade })),

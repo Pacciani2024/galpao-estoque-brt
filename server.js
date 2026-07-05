@@ -244,7 +244,11 @@ app.get('/monitor', (req, res) => {
 app.get('/api/stats', (req, res) => {
     try {
         const inventory = JSON.parse(fs.readFileSync('logs/inventory_complete.json', 'utf-8'));
-        const eventos = JSON.parse(fs.readFileSync('logs/eventos_completos.json', 'utf-8'));
+        // Fix: graceful fallback quando merge ainda não gerou o arquivo no boot
+        let eventos = { eventos: [] };
+        try {
+            eventos = JSON.parse(fs.readFileSync('logs/eventos_completos.json', 'utf-8'));
+        } catch (_) { /* arquivo ainda não existe — aguardando primeiro merge do scheduler */ }
 
         // Calcular itens EM USO (Dispatched)
         let totalEmUso = 0;
@@ -335,7 +339,9 @@ app.get('/api/eventos', async (req, res) => {
 
         // Tentar carregar equipamentos do cache
         const eventosCompletos = eventos.map(evento => {
-            const cacheFile = `./logs/cache_equipamentos/evento_${evento.id}.json`;
+            // Regra: identificar eventos por idorcamento (ID do orçamento), fallback para id
+            const eventoKey = evento.idorcamento || evento.id;
+            const cacheFile = `./logs/cache_equipamentos/evento_${eventoKey}.json`;
             let equipamentos = [];
             let totalEquipamentos = 0;
 
@@ -348,7 +354,11 @@ app.get('/api/eventos', async (req, res) => {
             }
 
             // Verificar se existe progresso salvo para sobrepor status (ex: dispatched/returned)
-            const progressFile = `./logs/tick_progress/evento_${evento.id}.json`;
+            // Busca por idorcamento primeiro, depois fallback para id (retrocompat)
+            let progressFile = `./logs/tick_progress/evento_${eventoKey}.json`;
+            if (!fs.existsSync(progressFile) && eventoKey !== evento.id) {
+                progressFile = `./logs/tick_progress/evento_${evento.id}.json`;
+            }
             let localStatus = null;
             if (fs.existsSync(progressFile)) {
                 try {
@@ -1022,7 +1032,7 @@ app.get('/api/separations/pendencies', (req, res) => {
 app.post('/api/tick-progress/:eventId', (req, res) => {
     try {
         const { eventId } = req.params;
-        const { eventName, separatedItems, status } = req.body; // status vem do body agora
+        const { eventName, separatedItems, status, idorcamento } = req.body; // status e idorcamento vem do body
 
         // Criar diretório se não existir
         const progressDir = 'logs/tick_progress';
@@ -1034,6 +1044,7 @@ app.post('/api/tick-progress/:eventId', (req, res) => {
         const progressFile = `${progressDir}/evento_${eventId}.json`;
         const progressData = {
             eventId,
+            idorcamento: idorcamento || null, // ID do orçamento (regra principal de identificação)
             eventName,
             lastUpdated: new Date().toISOString(),
             status: status || 'in_progress', // Default para in_progress
@@ -1414,7 +1425,12 @@ app.post('/api/kira/add-items-to-event', async (req, res) => {
         }
 
         const eventos = JSON.parse(fs.readFileSync(eventosPath, 'utf-8'));
-        const event = eventos.eventos.find(e => e.id === eventId || e.nome.includes(eventId));
+        // Buscar por idorcamento (regra principal) ou id como fallback
+        const event = eventos.eventos.find(e =>
+            String(e.idorcamento) === String(eventId) ||
+            e.id === eventId ||
+            (e.nome || e.nomeevento || '').includes(eventId)
+        );
 
         if (!event) {
             return res.status(404).json({ error: 'Evento não encontrado' });
@@ -1937,12 +1953,26 @@ app.get('/api/v1/public/stock', apiKeyAuth, async (req, res) => {
 app.get('/api/v1/public/events/:eventId', apiKeyAuth, (req, res) => {
     try {
         const { eventId } = req.params;
-        const progressFile = `logs/tick_progress/evento_${eventId}.json`;
+        // Aceita idorcamento OU id do evento — tenta idorcamento primeiro
+        let progressFile = `logs/tick_progress/evento_${eventId}.json`;
 
         if (fs.existsSync(progressFile)) {
             const data = JSON.parse(fs.readFileSync(progressFile, 'utf-8'));
             res.json(data);
         } else {
+            // Fallback: varrer tick_progress procurando por idorcamento no conteúdo
+            const progressDir = 'logs/tick_progress';
+            if (fs.existsSync(progressDir)) {
+                const files = fs.readdirSync(progressDir).filter(f => f.endsWith('.json'));
+                for (const file of files) {
+                    try {
+                        const data = JSON.parse(fs.readFileSync(`${progressDir}/${file}`, 'utf-8'));
+                        if (String(data.idorcamento) === String(eventId)) {
+                            return res.json(data);
+                        }
+                    } catch (_) {}
+                }
+            }
             res.status(404).json({ error: 'Evento não encontrado ou sem movimentação.' });
         }
     } catch (error) {
