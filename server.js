@@ -2070,6 +2070,29 @@ app.post('/api/eventos/:id/add-item', (req, res) => {
 });
 
 // Sincronizar (Scraper) evento específico manualmente
+// Observabilidade do sync: grava o resultado da última execução para diagnóstico.
+function writeSyncStatus(status) {
+    try {
+        fs.writeFileSync('logs/sync_status.json', JSON.stringify({
+            ...status,
+            at: new Date().toISOString()
+        }, null, 2));
+    } catch (e) { /* não crítico */ }
+}
+
+// Retorna o resultado do último sync (para diagnóstico do scraper sem ler logs do Railway).
+app.get('/api/sync-status', (req, res) => {
+    try {
+        if (fs.existsSync('logs/sync_status.json')) {
+            res.json(JSON.parse(fs.readFileSync('logs/sync_status.json', 'utf-8')));
+        } else {
+            res.json({ status: 'nunca executado' });
+        }
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
 app.post('/api/eventos/:id/sync', (req, res) => {
     const eventId = req.params.id;
     console.log(`🔄 Sync do evento ${eventId} iniciado em segundo plano`);
@@ -2083,12 +2106,15 @@ app.post('/api/eventos/:id/sync', (req, res) => {
 
     // Executa o scraper após responder — não bloqueia a UI nem o event loop da resposta.
     (async () => {
+        writeSyncStatus({ scope: 'evento', eventId, ok: null, phase: 'iniciado' });
         try {
             const syncEventoUnico = require('./scripts/sync_evento_unico');
             const result = await syncEventoUnico(eventId);
             console.log(`✅ Sync evento ${eventId}: ${result.total} itens extraídos.`);
+            writeSyncStatus({ scope: 'evento', eventId, ok: true, total: result.total, message: `${result.total} itens extraídos` });
         } catch (error) {
             console.error(`❌ Sync evento ${eventId} falhou:`, error.message);
+            writeSyncStatus({ scope: 'evento', eventId, ok: false, error: String(error && error.message || error), stack: String(error && error.stack || '').slice(0, 800) });
         }
     })();
 });
