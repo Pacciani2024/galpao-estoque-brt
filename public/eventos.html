@@ -2296,10 +2296,10 @@
 
                 if (response.ok) {
                     const result = await response.json();
-                    alert('✅ ' + (result.message || 'Dados atualizados!'));
+                    alert('✅ ' + (result.message || 'Atualização iniciada!'));
 
-                    // Recarregar evento
-                    await reloadCurrentEvent();
+                    // O scraper roda em segundo plano — recarrega o evento após alguns segundos.
+                    setTimeout(() => { reloadCurrentEvent().catch(() => {}); }, 10000);
                 } else {
                     const err = await response.json();
                     alert('❌ Erro: ' + (err.error || 'Falha na sincronização'));
@@ -2328,8 +2328,9 @@
 
                 if (response.ok) {
                     const result = await response.json();
-                    alert('✅ ' + (result.message || 'Sincronização concluída!'));
-                    location.reload();
+                    alert('✅ ' + (result.message || 'Sincronização iniciada!'));
+                    // Sync roda em segundo plano (~1–2 min). Recarrega a lista depois.
+                    setTimeout(() => location.reload(), 90000);
                 } else {
                     const err = await response.json();
                     alert('❌ Erro: ' + (err.error || 'Falha na sincronização'));

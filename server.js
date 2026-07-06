@@ -2070,54 +2070,56 @@ app.post('/api/eventos/:id/add-item', (req, res) => {
 });
 
 // Sincronizar (Scraper) evento específico manualmente
-app.post('/api/eventos/:id/sync', async (req, res) => {
-    try {
-        const eventId = req.params.id;
-        console.log(`🔄 Recebido pedido de sync manual para o evento ${eventId}`);
+app.post('/api/eventos/:id/sync', (req, res) => {
+    const eventId = req.params.id;
+    console.log(`🔄 Sync do evento ${eventId} iniciado em segundo plano`);
 
-        const syncEventoUnico = require('./scripts/sync_evento_unico');
+    // Responde IMEDIATAMENTE para não congelar a página (o scraper roda depois).
+    res.status(202).json({
+        success: true,
+        started: true,
+        message: 'Atualização iniciada em segundo plano. Recarregue o evento em alguns segundos.'
+    });
 
-        const result = await syncEventoUnico(eventId);
-        res.json({ success: true, message: `Sincronizado! ${result.total} itens extraídos.` });
-
-    } catch (error) {
-        console.error('Erro ao sincronizar evento:', error.message);
-        // Tentar capturar output do erro se possível
-        const errorOutput = error.stdout ? error.stdout.toString() : error.message;
-        res.status(500).json({ error: 'Erro na sincronização: ' + errorOutput });
-    }
+    // Executa o scraper após responder — não bloqueia a UI nem o event loop da resposta.
+    (async () => {
+        try {
+            const syncEventoUnico = require('./scripts/sync_evento_unico');
+            const result = await syncEventoUnico(eventId);
+            console.log(`✅ Sync evento ${eventId}: ${result.total} itens extraídos.`);
+        } catch (error) {
+            console.error(`❌ Sync evento ${eventId} falhou:`, error.message);
+        }
+    })();
 });
 
-// Sincronizar TODOS eventos manualmente
+// Sincronizar TODOS eventos manualmente (ASSÍNCRONO — não bloqueia o servidor)
 app.post('/api/sync-events', (req, res) => {
     try {
-        console.log('🔄 Recebido pedido de sync GLOBAL manual');
+        console.log('🔄 Sync GLOBAL iniciado em segundo plano');
 
-        const { spawnSync } = require('child_process');
+        const { spawn } = require('child_process');
 
-        // Usar spawnSync com node diretamente (evita /bin/sh que bloqueia no Railway)
-        const result = spawnSync('node', ['scripts/sync_eventos_equipamentos.js'], {
-            encoding: 'utf-8',
-            stdio: 'pipe',
-            timeout: 120000, // 2 minutos
-            cwd: __dirname
+        // spawn ASSÍNCRONO: o processo roda em background e o Node NÃO trava.
+        // (spawnSync travava o event loop inteiro por até 2 min — congelava o site todo.)
+        const child = spawn('node', ['scripts/sync_eventos_equipamentos.js'], {
+            cwd: __dirname,
+            detached: true,
+            stdio: 'ignore'
+        });
+        child.on('error', (e) => console.error('❌ Falha ao iniciar sync global:', e.message));
+        child.unref();
+
+        // Responde IMEDIATAMENTE — a UI não congela.
+        res.status(202).json({
+            success: true,
+            started: true,
+            message: 'Sincronização iniciada em segundo plano. Atualize a lista em 1–2 minutos.'
         });
 
-        if (result.error) {
-            throw result.error;
-        }
-
-        if (result.status !== 0) {
-            const errMsg = result.stderr || result.stdout || 'Erro desconhecido no sync';
-            throw new Error(errMsg);
-        }
-
-        if (result.stdout) console.log(result.stdout);
-        res.json({ success: true, message: 'Sincronização global concluída!' });
-
     } catch (error) {
-        console.error('Erro no sync global:', error.message);
-        res.status(500).json({ error: 'Erro no sync global: ' + error.message });
+        console.error('Erro ao iniciar sync global:', error.message);
+        res.status(500).json({ error: 'Erro ao iniciar sync: ' + error.message });
     }
 });
 
