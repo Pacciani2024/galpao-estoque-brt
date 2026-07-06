@@ -66,14 +66,14 @@ class EventosScraper {
             await new Promise(r => setTimeout(r, 2000));
 
             // DEBUG: Verificar se botão existe
-            console.log('� Debug: Verificando botões disponíveis...');
+            console.log('🔍 Debug: Verificando botões disponíveis...');
             const buttons = await this.page.evaluate(() => {
                 const imgs = Array.from(document.querySelectorAll('img'));
                 return imgs.map(img => img.src).filter(src => src).slice(0, 10);
             });
             console.log('Botões encontrados:', buttons);
 
-            // Tentar diferentes seletores
+            // Tentar diferentes seletores (em ordem de prioridade)
             console.log('📷 Procurando botão "Meus Itens"...');
             let clicked = false;
 
@@ -81,12 +81,17 @@ class EventosScraper {
                 'img[src*="photo-camera.png"]',
                 'img[src*="camera"]',
                 'a[href*="meus-itens"]',
-                'img[alt*="meus itens"]'
+                'img[alt*="meus itens"]',
+                'a[href*="itens"]',                      // href genérico com "itens"
+                'a[href*="equipamentos"]',               // link de equipamentos
+                'button[data-target*="itens"]',          // botão com data-target
+                'span.meus-itens',                       // span com classe
+                'li a[href*="item"]',                    // menu com item
             ];
 
             for (const selector of selectors) {
                 try {
-                    await this.page.waitForSelector(selector, { visible: true, timeout: 3000 });
+                    await this.page.waitForSelector(selector, { visible: true, timeout: 2000 });
                     console.log(`✓ Encontrado com seletor: ${selector}`);
                     await this.page.click(selector);
                     clicked = true;
@@ -94,6 +99,25 @@ class EventosScraper {
                 } catch (e) {
                     console.log(`✗ Não encontrado: ${selector}`);
                 }
+            }
+
+            // Fallback: buscar por texto "Meus Itens" ou "Itens" em qualquer link
+            if (!clicked) {
+                console.log('🔍 Fallback: buscando por texto do link...');
+                clicked = await this.page.evaluate(() => {
+                    const allLinks = Array.from(document.querySelectorAll('a, button, span, li'));
+                    const target = allLinks.find(el => {
+                        const t = (el.innerText || el.textContent || '').trim().toLowerCase();
+                        return t === 'meus itens' || t === 'itens' || t === 'equipamentos';
+                    });
+                    if (target) {
+                        console.log('✓ Botão encontrado por texto:', target.innerText);
+                        target.click();
+                        return true;
+                    }
+                    return false;
+                });
+                if (clicked) console.log('✓ Clicado via fallback de texto');
             }
 
             if (!clicked) {

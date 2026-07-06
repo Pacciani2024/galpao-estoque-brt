@@ -2093,30 +2093,31 @@ app.post('/api/sync-events', (req, res) => {
     try {
         console.log('🔄 Recebido pedido de sync GLOBAL manual');
 
-        const { execSync } = require('child_process');
+        const { spawnSync } = require('child_process');
 
-        // Executar script de sync global
-        // Nota: Isso pode demorar bastante (10-30s)
-        // Como execSync bloqueia, o cliente vai esperar.
-        // Se demorar mais que o timeout do navegador (2min), pode dar erro.
-        // O ideal seria spawn, mas para simplificar e garantir retorno, vamos de execSync com timeout grande?
-        // Ou melhor: Retornar imediatamente e deixar rodando em background?
-        // O usuário quer "apos terminar a pagina atualiza".
-        // Então execSync é melhor para garantir que acabou.
-
-        const output = execSync('node scripts/sync_eventos_equipamentos.js', {
+        // Usar spawnSync com node diretamente (evita /bin/sh que bloqueia no Railway)
+        const result = spawnSync('node', ['scripts/sync_eventos_equipamentos.js'], {
             encoding: 'utf-8',
             stdio: 'pipe',
-            timeout: 120000 // 2 minutos timeout
+            timeout: 120000, // 2 minutos
+            cwd: __dirname
         });
 
-        console.log(output);
+        if (result.error) {
+            throw result.error;
+        }
+
+        if (result.status !== 0) {
+            const errMsg = result.stderr || result.stdout || 'Erro desconhecido no sync';
+            throw new Error(errMsg);
+        }
+
+        if (result.stdout) console.log(result.stdout);
         res.json({ success: true, message: 'Sincronização global concluída!' });
 
     } catch (error) {
         console.error('Erro no sync global:', error.message);
-        const errorOutput = error.stdout ? error.stdout.toString() : error.message;
-        res.status(500).json({ error: 'Erro no sync global: ' + errorOutput });
+        res.status(500).json({ error: 'Erro no sync global: ' + error.message });
     }
 });
 
