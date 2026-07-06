@@ -18,7 +18,14 @@ class EventosScraper {
     async getEquipamentos(eventId) {
         const browser = await puppeteer.launch({
             headless: true,
-            args: ['--no-sandbox'],
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--no-zygote',
+                '--single-process'
+            ],
             defaultViewport: { width: 1920, height: 1080 }
         });
 

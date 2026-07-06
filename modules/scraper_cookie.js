@@ -24,7 +24,16 @@ class EventosScraper {
         console.log('🌐 Iniciando browser...');
         this.browser = await puppeteer.launch({
             headless: true, // Modo invisível (produção)
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            // Flags de estabilidade em container (Railway/Docker):
+            // --disable-dev-shm-usage é CRÍTICO (/dev/shm ~64MB → Chromium crasha).
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--no-zygote',
+                '--single-process'
+            ],
             defaultViewport: { width: 1920, height: 1080 }
         });
 

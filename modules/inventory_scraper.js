@@ -15,8 +15,15 @@ class InventoryScraper {
 
     async getInventory() {
         const browser = await puppeteer.launch({
-            headless: false,
-            args: ['--no-sandbox'],
+            headless: true, // container não tem display
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+                '--disable-dev-shm-usage',
+                '--disable-gpu',
+                '--no-zygote',
+                '--single-process'
+            ],
             defaultViewport: { width: 1920, height: 1080 }
         });
 
