@@ -341,7 +341,11 @@ app.get('/api/eventos', async (req, res) => {
         const eventosCompletos = eventos.map(evento => {
             // Regra: identificar eventos por idorcamento (ID do orçamento), fallback para id
             const eventoKey = evento.idorcamento || evento.id;
-            const cacheFile = `./logs/cache_equipamentos/evento_${eventoKey}.json`;
+            // O scraper pode ter salvo o cache por idorcamento OU por id interno — tenta ambos.
+            let cacheFile = `./logs/cache_equipamentos/evento_${eventoKey}.json`;
+            if (!fs.existsSync(cacheFile) && eventoKey !== evento.id) {
+                cacheFile = `./logs/cache_equipamentos/evento_${evento.id}.json`;
+            }
             let equipamentos = [];
             let totalEquipamentos = 0;
 
