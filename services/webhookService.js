@@ -17,7 +17,12 @@ class WebhookService {
         try {
             if (fs.existsSync(CONFIG_PATH)) {
                 const data = JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf-8'));
-                return data.webhooks || [];
+                const hooks = data.webhooks || [];
+                // Interpola ${ENV_VAR} nas URLs (ex: ${BRT_WEBHOOK_URL})
+                return hooks.map(h => ({
+                    ...h,
+                    url: (h.url || '').replace(/\$\{([^}]+)\}/g, (_, k) => process.env[k] || '')
+                })).filter(h => h.url && !h.url.includes('${')); // descarta não-resolvidas
             }
         } catch (e) {
             console.error('Erro ao carregar webhooks.json:', e);
@@ -58,11 +63,14 @@ class WebhookService {
      */
     async sendWithRetry(url, data, retries, delay = 1000) {
         try {
-            await axios.post(url, data, { timeout: 5000 });
-            // console.log(`✅ Webhook entregue: ${url}`);
+            const headers = { 'Content-Type': 'application/json' };
+            // Envia o segredo compartilhado se configurado (recomendado pelo BRT)
+            const secret = process.env.WEBHOOK_SHARED_SECRET;
+            if (secret) headers['X-BRT-Webhook-Secret'] = secret;
+
+            await axios.post(url, data, { timeout: 5000, headers });
         } catch (error) {
             if (retries > 0) {
-                // console.warn(`⚠️ Falha no webhook ${url}. Tentando novamente em ${delay}ms...`);
                 setTimeout(() => {
                     this.sendWithRetry(url, data, retries - 1, delay * 2);
                 }, delay);

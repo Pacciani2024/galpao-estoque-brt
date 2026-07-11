@@ -1,8 +1,9 @@
 {
   "webhooks": [
-    { 
-      "url": "https://webhook.site/594efbde-e80a-4294-b082-80c8478ff356", 
-      "events": ["event.dispatched", "event.returned", "event.returned_partial"] 
+    {
+      "_comment": "Receptor do BRT Desenrola. URL via env var BRT_WEBHOOK_URL (configurar no Railway).",
+      "url": "${BRT_WEBHOOK_URL}",
+      "events": ["event.dispatched", "event.returned", "event.pending"]
     }
   ]
 }
